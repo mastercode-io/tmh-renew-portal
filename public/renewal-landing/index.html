@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trademark Renewal – The Trademark Helpline</title>
+    <meta name="description" content="Renew your trademark with The Trademark Helpline. Fast, expert help to protect your brand and avoid lapses." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <img src="./tmh-logo.svg" alt="The Trademark Helpline" class="logo" />
+          <div class="brand-text">
+            <span class="brand-name">The Trademark Helpline</span>
+            <span class="brand-tag">Search. Register. Protect.</span>
+          </div>
+        </div>
+        <nav aria-label="Primary" class="nav">
+          <a href="#why-renew">Why Renew</a>
+          <a href="#how-it-works">Monitoring</a>
+          <a href="#audit">Audit</a>
+          <a href="#combine">Why Combine</a>
+          <a class="btn btn-primary" href="#renewal-form">Renew Now</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="container grid two-col">
+          <div class="hero-copy">
+            <span class="eyebrow">Trademark Renewal</span>
+            <h1>Hi <span data-merge="firstName">there</span>, your trademark <span class="badges"><span class="badge">Ref <span data-merge="tmeApp">—</span></span></span> is coming up for renewal</h1>
+            <p class="notice">Scammers target businesses during renewals. We’ll ensure your registration stays active for another 10 years and your brand remains secure.</p>
+            <p class="muted" style="margin:.5rem 0 0">Save money on your renewal and avoid scams with <strong>Active Trademark Monitoring</strong> today.</p>
+            <ul class="ticks">
+              <li>Expert review and guidance</li>
+              <li>Transparent, fixed-fee pricing</li>
+              <li>Reminders and renewal confirmation</li>
+            </ul>
+            <div class="cta-row">
+              <a class="btn btn-primary btn-lg" href="#renewal-form">Start Your Renewal</a>
+              <a class="btn btn-ghost" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
+            </div>
+
+            <h3 style="margin-top:1rem">Next renewals due</h3>
+            <ul class="renewals-list" id="renewals"></ul>
+          </div>
+          <aside class="card form-card" id="renewal-form">
+            <h2 class="card-title">Renew your trademark</h2>
+            <form id="lead-form" novalidate data-endpoint="/api/lead" data-prefill-endpoint="/api/prefill" data-payment-url="/pay">
+              <div class="grid two-col gap">
+                <label class="field">
+                  <span>First name</span>
+                  <input name="firstName" autocomplete="given-name" required />
+                </label>
+                <label class="field">
+                  <span>Last name</span>
+                  <input name="lastName" autocomplete="family-name" required />
+                </label>
+                <label class="field">
+                  <span>Email</span>
+                  <input type="email" name="email" autocomplete="email" required />
+                </label>
+                <label class="field">
+                  <span>Phone</span>
+                  <input type="tel" name="phone" autocomplete="tel" />
+                </label>
+                <label class="field">
+                  <span>Company</span>
+                  <input name="company" autocomplete="organization" />
+                </label>
+                <label class="field">
+                  <span>Trademark name</span>
+                  <input name="trademark" placeholder="e.g., ACME" required />
+                </label>
+                <label class="field">
+                  <span>Jurisdiction</span>
+                  <select name="jurisdiction">
+                    <option value="UK">UK</option>
+                    <option value="EU">EU</option>
+                    <option value="US">US</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Registration number</span>
+                  <input name="regNumber" />
+                </label>
+                <label class="field full">
+                  <span>Preferred contact time</span>
+                  <input name="contactTime" placeholder="e.g., Tomorrow 2–4pm" />
+                </label>
+                <label class="check">
+                  <input type="checkbox" name="consent" required />
+                  <span>I agree to be contacted about my renewal.</span>
+                </label>
+              </div>
+
+              <input type="hidden" name="utm_source" />
+              <input type="hidden" name="utm_medium" />
+              <input type="hidden" name="utm_campaign" />
+              <input type="hidden" name="utm_term" />
+              <input type="hidden" name="utm_content" />
+              <input type="hidden" name="referrer" />
+              <input type="hidden" name="landing_path" />
+
+              <button class="btn btn-primary btn-block" type="submit">Get my renewal started</button>
+              <p class="form-footnote">No obligation. We’ll confirm the details and quote before proceeding.</p>
+            </form>
+          </aside>
+        </div>
+      </section>
+
+      <section id="why-renew" class="section soft">
+        <div class="container">
+          <h2>Why Renewing Properly Matters</h2>
+          <h3>Renewal is more than a date in the diary</h3>
+          <p>Your trademark renewal is a vital opportunity to make sure your protection still fits your business. It’s also the moment when scammers are most likely to strike.</p>
+          <div class="grid three-col features">
+            <div class="feature">
+              <h3>Confirm details</h3>
+              <p>Ensure registration details remain accurate and up to date.</p>
+            </div>
+            <div class="feature">
+              <h3>Review classes</h3>
+              <p>Adjust classes and terms to reflect any new products or services.</p>
+            </div>
+            <div class="feature">
+              <h3>Reinforce protection</h3>
+              <p>Check for potential infringements and keep your brand’s legal protection strong.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="section">
+        <div class="container">
+          <h2>How We Can Really Help – Active Monitoring</h2>
+          <div class="quote-card">
+            <blockquote>“The best jaw in boxing belongs to the person who doesn’t get hit… 60% of new enquiries we receive are people who have trademark disputes. After 18 years of providing trademark services the one thing I can say with absolute certainty is that when it comes to trademark disputes, prevention is better than cure.”</blockquote>
+            <cite>Jonathan Paton – Founder & Managing Director</cite>
+          </div>
+          <ol class="steps" style="margin-top:1rem">
+            <li>
+              <span class="step-num">1</span>
+              <div>
+                <h3>Manage</h3>
+                <p>Responsive UK, EU and international portfolio management.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <div>
+                <h3>Review</h3>
+                <p>Keep jurisdictions, ownership details, classes, goods and services up to date.</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <div>
+                <h3>Monitor</h3>
+                <p>Spot infringements early and prevent problems later—combining legal expertise with smart technology.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      
+
+      <section id="audit" class="section">
+        <div class="container">
+          <h2>Thinking of registering a new trademark?</h2>
+          <p>A Trademark Audit goes beyond a basic search. It’s a full review of potential risks and conflicts that could threaten your brand, now or in the future.</p>
+          <div class="grid three-col features" style="margin-top:1rem">
+            <div class="feature"><h3>Registers</h3><p>Worldwide trademark registers check.</p></div>
+            <div class="feature"><h3>Search engines</h3><p>Major search engines for confusingly similar uses.</p></div>
+            <div class="feature"><h3>Social & e‑commerce</h3><p>Meta, TikTok, LinkedIn, Amazon, eBay and more.</p></div>
+          </div>
+          <div class="grid three-col features" style="margin-top:1rem">
+            <div class="feature"><h3>Domains</h3><p>Conflicting domain registrations.</p></div>
+            <div class="feature"><h3>Companies House</h3><p>Company name conflicts and risks.</p></div>
+            <div class="feature"><h3>Practical actions</h3><p>Clear steps to strengthen protection.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="combine" class="section soft">
+        <div class="container">
+          <h2>Why combine Audit, Renewal and Monitoring?</h2>
+          <p>Your renewal is the perfect moment to check whether your trademark still reflects your business and remains fully protected. Combining all three services at renewal saves time, prevents confusion, ensures ongoing protection against infringers and impersonators, and saves money.</p>
+          <p class="notice" style="margin-top:1rem">If you’ve received a suspicious letter or email about your trademark, contact us before responding — we’ll help you verify if it’s genuine.</p>
+        </div>
+      </section>
+
+      <section id="screening" class="section">
+        <div class="container">
+          <h2>Before we proceed</h2>
+          <div class="screening">
+            <div class="q">
+              <p>Do you wish to make any changes to the trademark ownership?</p>
+              <label><input type="radio" name="qOwnership" value="Yes"> Yes</label>
+              <label><input type="radio" name="qOwnership" value="No"> No</label>
+              <label><input type="radio" name="qOwnership" value="Not Sure"> Not sure</label>
+            </div>
+            <div class="q">
+              <p>Do you wish to make any changes to your trademark classifications, goods &amp; services?</p>
+              <label><input type="radio" name="qClasses" value="Yes"> Yes</label>
+              <label><input type="radio" name="qClasses" value="No"> No</label>
+              <label><input type="radio" name="qClasses" value="Not Sure"> Not sure</label>
+            </div>
+            <div class="q">
+              <label class="check"><input type="checkbox" id="authConfirm"> <span>Please confirm you are authorised to renew this trademark</span></label>
+            </div>
+            <div class="actions">
+              <button class="btn btn-primary" id="screening-continue">Continue</button>
+              <a class="btn btn-ghost" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a call</a>
+            </div>
+            <p class="muted" id="screening-note"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="foot-brand">
+          <img src="./tmh-logo.svg" alt="The Trademark Helpline" class="logo" />
+          <p>Providing straightforward and affordable trademark and brand protection advice for businesses.</p>
+        </div>
+        <div class="foot-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="foot-cta">
+          <a class="btn btn-primary" href="#renewal-form">Book a call</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+  </html>
