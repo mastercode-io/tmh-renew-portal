@@ -15,6 +15,7 @@
   --radius: 14px;
   --radius-sm: 10px;
   --shadow: 0 12px 24px rgba(25, 35, 45, 0.12);
+  --header-offset: 84px;
 }
 
 * { box-sizing: border-box; }
@@ -25,6 +26,7 @@ body {
   color: var(--ink);
   background: var(--bg);
   line-height: 1.6;
+  padding-top: var(--header-offset);
 }
 
 h1, h2, h3 { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--brand-navy); }
@@ -42,17 +44,28 @@ p { margin: 0.25rem 0 1rem; }
 .grid.gap { gap: 0.9rem; }
 
 .skip-link { position: absolute; left: -9999px; padding: 0.5rem 0.75rem; background: #fff; border-radius: var(--radius-sm); box-shadow: var(--shadow); }
-.skip-link:focus { left: 1rem; top: 1rem; }
+.skip-link:focus { left: 1rem; top: calc(var(--header-offset) + 1rem); }
 
-.site-header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid #eef2f6; }
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 90;
+  background: #fff;
+  border-bottom: 1px solid #eef2f6;
+  box-shadow: 0 6px 12px rgba(34, 52, 71, 0.05);
+}
 .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; }
-.brand { display: flex; align-items: center; gap: 0.6rem; }
-.logo { width: 42px; height: 42px; }
-.brand-name { font-weight: 700; color: var(--brand-navy); }
-.brand-tag { display: block; font-size: 0.8rem; color: var(--muted); margin-top: -4px; }
+.brand { display: flex; align-items: center; }
+.logo { width: clamp(160px, 18vw, 220px); height: auto; display: block; }
 .nav { display: flex; gap: 1rem; align-items: center; }
 .nav a { color: var(--brand-navy); text-decoration: none; font-weight: 600; }
 .nav a:hover { color: var(--brand-pink-600); }
+
+main[id],
+section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 999px; padding: 0.65rem 1rem; font-weight: 700; text-decoration: none; border: 2px solid transparent; cursor: pointer; }
 .btn.btn-primary { background: var(--brand-pink); color: #fff; }

@@ -1,5 +1,22 @@
 /* Prefill logic and simple client-side validation */
 (function () {
+  const header = document.querySelector('.site-header');
+  if (header && typeof window !== 'undefined') {
+    const updateHeaderOffset = () => {
+      document.body.style.setProperty('--header-offset', `${header.offsetHeight}px`);
+    };
+
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(updateHeaderOffset);
+      ro.observe(header);
+    } else {
+      window.addEventListener('resize', updateHeaderOffset);
+    }
+
+    window.addEventListener('load', updateHeaderOffset);
+    updateHeaderOffset();
+  }
+
   const form = document.getElementById('lead-form');
   if (!form) return;
 
