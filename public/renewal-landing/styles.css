@@ -44,7 +44,17 @@ p { margin: 0.25rem 0 1rem; }
 .skip-link { position: absolute; left: -9999px; padding: 0.5rem 0.75rem; background: #fff; border-radius: var(--radius-sm); box-shadow: var(--shadow); }
 .skip-link:focus { left: 1rem; top: 1rem; }
 
-.site-header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid #eef2f6; }
+.site-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: #fff;
+  border-bottom: 1px solid #eef2f6;
+  box-shadow: 0 6px 12px rgba(34, 52, 71, 0.05);
+}
 .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; }
 .brand { display: flex; align-items: center; }
 .logo { width: clamp(160px, 18vw, 220px); height: auto; display: block; }
