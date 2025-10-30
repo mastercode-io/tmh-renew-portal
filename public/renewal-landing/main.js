@@ -10,12 +10,39 @@
 
   // Map URL/search parameters to form field names
   const fields = [
-    'firstName','lastName','email','phone','company','trademark','jurisdiction','regNumber','contactTime'
+    'firstName','lastName','email','phone','company','trademark','jurisdiction','regNumber','contactTime','classCount','applicationNumber','status','regDate','markType'
   ];
+
+  const mergeTargets = {
+    firstName: document.querySelector('[data-merge="firstName"]'),
+    tmeApp: document.querySelector('[data-merge="tmeApp"]'),
+    applicationNumber: document.querySelector('[data-merge="applicationNumber"]'),
+    status: document.querySelector('[data-merge="status"]'),
+    regDate: document.querySelector('[data-merge="regDate"]'),
+    trademark: document.querySelector('[data-merge="trademark"]'),
+    markType: document.querySelector('[data-merge="markType"]'),
+    classCount: document.querySelector('[data-merge="classCount"]'),
+    jurisdiction: document.querySelector('[data-merge="jurisdiction"]'),
+  };
+
+  const reflectSummary = (name, value) => {
+    const target = mergeTargets[name];
+    if (!target) return;
+    const text = (value != null && String(value).trim().length) ? String(value).trim() : '—';
+    target.textContent = text;
+  };
 
   const setIf = (name, val) => {
     const el = form.elements[name];
-    if (el && val != null && String(val).length) el.value = val;
+    if (el && val != null && String(val).length) {
+      if (el.tagName === 'SELECT') {
+        const option = Array.from(el.options).find(opt => opt.value === String(val) || opt.textContent === String(val));
+        el.value = option ? option.value : val;
+      } else {
+        el.value = val;
+      }
+      reflectSummary(name, el.tagName === 'SELECT' ? el.options[el.selectedIndex]?.textContent || val : val);
+    }
   };
 
   fields.forEach((f) => {
@@ -35,10 +62,7 @@
   // Personalized greeting + renewals list via request_id
   const requestId = params.get('request_id');
   const prefillEndpoint = form.dataset.prefillEndpoint || '/api/prefill';
-  const merges = {
-    firstName: document.querySelector('[data-merge="firstName"]'),
-    tmeApp: document.querySelector('[data-merge="tmeApp"]'),
-  };
+  const summaryNames = ['applicationNumber','status','regDate','trademark','markType','classCount','jurisdiction'];
   const renewalsList = document.getElementById('renewals');
 
   async function fetchPrefill() {
@@ -67,8 +91,34 @@
         regNumber: r.regNumber,
       }).forEach(([k, v]) => setIf(k, v));
 
-      if (merges.firstName && p.firstName) merges.firstName.textContent = p.firstName;
-      if (merges.tmeApp && (r.tmeApp || r.regNumber)) merges.tmeApp.textContent = r.tmeApp || r.regNumber;
+      if (mergeTargets.firstName && p.firstName) mergeTargets.firstName.textContent = p.firstName;
+      if (mergeTargets.tmeApp && (r.tmeApp || r.regNumber)) mergeTargets.tmeApp.textContent = r.tmeApp || r.regNumber;
+
+      const detailPrefill = {
+        applicationNumber: r.tmeApp || r.applicationNumber || r.appNumber || r.tmAppNumber || r.regNumber,
+        status: r.status || r.tmStatus || r.tm_status || r.currentStatus,
+        regDate: r.regDate || r.registrationDate || r.registeredDate || r.registration_date,
+        trademark: r.trademark || r.wordMark || r.word_mark_text || r.wordMarkText,
+        markType: r.tmType || r.tm_type || r.type || r.markType,
+        classCount: r.classCount || r.numberOfClasses || r.classificationNo || r.classificationNumber || r.tmNumberOfClasses,
+        jurisdiction: r.jurisdiction || r.country,
+      };
+
+      Object.entries(detailPrefill).forEach(([key, value]) => {
+        if (value == null || String(value).length === 0) return;
+        if (form.elements[key]) {
+          setIf(key, value);
+        } else {
+          reflectSummary(key, value);
+        }
+      });
+
+      summaryNames.forEach((name) => {
+        if (!detailPrefill[name]) {
+          const el = form.elements[name];
+          if (el) reflectSummary(name, el.tagName === 'SELECT' ? el.options[el.selectedIndex]?.textContent || el.value : el.value);
+        }
+      });
 
       const items = Array.isArray(payload.renewals) ? payload.renewals : (r.trademark ? [r] : []);
       if (renewalsList && items.length) {
@@ -83,6 +133,30 @@
     }
   }
   fetchPrefill();
+
+  // keep summary in sync with edits
+  const syncFromForm = (name) => {
+    if (!summaryNames.includes(name)) return;
+    const el = form.elements[name];
+    if (!el) return;
+    const value = el.tagName === 'SELECT'
+      ? (el.options[el.selectedIndex]?.textContent || el.value)
+      : el.value;
+    reflectSummary(name, value);
+  };
+
+  form.addEventListener('input', (e) => {
+    if (!e.target?.name) return;
+    if (e.target.tagName === 'SELECT') return;
+    syncFromForm(e.target.name);
+  });
+
+  form.addEventListener('change', (e) => {
+    if (!e.target?.name) return;
+    syncFromForm(e.target.name);
+  });
+
+  summaryNames.forEach(syncFromForm);
 
   // Basic validation + submit handler
   form.addEventListener('submit', async (e) => {
