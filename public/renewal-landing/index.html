@@ -35,7 +35,7 @@
 
     <main id="main">
       <section class="hero">
-        <div class="container grid two-col">
+        <div class="container hero-grid">
           <div class="hero-copy">
             <span class="eyebrow">Trademark Renewal</span>
             <h1>Hi <span data-merge="firstName">there</span>, your trademark <span class="badges"><span class="badge">Ref <span data-merge="tmeApp">—</span></span></span> is coming up for renewal</h1>
@@ -51,72 +51,18 @@
               <a class="btn btn-ghost" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
             </div>
 
-            <h3 style="margin-top:1rem">Next renewals due</h3>
-            <ul class="renewals-list" id="renewals"></ul>
+            <div class="card next-renewals">
+              <h3>Next renewals due</h3>
+              <ul class="renewals-list" id="renewals"></ul>
+            </div>
           </div>
-          <aside class="card form-card" id="renewal-form">
-            <h2 class="card-title">Renew your trademark</h2>
-            <form id="lead-form" novalidate data-endpoint="/api/lead" data-prefill-endpoint="/api/prefill" data-payment-url="/pay">
-              <div class="grid two-col gap">
-                <label class="field">
-                  <span>First name</span>
-                  <input name="firstName" autocomplete="given-name" required />
-                </label>
-                <label class="field">
-                  <span>Last name</span>
-                  <input name="lastName" autocomplete="family-name" required />
-                </label>
-                <label class="field">
-                  <span>Email</span>
-                  <input type="email" name="email" autocomplete="email" required />
-                </label>
-                <label class="field">
-                  <span>Phone</span>
-                  <input type="tel" name="phone" autocomplete="tel" />
-                </label>
-                <label class="field">
-                  <span>Company</span>
-                  <input name="company" autocomplete="organization" />
-                </label>
-                <label class="field">
-                  <span>Trademark name</span>
-                  <input name="trademark" placeholder="e.g., ACME" required />
-                </label>
-                <label class="field">
-                  <span>Jurisdiction</span>
-                  <select name="jurisdiction">
-                    <option value="UK">UK</option>
-                    <option value="EU">EU</option>
-                    <option value="US">US</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </label>
-                <label class="field">
-                  <span>Registration number</span>
-                  <input name="regNumber" />
-                </label>
-                <label class="field full">
-                  <span>Preferred contact time</span>
-                  <input name="contactTime" placeholder="e.g., Tomorrow 2–4pm" />
-                </label>
-                <label class="check">
-                  <input type="checkbox" name="consent" required />
-                  <span>I agree to be contacted about my renewal.</span>
-                </label>
-              </div>
-
-              <input type="hidden" name="utm_source" />
-              <input type="hidden" name="utm_medium" />
-              <input type="hidden" name="utm_campaign" />
-              <input type="hidden" name="utm_term" />
-              <input type="hidden" name="utm_content" />
-              <input type="hidden" name="referrer" />
-              <input type="hidden" name="landing_path" />
-
-              <button class="btn btn-primary btn-block" type="submit">Get my renewal started</button>
-              <p class="form-footnote">No obligation. We’ll confirm the details and quote before proceeding.</p>
-            </form>
-          </aside>
+          <figure class="hero-media">
+            <img src="./matt-photo.jpg" alt="Matt from The Trademark Helpline" />
+            <figcaption>
+              “Your brand is your business’s most valuable asset. Protect it before someone else exploits it.”
+              <span>Matt, Trademark Specialist</span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
@@ -145,11 +91,17 @@
       <section id="how-it-works" class="section">
         <div class="container">
           <h2>How We Can Really Help – Active Monitoring</h2>
-          <div class="quote-card">
-            <blockquote>“The best jaw in boxing belongs to the person who doesn’t get hit… 60% of new enquiries we receive are people who have trademark disputes. After 18 years of providing trademark services the one thing I can say with absolute certainty is that when it comes to trademark disputes, prevention is better than cure.”</blockquote>
-            <cite>Jonathan Paton – Founder & Managing Director</cite>
+          <div class="monitoring-grid">
+            <div class="quote-card">
+              <blockquote>“The best jaw in boxing belongs to the person who doesn’t get hit… 60% of new enquiries we receive are people who have trademark disputes. After 18 years of providing trademark services the one thing I can say with absolute certainty is that when it comes to trademark disputes, prevention is better than cure.”</blockquote>
+              <cite>Jonathan Paton – Founder &amp; Managing Director</cite>
+            </div>
+            <figure class="profile-card">
+              <img src="./jon-photo.jpg" alt="Jonathan Paton" />
+              <figcaption>Jonathan Paton<br/><span>Founder &amp; Managing Director</span></figcaption>
+            </figure>
           </div>
-          <ol class="steps" style="margin-top:1rem">
+          <ol class="steps" style="margin-top:1.5rem">
             <li>
               <span class="step-num">1</span>
               <div>
@@ -175,7 +127,24 @@
         </div>
       </section>
 
-      
+      <section class="section soft" aria-label="Trademark impact">
+        <div class="container">
+          <div class="metric-strip">
+            <div class="metric">
+              <span class="metric-value" data-counter="trademarks">5,400+</span>
+              <span class="metric-label">trademarks managed</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value">18</span>
+              <span class="metric-label">years protecting brands</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value">2,000+</span>
+              <span class="metric-label">businesses trust us</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section id="audit" class="section">
         <div class="container">
@@ -202,30 +171,169 @@
         </div>
       </section>
 
-      <section id="screening" class="section">
+      <section class="section" id="trusted">
+        <div class="container trusted-grid">
+          <div>
+            <h2>Trusted by UK and International Businesses</h2>
+            <p>We’ve renewed and monitored portfolios for fast-growing startups through to established multinationals. Here’s what clients say about working with us.</p>
+            <div class="logo-row" aria-label="Client logos">
+              <span>WeAreSSG</span>
+              <span>Beechwood</span>
+              <span>SmartHub</span>
+              <span>BrightCore</span>
+              <span>Pulse Recruitment</span>
+            </div>
+          </div>
+          <aside class="testimonial">
+            <div class="owl">🦉</div>
+            <p class="quote">“Brand is the key to success. Lock it down.”</p>
+            <p class="author">Trademark Helpline Client</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="renewal-form" class="section accent">
         <div class="container">
-          <h2>Before we proceed</h2>
-          <div class="screening">
-            <div class="q">
-              <p>Do you wish to make any changes to the trademark ownership?</p>
-              <label><input type="radio" name="qOwnership" value="Yes"> Yes</label>
-              <label><input type="radio" name="qOwnership" value="No"> No</label>
-              <label><input type="radio" name="qOwnership" value="Not Sure"> Not sure</label>
+          <div class="section-intro">
+            <h2>Renewal form</h2>
+            <p>Review the details we already hold, update anything that has changed, then confirm you’re authorised to renew.</p>
+          </div>
+          <div class="grid form-hub">
+            <article class="card highlight summary-card">
+              <h3>Your trademark at a glance</h3>
+              <dl class="detail-list">
+                <div>
+                  <dt>Application number</dt>
+                  <dd data-merge="applicationNumber">—</dd>
+                </div>
+                <div>
+                  <dt>Current status</dt>
+                  <dd data-merge="status">—</dd>
+                </div>
+                <div>
+                  <dt>Registration date</dt>
+                  <dd data-merge="regDate">—</dd>
+                </div>
+                <div>
+                  <dt>Word mark text</dt>
+                  <dd data-merge="trademark">—</dd>
+                </div>
+                <div>
+                  <dt>Mark type</dt>
+                  <dd data-merge="markType">—</dd>
+                </div>
+                <div>
+                  <dt>Number of classes</dt>
+                  <dd data-merge="classCount">—</dd>
+                </div>
+                <div>
+                  <dt>Jurisdiction</dt>
+                  <dd data-merge="jurisdiction">—</dd>
+                </div>
+              </dl>
+              <p class="muted small">We’ve prefilled everything we can from your existing record. Tell us if anything needs to change.</p>
+            </article>
+
+            <div class="form-stack">
+              <div class="card form-card">
+                <h3 class="card-title">Your contact details</h3>
+                <form id="lead-form" novalidate data-endpoint="/api/lead" data-prefill-endpoint="/api/prefill" data-payment-url="/pay">
+                  <div class="grid two-col gap">
+                    <label class="field">
+                      <span>First name</span>
+                      <input name="firstName" autocomplete="given-name" required />
+                    </label>
+                    <label class="field">
+                      <span>Last name</span>
+                      <input name="lastName" autocomplete="family-name" required />
+                    </label>
+                    <label class="field">
+                      <span>Email</span>
+                      <input type="email" name="email" autocomplete="email" required />
+                    </label>
+                    <label class="field">
+                      <span>Mobile</span>
+                      <input type="tel" name="phone" autocomplete="tel" />
+                    </label>
+                    <label class="field">
+                      <span>Company</span>
+                      <input name="company" autocomplete="organization" />
+                    </label>
+                    <label class="field">
+                      <span>Preferred contact time</span>
+                      <input name="contactTime" placeholder="e.g., Tomorrow 2–4pm" />
+                    </label>
+                    <label class="field">
+                      <span>Trademark name</span>
+                      <input name="trademark" placeholder="e.g., ACME" required />
+                    </label>
+                    <label class="field">
+                      <span>Registration number</span>
+                      <input name="regNumber" />
+                    </label>
+                    <label class="field">
+                      <span>Jurisdiction</span>
+                      <select name="jurisdiction">
+                        <option value="UK">UK</option>
+                        <option value="EU">EU</option>
+                        <option value="US">US</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </label>
+                  <label class="field">
+                    <span>Number of classes</span>
+                    <input name="classCount" />
+                  </label>
+                </div>
+
+                  <input type="hidden" name="applicationNumber" />
+                  <input type="hidden" name="status" />
+                  <input type="hidden" name="regDate" />
+                  <input type="hidden" name="markType" />
+
+                  <input type="hidden" name="utm_source" />
+                  <input type="hidden" name="utm_medium" />
+                  <input type="hidden" name="utm_campaign" />
+                  <input type="hidden" name="utm_term" />
+                  <input type="hidden" name="utm_content" />
+                  <input type="hidden" name="referrer" />
+                  <input type="hidden" name="landing_path" />
+
+                  <label class="check" style="margin-top:0.8rem">
+                    <input type="checkbox" name="consent" required />
+                    <span>I agree to be contacted about my renewal.</span>
+                  </label>
+
+                  <button class="btn btn-primary btn-block" type="submit">Submit my details</button>
+                  <p class="form-footnote">No obligation. We’ll confirm the details and quote before proceeding.</p>
+                </form>
+              </div>
+
+              <div class="card decision-card">
+                <h3>Before we proceed</h3>
+                <p>Tell us if anything needs changing before we take payment.</p>
+                <div class="q">
+                  <p>Do you wish to make any changes to the trademark ownership?</p>
+                  <label><input type="radio" name="qOwnership" value="Yes"> Yes</label>
+                  <label><input type="radio" name="qOwnership" value="No"> No</label>
+                  <label><input type="radio" name="qOwnership" value="Not Sure"> Not sure</label>
+                </div>
+                <div class="q">
+                  <p>Do you wish to make any changes to your trademark classifications, goods &amp; services?</p>
+                  <label><input type="radio" name="qClasses" value="Yes"> Yes</label>
+                  <label><input type="radio" name="qClasses" value="No"> No</label>
+                  <label><input type="radio" name="qClasses" value="Not Sure"> Not sure</label>
+                </div>
+                <label class="check">
+                  <input type="checkbox" id="authConfirm"> <span>Please confirm you are authorised to renew this trademark.</span>
+                </label>
+                <div class="actions">
+                  <button class="btn btn-primary" id="screening-continue">Continue to payment</button>
+                  <a class="btn btn-ghost" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a call</a>
+                </div>
+                <p class="muted" id="screening-note"></p>
+              </div>
             </div>
-            <div class="q">
-              <p>Do you wish to make any changes to your trademark classifications, goods &amp; services?</p>
-              <label><input type="radio" name="qClasses" value="Yes"> Yes</label>
-              <label><input type="radio" name="qClasses" value="No"> No</label>
-              <label><input type="radio" name="qClasses" value="Not Sure"> Not sure</label>
-            </div>
-            <div class="q">
-              <label class="check"><input type="checkbox" id="authConfirm"> <span>Please confirm you are authorised to renew this trademark</span></label>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" id="screening-continue">Continue</button>
-              <a class="btn btn-ghost" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a call</a>
-            </div>
-            <p class="muted" id="screening-note"></p>
           </div>
         </div>
       </section>
