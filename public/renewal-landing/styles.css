@@ -76,6 +76,10 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
 .btn.btn-block { width: 100%; }
 
 .hero { background: linear-gradient(180deg, var(--soft), #fff); padding: 2.2rem 0 2.6rem; }
+.hero-header { display: grid; gap: 0.65rem; margin-bottom: 2.2rem; }
+.hero-line { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-weight: 700; font-size: clamp(1.4rem, 1.1vw + 1.1rem, 2.1rem); color: var(--brand-navy); margin: 0; }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; border-radius: var(--radius); background: #fff; border: 1px solid #ffd4e1; font-weight: 700; font-size: 1.1rem; color: var(--brand-navy); box-shadow: 0 12px 28px rgba(229, 22, 82, 0.16); }
+.hero-sub { margin: 0.2rem 0 0; font-size: 1rem; color: var(--muted); }
 .hero-grid { display: grid; gap: 2rem; align-items: center; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
 .hero .ticks { list-style: none; padding: 0; margin: 0 0 1rem; }
 .ticks li { position: relative; padding-left: 1.6rem; margin: 0.25rem 0; }
@@ -83,7 +87,7 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
 .cta-row { display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap; }
 .eyebrow { text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-pink); font-weight: 800; font-size: 0.82rem; }
 
-.next-renewals { margin-top: 1.5rem; }
+.next-renewals { margin: 2.5rem 0 0; max-width: 680px; }
 .next-renewals h3 { margin: 0 0 0.5rem; }
 
 .hero-media { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
@@ -149,8 +153,11 @@ form { margin-top: 0.2rem; }
 .badge { background: var(--soft-2); color: var(--brand-navy); border: 1px solid #ffd4e1; border-radius: 999px; padding: 0.25rem 0.6rem; font-weight: 700; font-size: 0.85rem; }
 
 .renewals-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
-.renewals-list li { background: #fff; border: 1px solid #eef2f6; border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; margin: 0.35rem 0; display: flex; justify-content: space-between; gap: 0.5rem; }
-.renewals-list small { color: var(--muted); }
+.renewals-list li { background: #fff; border: 1px solid #eef2f6; border-radius: var(--radius-sm); padding: 0.7rem 0.9rem; margin: 0.35rem 0; font-weight: 700; color: var(--brand-navy); line-height: 1.45; }
+.renewals-list li span { display: inline; }
+.renewals-list li .tm-meta { color: var(--muted); font-weight: 600; }
+.renewals-list li.next-due { border-color: var(--brand-pink); box-shadow: 0 0 0 2px rgba(229, 22, 82, 0.15); }
+.renewals-list li.tm-empty { border-style: dashed; background: transparent; color: var(--muted); font-weight: 600; }
 
 .quote-card { background: #fff; border-left: 6px solid var(--brand-pink); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); }
 .quote-card blockquote { margin: 0; font-size: 1.05rem; }
