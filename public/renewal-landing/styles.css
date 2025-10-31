@@ -215,11 +215,12 @@ input[type="checkbox"]:focus {
 }
 
 @media (max-width: 540px) {
-  .header-inner { gap: 0.5rem; }
-  .logo { width: clamp(130px, 32vw, 180px); }
-  .header-cta { width: 100%; justify-content: center; }
-  .nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.3rem 0.75rem; font-size: 0.82rem; justify-items: center; }
-  .nav a { padding: 0.2rem 0; white-space: normal; width: 100%; }
+  .header-inner { flex-wrap: wrap; justify-content: space-between; gap: 0.4rem; }
+  .brand { flex: 1 1 auto; }
+  .logo { width: clamp(130px, 34vw, 180px); }
+  .header-cta { flex: 0 0 auto; padding: 0.55rem 1.2rem; }
+  .nav { width: 100%; order: 2; flex: 1 1 100%; display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.8rem; margin-top: 0.25rem; flex-wrap: nowrap; }
+  .nav a { flex: 1 1 24%; min-width: 0; text-align: center; padding: 0.25rem 0; white-space: nowrap; }
 }
 
 @media (max-width: 480px) {
