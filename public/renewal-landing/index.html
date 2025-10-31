@@ -331,147 +331,118 @@
       </section>
 
       <section id="renewal-form" class="section accent">
-        <div class="container">
+        <div class="container renewal-container">
           <div class="section-intro">
             <h2>Renewal form</h2>
-            <p>Review the details we already hold, update anything that has changed, then confirm you’re authorised to renew.</p>
+            <p>Review the details we already hold, answer a few questions, then confirm you're authorised to renew.</p>
           </div>
-          <div class="grid form-hub">
-            <article class="card highlight summary-card">
-              <h3>Your trademark at a glance</h3>
-              <dl class="detail-list">
-                <div>
-                  <dt>Application number</dt>
-                  <dd data-merge="applicationNumber">—</dd>
-                </div>
-                <div>
-                  <dt>Current status</dt>
-                  <dd data-merge="status">—</dd>
-                </div>
-                <div>
-                  <dt>Registration date</dt>
-                  <dd data-merge="regDate">—</dd>
-                </div>
-                <div>
-                  <dt>Word mark text</dt>
-                  <dd data-merge="trademark">—</dd>
-                </div>
-                <div>
-                  <dt>Mark type</dt>
-                  <dd data-merge="markType">—</dd>
-                </div>
-                <div>
-                  <dt>Number of classes</dt>
-                  <dd data-merge="classCount">—</dd>
-                </div>
-                <div>
-                  <dt>Jurisdiction</dt>
-                  <dd data-merge="jurisdiction">—</dd>
-                </div>
-              </dl>
-              <p class="muted small">We’ve prefilled everything we can from your existing record. Tell us if anything needs to change.</p>
-            </article>
 
-            <div class="form-stack">
-              <div class="card form-card">
-                <h3 class="card-title">Your contact details</h3>
-                <form id="lead-form" novalidate data-endpoint="/api/lead" data-prefill-endpoint="/api/prefill" data-payment-url="/pay">
-                  <div class="grid two-col gap">
-                    <label class="field">
-                      <span>First name</span>
-                      <input name="firstName" autocomplete="given-name" required />
-                    </label>
-                    <label class="field">
-                      <span>Last name</span>
-                      <input name="lastName" autocomplete="family-name" required />
-                    </label>
-                    <label class="field">
-                      <span>Email</span>
-                      <input type="email" name="email" autocomplete="email" required />
-                    </label>
-                    <label class="field">
-                      <span>Mobile</span>
-                      <input type="tel" name="phone" autocomplete="tel" />
-                    </label>
-                    <label class="field">
-                      <span>Company</span>
-                      <input name="company" autocomplete="organization" />
-                    </label>
-                    <label class="field">
-                      <span>Preferred contact time</span>
-                      <input name="contactTime" placeholder="e.g., Tomorrow 2–4pm" />
-                    </label>
-                    <label class="field">
-                      <span>Trademark name</span>
-                      <input name="trademark" placeholder="e.g., ACME" required />
-                    </label>
-                    <label class="field">
-                      <span>Registration number</span>
-                      <input name="regNumber" />
-                    </label>
-                    <label class="field">
-                      <span>Jurisdiction</span>
-                      <select name="jurisdiction">
-                        <option value="UK">UK</option>
-                        <option value="EU">EU</option>
-                        <option value="US">US</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </label>
-                  <label class="field">
-                    <span>Number of classes</span>
-                    <input name="classCount" />
-                  </label>
-                </div>
+          <div class="card renewal-form-card">
+            <form id="lead-form" novalidate data-endpoint="/api/lead" data-prefill-endpoint="/api/prefill" data-payment-url="/pay">
 
-                  <input type="hidden" name="applicationNumber" />
-                  <input type="hidden" name="status" />
-                  <input type="hidden" name="regDate" />
-                  <input type="hidden" name="markType" />
-
-                  <input type="hidden" name="utm_source" />
-                  <input type="hidden" name="utm_medium" />
-                  <input type="hidden" name="utm_campaign" />
-                  <input type="hidden" name="utm_term" />
-                  <input type="hidden" name="utm_content" />
-                  <input type="hidden" name="referrer" />
-                  <input type="hidden" name="landing_path" />
-
-                  <label class="check" style="margin-top:0.8rem">
-                    <input type="checkbox" name="consent" required />
-                    <span>I agree to be contacted about my renewal.</span>
-                  </label>
-
-                  <button class="btn btn-primary btn-block" type="submit">Submit my details</button>
-                  <p class="form-footnote">No obligation. We’ll confirm the details and quote before proceeding.</p>
-                </form>
+              <!-- Review Information (Read-only display) -->
+              <div class="review-info-section">
+                <h3>Review your information</h3>
+                <dl class="detail-list">
+                  <div>
+                    <dt>Application number</dt>
+                    <dd data-merge="applicationNumber">—</dd>
+                  </div>
+                  <div>
+                    <dt>Current status</dt>
+                    <dd data-merge="status">—</dd>
+                  </div>
+                  <div>
+                    <dt>Registration date</dt>
+                    <dd data-merge="regDate">—</dd>
+                  </div>
+                  <div>
+                    <dt>Word mark text</dt>
+                    <dd data-merge="trademark">—</dd>
+                  </div>
+                  <div>
+                    <dt>Mark type</dt>
+                    <dd data-merge="markType">—</dd>
+                  </div>
+                  <div>
+                    <dt>Number of classes</dt>
+                    <dd data-merge="classCount">—</dd>
+                  </div>
+                </dl>
               </div>
 
-              <div class="card decision-card">
-                <h3>Before we proceed</h3>
-                <p>Tell us if anything needs changing before we take payment.</p>
-                <div class="q">
-                  <p>Do you wish to make any changes to the trademark ownership?</p>
-                  <label><input type="radio" name="qOwnership" value="Yes"> Yes</label>
-                  <label><input type="radio" name="qOwnership" value="No"> No</label>
-                  <label><input type="radio" name="qOwnership" value="Not Sure"> Not sure</label>
+              <!-- Screening Questions -->
+              <div class="screening-questions">
+                <div class="screening-question">
+                  <p class="question-text">Do you wish to make any changes to the trademark ownership?</p>
+                  <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="qOwnership" value="Yes" required> Yes</label>
+                    <label class="radio-label"><input type="radio" name="qOwnership" value="No"> No</label>
+                    <label class="radio-label"><input type="radio" name="qOwnership" value="Not Sure"> Not sure</label>
+                  </div>
                 </div>
-                <div class="q">
-                  <p>Do you wish to make any changes to your trademark classifications, goods &amp; services?</p>
-                  <label><input type="radio" name="qClasses" value="Yes"> Yes</label>
-                  <label><input type="radio" name="qClasses" value="No"> No</label>
-                  <label><input type="radio" name="qClasses" value="Not Sure"> Not sure</label>
+
+                <div class="screening-question">
+                  <p class="question-text">Do you wish to make any changes to your trademark classifications, goods &amp; services?</p>
+                  <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="qClasses" value="Yes" required> Yes</label>
+                    <label class="radio-label"><input type="radio" name="qClasses" value="No"> No</label>
+                    <label class="radio-label"><input type="radio" name="qClasses" value="Not Sure"> Not sure</label>
+                  </div>
                 </div>
-                <label class="check">
-                  <input type="checkbox" id="authConfirm"> <span>Please confirm you are authorised to renew this trademark.</span>
+
+                <label class="check auth-check">
+                  <input type="checkbox" name="authConfirm" id="authConfirm" required>
+                  <span>Please confirm you are authorised to renew this trademark</span>
                 </label>
-                <div class="actions">
-                  <button class="btn btn-primary" id="screening-continue">Continue to payment</button>
-                  <a class="btn btn-ghost" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a call</a>
-                </div>
-                <p class="muted" id="screening-note"></p>
               </div>
-            </div>
+
+              <!-- Contact Fields -->
+              <div class="contact-fields">
+                <h3>Your contact details</h3>
+                <div class="fields-grid">
+                  <label class="field">
+                    <span>Name</span>
+                    <input name="fullName" autocomplete="name" required />
+                  </label>
+                  <label class="field">
+                    <span>Email</span>
+                    <input type="email" name="email" autocomplete="email" required />
+                  </label>
+                  <label class="field">
+                    <span>Mobile</span>
+                    <input type="tel" name="phone" autocomplete="tel" required />
+                  </label>
+                </div>
+              </div>
+
+              <!-- Hidden Fields -->
+              <input type="hidden" name="applicationNumber" />
+              <input type="hidden" name="status" />
+              <input type="hidden" name="regDate" />
+              <input type="hidden" name="trademark" />
+              <input type="hidden" name="markType" />
+              <input type="hidden" name="classCount" />
+              <input type="hidden" name="jurisdiction" />
+              <input type="hidden" name="utm_source" />
+              <input type="hidden" name="utm_medium" />
+              <input type="hidden" name="utm_campaign" />
+              <input type="hidden" name="utm_term" />
+              <input type="hidden" name="utm_content" />
+              <input type="hidden" name="referrer" />
+              <input type="hidden" name="landing_path" />
+
+              <!-- Consent & Submit -->
+              <label class="check consent-check">
+                <input type="checkbox" name="consent" required />
+                <span>I agree to be contacted about my renewal.</span>
+              </label>
+
+              <button class="btn btn-primary btn-block btn-lg" type="submit">Submit Renewal Request</button>
+
+              <!-- Screening Note (shown if needs to book call) -->
+              <div class="screening-note" id="screening-note" style="display: none;"></div>
+            </form>
           </div>
         </div>
       </section>
