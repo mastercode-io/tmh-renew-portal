@@ -62,6 +62,14 @@
     }
   };
 
+  // Helper to format classes display with list
+  const formatClasses = (count, classes) => {
+    if (!count) return '—';
+    if (!classes || !Array.isArray(classes) || classes.length === 0) return String(count);
+    const classList = classes.map(c => typeof c === 'object' ? c.nice : c).join(', ');
+    return `${count} (${classList})`;
+  };
+
   fields.forEach((f) => {
     if (params.has(f)) setIf(f, params.get(f));
     if (injected[f] != null) setIf(f, injected[f]);
@@ -158,6 +166,10 @@
     if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
     if (mergeTargets.primaryTrademarkNumber) mergeTargets.primaryTrademarkNumber.textContent = heroTrademarkNumber;
 
+    const fullName = contact.name || person.full_name || [person.first_name, person.last_name].filter(Boolean).join(' ');
+    const classes = tmPrefill.classes || primaryTrademark.classes;
+    const classesCount = tmPrefill.classes_count || primaryTrademark.classes_count || (Array.isArray(classes) ? classes.length : undefined);
+
     const fieldValues = {
       firstName: person.first_name || contactFirst || personFullFirst,
       lastName: person.last_name || contactLast || personFullLast,
@@ -178,6 +190,20 @@
       if (value == null || value === '') return;
       setIf(name, value);
     });
+
+    // Special handling for classCount display with class list
+    if (classesCount && mergeTargets.classCount) {
+      mergeTargets.classCount.textContent = formatClasses(classesCount, classes);
+    }
+
+    // Prefill contact fields in the form
+    const fullNameField = document.getElementById('fullName');
+    const emailField = document.getElementById('email');
+    const phoneField = document.getElementById('phone');
+
+    if (fullNameField && fullName) fullNameField.value = fullName;
+    if (emailField && (contact.email || person.email)) emailField.value = contact.email || person.email;
+    if (phoneField && (contact.mobile || person.mobile)) phoneField.value = contact.mobile || person.mobile;
 
     renderRenewals(allMarks);
 
@@ -236,22 +262,167 @@
 
   summaryNames.forEach(syncFromForm);
 
+  // Handle screening questions to show/hide contact fields and buttons
+  const handleScreeningQuestions = () => {
+    const ownership = form.querySelector('input[name="qOwnership"]:checked');
+    const classes = form.querySelector('input[name="qClasses"]:checked');
+
+    const contactFields = document.getElementById('contact-fields');
+    const authSection = document.getElementById('auth-section');
+    const submitSection = document.getElementById('submit-section');
+    const screeningNote = document.getElementById('screening-note');
+
+    // Check if at least one question has "Yes" or "Not Sure" selected
+    const ownershipNeedsReview = ownership && ownership.value !== 'No';
+    const classesNeedsReview = classes && classes.value !== 'No';
+
+    if (ownershipNeedsReview || classesNeedsReview) {
+      // Show screening note with book call button immediately
+      contactFields.style.display = 'none';
+      authSection.style.display = 'none';
+      submitSection.style.display = 'none';
+      screeningNote.style.display = 'block';
+      return;
+    }
+
+    // Only show contact fields if both questions are answered and both are "No"
+    if (ownership && classes && ownership.value === 'No' && classes.value === 'No') {
+      contactFields.style.display = 'block';
+      authSection.style.display = 'block';
+      submitSection.style.display = 'block';
+      screeningNote.style.display = 'none';
+    } else {
+      // If questions not fully answered yet, hide everything
+      contactFields.style.display = 'none';
+      authSection.style.display = 'none';
+      submitSection.style.display = 'none';
+      screeningNote.style.display = 'none';
+    }
+  };
+
+  // Add event listeners to screening questions
+  const ownershipRadios = form.querySelectorAll('input[name="qOwnership"]');
+  const classesRadios = form.querySelectorAll('input[name="qClasses"]');
+
+  ownershipRadios.forEach(radio => {
+    radio.addEventListener('change', handleScreeningQuestions);
+  });
+
+  classesRadios.forEach(radio => {
+    radio.addEventListener('change', handleScreeningQuestions);
+  });
+
+  // Clear error for a specific field
+  const clearError = (fieldId) => {
+    const field = document.getElementById(fieldId);
+    const errorEl = document.getElementById(`${fieldId}-error`);
+
+    if (field) {
+      field.classList.remove('error');
+      // For checkboxes, clear error from parent label
+      if (field.type === 'checkbox') {
+        const checkLabel = field.closest('.check');
+        if (checkLabel) checkLabel.classList.remove('error');
+      }
+    }
+    if (errorEl) {
+      errorEl.classList.remove('visible');
+      errorEl.textContent = '';
+    }
+  };
+
+  // Show error for a specific field
+  const showError = (fieldId, message) => {
+    const field = document.getElementById(fieldId);
+    const errorEl = document.getElementById(`${fieldId}-error`);
+
+    if (field) {
+      field.classList.add('error');
+      // For checkboxes, add error to parent label
+      if (field.type === 'checkbox') {
+        const checkLabel = field.closest('.check');
+        if (checkLabel) checkLabel.classList.add('error');
+      }
+    }
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.add('visible');
+    }
+  };
+
+  // Clear errors when user interacts with fields
+  ['fullName', 'email', 'phone'].forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.addEventListener('input', () => clearError(fieldId));
+    }
+  });
+
+  ['authConfirm', 'consent'].forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.addEventListener('change', () => clearError(fieldId));
+    }
+  });
+
   // Basic validation + submit handler
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const missing = [];
-    ['fullName','email','phone','qOwnership','qClasses','authConfirm','consent'].forEach((name) => {
-      const el = form.elements[name];
-      if (!el) return;
-      if (el.type === 'checkbox') { if (!el.checked) missing.push(name); }
-      else if (el.type === 'radio') {
-        const checked = form.querySelector(`input[name="${name}"]:checked`);
-        if (!checked) missing.push(name);
+
+    // Clear all previous errors
+    ['fullName', 'email', 'phone', 'authConfirm', 'consent'].forEach(clearError);
+
+    let hasErrors = false;
+
+    // Validate name
+    const fullName = document.getElementById('fullName');
+    if (fullName && fullName.offsetParent !== null) { // Check if visible
+      if (!fullName.value.trim()) {
+        showError('fullName', 'Please provide your name');
+        hasErrors = true;
       }
-      else if (!el.value) missing.push(name);
-    });
-    if (missing.length) {
-      alert('Please complete all required fields.');
+    }
+
+    // Validate email
+    const email = document.getElementById('email');
+    if (email && email.offsetParent !== null) {
+      if (!email.value.trim()) {
+        showError('email', 'Please provide your email address');
+        hasErrors = true;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        showError('email', 'Please provide a valid email address');
+        hasErrors = true;
+      }
+    }
+
+    // Validate phone
+    const phone = document.getElementById('phone');
+    if (phone && phone.offsetParent !== null) {
+      if (!phone.value.trim()) {
+        showError('phone', 'Please provide your mobile number');
+        hasErrors = true;
+      }
+    }
+
+    // Validate authorization checkbox
+    const authConfirm = document.getElementById('authConfirm');
+    if (authConfirm && authConfirm.offsetParent !== null) {
+      if (!authConfirm.checked) {
+        showError('authConfirm', 'You must confirm you are authorised to renew this trademark');
+        hasErrors = true;
+      }
+    }
+
+    // Validate consent checkbox
+    const consent = form.elements.consent;
+    if (consent && consent.offsetParent !== null) {
+      if (!consent.checked) {
+        showError('consent', 'You must agree to be contacted about your renewal');
+        hasErrors = true;
+      }
+    }
+
+    if (hasErrors) {
       return;
     }
 
