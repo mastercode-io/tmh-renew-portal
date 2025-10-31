@@ -31,8 +31,8 @@
   ];
 
   const mergeTargets = {
-    firstName: document.querySelector('[data-merge="firstName"]'),
-    tmeApp: document.querySelector('[data-merge="tmeApp"]'),
+    personName: document.querySelector('[data-merge="personName"]'),
+    primaryTrademarkNumber: document.querySelector('[data-merge="primaryTrademarkNumber"]'),
     applicationNumber: document.querySelector('[data-merge="applicationNumber"]'),
     status: document.querySelector('[data-merge="status"]'),
     regDate: document.querySelector('[data-merge="regDate"]'),
@@ -76,75 +76,136 @@
   if (form.elements['referrer']) form.elements['referrer'].value = document.referrer || '';
   if (form.elements['landing_path']) form.elements['landing_path'].value = location.pathname + location.search;
 
-  // Personalized greeting + renewals list via request_id
+  // Personalized greeting + renewals list via payload
   const requestId = params.get('request_id');
   const prefillEndpoint = form.dataset.prefillEndpoint || '/api/prefill';
   const summaryNames = ['applicationNumber','status','regDate','trademark','markType','classCount','jurisdiction'];
   const renewalsList = document.getElementById('renewals');
+  let paymentUrl = form.dataset.paymentUrl || '/pay';
+  let booking = 'https://bookings.thetrademarkhelpline.com/#/4584810000004811044';
+
+  const splitName = (name) => {
+    if (!name) return [null, null];
+    const parts = String(name).trim().split(/\s+/);
+    if (!parts.length) return [null, null];
+    const first = parts.shift();
+    const last = parts.length ? parts.join(' ') : null;
+    return [first, last];
+  };
+
+  const renderRenewals = (items) => {
+    if (!renewalsList) return;
+    if (!items?.length) {
+      renewalsList.innerHTML = '<li class="tm-empty">No upcoming renewals listed.</li>';
+      return;
+    }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const sorted = items.slice().sort((a, b) => {
+      const ad = a.expiry_date ? new Date(a.expiry_date) : new Date(8640000000000000);
+      const bd = b.expiry_date ? new Date(b.expiry_date) : new Date(8640000000000000);
+      return ad - bd;
+    });
+    renewalsList.innerHTML = sorted.map((it) => {
+      const number = it.registration_number || it.application_number || it.id || '—';
+      let expiryLabel = null;
+      if (it.expiry_date) {
+        const expiryDate = new Date(it.expiry_date);
+        expiryDate.setHours(0, 0, 0, 0);
+        const isExpired = expiryDate < today;
+        expiryLabel = `${isExpired ? 'Expired' : 'Expires'} ${it.expiry_date}`;
+      }
+      const metaParts = [
+        it.word_mark,
+        it.mark_type,
+        it.status,
+        expiryLabel
+      ].filter(Boolean).join(', ');
+      const content = metaParts.length ? metaParts : '—';
+      return `<li><span class="tm-number">${number}</span><span class="tm-meta">${content}</span></li>`;
+    }).join('');
+  };
+
+  function applyPrefillPayload(payload) {
+    if (!payload || typeof payload !== 'object') return;
+
+    const person = payload.person || {};
+    const contact = payload.prefill?.contact || {};
+    const org = payload.organisation || {};
+    const tmPrefill = payload.prefill?.trademark || {};
+    const hasPrefillData = tmPrefill && Object.keys(tmPrefill).length > 0;
+    const allMarks = Array.isArray(payload.trademarks) ? payload.trademarks.slice() : [];
+    const [contactFirst, contactLast] = splitName(contact.name);
+    const [personFullFirst, personFullLast] = splitName(person.full_name);
+
+    const nextDueId = payload.next_due?.trademark_id || tmPrefill.id;
+    const dueMatch = nextDueId ? allMarks.find(tm => tm.id === nextDueId) : null;
+    const prefillNumber = tmPrefill.registration_number || tmPrefill.application_number;
+
+    if (hasPrefillData && prefillNumber && !allMarks.some(tm => (tm.registration_number || tm.application_number) === prefillNumber)) {
+      allMarks.unshift(tmPrefill);
+    }
+
+    const primaryTrademark = dueMatch || (hasPrefillData ? tmPrefill : null) || allMarks[0] || {};
+    const heroFirstName = (person.first_name || personFullFirst || contactFirst || '').trim();
+    const heroName = heroFirstName || 'there';
+    const heroTrademarkNumber = prefillNumber
+      || primaryTrademark.registration_number
+      || primaryTrademark.application_number
+      || payload.next_due?.trademark_id
+      || '—';
+
+    if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
+    if (mergeTargets.primaryTrademarkNumber) mergeTargets.primaryTrademarkNumber.textContent = heroTrademarkNumber;
+
+    const fieldValues = {
+      firstName: person.first_name || contactFirst || personFullFirst,
+      lastName: person.last_name || contactLast || personFullLast,
+      email: contact.email || person.email,
+      phone: contact.mobile || person.mobile,
+      company: org.name,
+      trademark: tmPrefill.word_mark || primaryTrademark.word_mark,
+      jurisdiction: tmPrefill.jurisdiction || primaryTrademark.jurisdiction,
+      regNumber: heroTrademarkNumber,
+      classCount: tmPrefill.classes_count || primaryTrademark.classes_count || (Array.isArray(tmPrefill.classes) ? tmPrefill.classes.length : undefined),
+      applicationNumber: tmPrefill.application_number || primaryTrademark.application_number,
+      status: tmPrefill.status || primaryTrademark.status,
+      regDate: tmPrefill.registration_date || primaryTrademark.registration_date,
+      markType: tmPrefill.mark_type || primaryTrademark.mark_type
+    };
+
+    Object.entries(fieldValues).forEach(([name, value]) => {
+      if (value == null || value === '') return;
+      setIf(name, value);
+    });
+
+    renderRenewals(allMarks);
+
+    if (payload.links?.book_call) {
+      booking = payload.links.book_call;
+      document.querySelectorAll('[data-link="bookCall"]').forEach((link) => {
+        link.href = payload.links.book_call;
+        link.target = '_blank';
+        link.rel = 'noopener';
+      });
+    }
+    if (payload.links?.pay_now) {
+      paymentUrl = payload.links.pay_now;
+      form.dataset.paymentUrl = payload.links.pay_now;
+    }
+  }
 
   async function fetchPrefill() {
+    if (window.__renewalPayload) {
+      applyPrefillPayload(window.__renewalPayload);
+      return;
+    }
     if (!requestId) return;
     try {
       const res = await fetch(`${prefillEndpoint}?request_id=${encodeURIComponent(requestId)}`, { credentials: 'include' });
       if (!res.ok) throw new Error('Prefill fetch failed');
       const payload = await res.json();
-      // Expected shape (example):
-      // {
-      //   person: { firstName, lastName, email, phone, company },
-      //   renewal: { tmeApp, jurisdiction, regNumber, trademark },
-      //   renewals: [{ trademark, type, status, regDate, regNumber, jurisdiction }]
-      // }
-
-      const p = payload.person || {};
-      const r = payload.renewal || {};
-      Object.entries({
-        firstName: p.firstName,
-        lastName: p.lastName,
-        email: p.email,
-        phone: p.phone,
-        company: p.company,
-        trademark: r.trademark,
-        jurisdiction: r.jurisdiction,
-        regNumber: r.regNumber,
-      }).forEach(([k, v]) => setIf(k, v));
-
-      if (mergeTargets.firstName && p.firstName) mergeTargets.firstName.textContent = p.firstName;
-      if (mergeTargets.tmeApp && (r.tmeApp || r.regNumber)) mergeTargets.tmeApp.textContent = r.tmeApp || r.regNumber;
-
-      const detailPrefill = {
-        applicationNumber: r.tmeApp || r.applicationNumber || r.appNumber || r.tmAppNumber || r.regNumber,
-        status: r.status || r.tmStatus || r.tm_status || r.currentStatus,
-        regDate: r.regDate || r.registrationDate || r.registeredDate || r.registration_date,
-        trademark: r.trademark || r.wordMark || r.word_mark_text || r.wordMarkText,
-        markType: r.tmType || r.tm_type || r.type || r.markType,
-        classCount: r.classCount || r.numberOfClasses || r.classificationNo || r.classificationNumber || r.tmNumberOfClasses,
-        jurisdiction: r.jurisdiction || r.country,
-      };
-
-      Object.entries(detailPrefill).forEach(([key, value]) => {
-        if (value == null || String(value).length === 0) return;
-        if (form.elements[key]) {
-          setIf(key, value);
-        } else {
-          reflectSummary(key, value);
-        }
-      });
-
-      summaryNames.forEach((name) => {
-        if (!detailPrefill[name]) {
-          const el = form.elements[name];
-          if (el) reflectSummary(name, el.tagName === 'SELECT' ? el.options[el.selectedIndex]?.textContent || el.value : el.value);
-        }
-      });
-
-      const items = Array.isArray(payload.renewals) ? payload.renewals : (r.trademark ? [r] : []);
-      if (renewalsList && items.length) {
-        renewalsList.innerHTML = items.map(it => {
-          const left = `${it.trademark || ''} ${it.type ? '– ' + it.type : ''}`.trim();
-          const right = `${it.status || ''}${it.regDate ? ' · ' + it.regDate : ''}`.trim();
-          return `<li><span>${left}</span><small>${right}</small></li>`;
-        }).join('');
-      }
+      applyPrefillPayload(payload);
     } catch (e) {
       console.warn('Prefill fetch error', e);
     }
@@ -215,8 +276,6 @@
   // Screening flow
   const cont = document.getElementById('screening-continue');
   const note = document.getElementById('screening-note');
-  const paymentUrl = form.dataset.paymentUrl || '/pay';
-  const booking = 'https://bookings.thetrademarkhelpline.com/#/4584810000004811044';
   if (cont) {
     cont.addEventListener('click', (e) => {
       e.preventDefault();

@@ -30,7 +30,6 @@ body {
 }
 
 h1, h2, h3 { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--brand-navy); }
-h1 { font-size: clamp(1.8rem, 2.4vw + 1rem, 3rem); line-height: 1.2; margin: 0.2rem 0 1rem; }
 h2 { font-size: clamp(1.4rem, 1.2vw + 1rem, 2rem); margin: 0 0 1rem; }
 h3 { font-size: 1.1rem; margin: 0.2rem 0 0.4rem; }
 p { margin: 0.25rem 0 1rem; }
@@ -75,21 +74,25 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
 .btn.btn-lg { padding: 0.8rem 1.2rem; font-size: 1.05rem; }
 .btn.btn-block { width: 100%; }
 
-.hero { background: linear-gradient(180deg, var(--soft), #fff); padding: 2.2rem 0 2.6rem; }
-.hero-grid { display: grid; gap: 2rem; align-items: center; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
+.hero { background: linear-gradient(180deg, var(--soft), #fff); padding: 2.2rem 0 2.8rem; }
+.hero-heading { display: grid; gap: 0.35rem; margin: 0 auto 2.4rem; width: min(1100px, 92vw); }
+.hero-line { margin: 0; font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--brand-navy); }
+.hero-subline { font-size: clamp(1.1rem, 1.5vw + 0.8rem, 1.85rem); font-weight: 600; line-height: 1.3; }
+.hero-greeting { font-weight: 600; }
+.tm-number-highlight { color: var(--brand-pink); font-weight: 600; }
+.hero-grid { display: grid; gap: 2rem; align-items: start; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
 .hero .ticks { list-style: none; padding: 0; margin: 0 0 1rem; }
 .ticks li { position: relative; padding-left: 1.6rem; margin: 0.25rem 0; }
 .ticks li::before { content: '✔'; position: absolute; left: 0; color: var(--brand-pink); font-weight: 700; }
 .cta-row { display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap; }
-.eyebrow { text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-pink); font-weight: 800; font-size: 0.82rem; }
 
-.next-renewals { margin-top: 1.5rem; }
+.next-renewals { margin-top: 1rem; display: grid; gap: 0.45rem; }
 .next-renewals h3 { margin: 0 0 0.5rem; }
 
-.hero-media { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
-.hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hero-media figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem 1.2rem; background: linear-gradient(180deg, rgba(11,15,23,0) 0%, rgba(11,15,23,0.78) 88%); color: #fff; font-weight: 600; font-size: 0.95rem; display: grid; gap: 0.35rem; }
-.hero-media figcaption span { font-size: 0.8rem; opacity: 0.85; }
+.hero-media { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); max-width: 360px; justify-self: end; align-self: start; }
+.hero-media img { width: 100%; height: auto; object-fit: cover; display: block; }
+.hero-media figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.9rem 1.1rem; background: linear-gradient(180deg, rgba(11,15,23,0) 0%, rgba(11,15,23,0.78) 88%); color: #fff; font-weight: 600; font-size: 0.82rem; display: grid; gap: 0.2rem; line-height: 1.18; }
+.hero-media figcaption span { font-size: 0.72rem; opacity: 0.85; }
 
 .card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.2rem; }
 .card-title { margin: 0 0 0.6rem; font-size: 1.25rem; }
@@ -129,6 +132,9 @@ form { margin-top: 0.2rem; }
 @media (max-width: 960px) {
   .grid.two-col { grid-template-columns: 1fr; }
   .hero-grid { grid-template-columns: 1fr; }
+  .hero-heading { text-align: center; }
+  .hero-media { justify-self: center; }
+  .hero-renewals { justify-content: center; }
   .monitoring-grid { grid-template-columns: 1fr; }
   .metric-strip { grid-template-columns: 1fr; }
   .trusted-grid { grid-template-columns: 1fr; }
@@ -145,12 +151,14 @@ form { margin-top: 0.2rem; }
   border-radius: var(--radius);
 }
 
-.badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.badge { background: var(--soft-2); color: var(--brand-navy); border: 1px solid #ffd4e1; border-radius: 999px; padding: 0.25rem 0.6rem; font-weight: 700; font-size: 0.85rem; }
-
-.renewals-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
-.renewals-list li { background: #fff; border: 1px solid #eef2f6; border-radius: var(--radius-sm); padding: 0.6rem 0.7rem; margin: 0.35rem 0; display: flex; justify-content: space-between; gap: 0.5rem; }
-.renewals-list small { color: var(--muted); }
+.renewals-list { margin: 0.5rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.45rem; }
+.renewals-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem; padding: 0; background: transparent; border: 0; box-shadow: none; }
+.renewals-list .tm-number { display: inline-flex; align-items: center; padding: 0.15rem 0.65rem; border-radius: 999px; background: var(--soft-2); border: 1px solid #ffd4e1; font-weight: 700; color: var(--brand-navy); font-size: 0.85rem; }
+.renewals-list .tm-meta { color: var(--muted); font-size: 0.9rem; }
+.renewals-list .tm-empty { color: var(--muted); font-size: 0.9rem; font-style: italic; }
+.renewals-list li.tm-empty { background: transparent; border: 0; box-shadow: none; }
+.hero-renewals { margin-top: 1.5rem; display: flex; justify-content: flex-start; align-items: flex-start; }
+.hero-renewals .next-renewals { margin-top: 0; width: auto; max-width: min(480px, 100%); text-align: left; }
 
 .quote-card { background: #fff; border-left: 6px solid var(--brand-pink); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); }
 .quote-card blockquote { margin: 0; font-size: 1.05rem; }
@@ -201,4 +209,3 @@ form { margin-top: 0.2rem; }
   .hero-media figcaption { position: static; background: rgba(34,52,71,0.92); color: #fff; }
   .hero-media { box-shadow: none; }
 }
-

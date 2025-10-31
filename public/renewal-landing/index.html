@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./mock-data.js"></script>
     <script defer src="./main.js"></script>
   </head>
   <body>
@@ -31,10 +32,12 @@
 
     <main id="main">
       <section class="hero">
+        <div class="container hero-heading">
+          <p class="hero-line hero-subline hero-greeting">Hi <span data-merge="personName">there</span>,</p>
+          <p class="hero-line hero-subline">Your trademark <span class="tm-number-highlight" data-merge="primaryTrademarkNumber">—</span> is coming up for renewal</p>
+        </div>
         <div class="container hero-grid">
           <div class="hero-copy">
-            <span class="eyebrow">Trademark Renewal</span>
-            <h1>Hi <span data-merge="firstName">there</span>, your trademark <span class="badges"><span class="badge">Ref <span data-merge="tmeApp">—</span></span></span> is coming up for renewal</h1>
             <p class="notice">Scammers target businesses during renewals. We’ll ensure your registration stays active for another 10 years and your brand remains secure.</p>
             <p class="muted" style="margin:.5rem 0 0">Save money on your renewal and avoid scams with <strong>Active Trademark Monitoring</strong> today.</p>
             <ul class="ticks">
@@ -44,12 +47,7 @@
             </ul>
             <div class="cta-row">
               <a class="btn btn-primary btn-lg" href="#renewal-form">Start Your Renewal</a>
-              <a class="btn btn-ghost" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
-            </div>
-
-            <div class="card next-renewals">
-              <h3>Next renewals due</h3>
-              <ul class="renewals-list" id="renewals"></ul>
+              <a class="btn btn-ghost" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
             </div>
           </div>
           <figure class="hero-media">
@@ -59,6 +57,12 @@
               <span>Matt, Trademark Specialist</span>
             </figcaption>
           </figure>
+        </div>
+        <div class="container hero-renewals">
+          <div class="next-renewals">
+            <h3>Next renewals due</h3>
+            <ul class="renewals-list" id="renewals"></ul>
+          </div>
         </div>
       </section>
 
@@ -325,7 +329,7 @@
                 </label>
                 <div class="actions">
                   <button class="btn btn-primary" id="screening-continue">Continue to payment</button>
-                  <a class="btn btn-ghost" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a call</a>
+                  <a class="btn btn-ghost" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a call</a>
                 </div>
                 <p class="muted" id="screening-note"></p>
               </div>
@@ -347,7 +351,7 @@
           <a href="#">Contact</a>
         </div>
         <div class="foot-cta">
-          <a class="btn btn-primary" href="#renewal-form">Book a call</a>
+          <a class="btn btn-primary" data-link="bookCall" href="#renewal-form">Book a call</a>
         </div>
       </div>
     </footer>
