@@ -390,30 +390,37 @@
                     <label class="radio-label"><input type="radio" name="qClasses" value="Not Sure"> Not sure</label>
                   </div>
                 </div>
+              </div>
 
+              <!-- Contact Fields -->
+              <div class="contact-fields" id="contact-fields" style="display: none;">
+                <h3>Your contact details</h3>
+                <div class="fields-grid">
+                  <label class="field">
+                    <span>Name <span class="required-mark">*</span></span>
+                    <input name="fullName" id="fullName" autocomplete="name" required />
+                    <span class="field-error" id="fullName-error"></span>
+                  </label>
+                  <label class="field">
+                    <span>Email <span class="required-mark">*</span></span>
+                    <input type="email" name="email" id="email" autocomplete="email" required />
+                    <span class="field-error" id="email-error"></span>
+                  </label>
+                  <label class="field">
+                    <span>Mobile <span class="required-mark">*</span></span>
+                    <input type="tel" name="phone" id="phone" autocomplete="tel" required />
+                    <span class="field-error" id="phone-error"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Authorization Checkbox (shown only when No to both questions) -->
+              <div id="auth-section" style="display: none;">
                 <label class="check auth-check">
                   <input type="checkbox" name="authConfirm" id="authConfirm" required>
                   <span>Please confirm you are authorised to renew this trademark</span>
                 </label>
-              </div>
-
-              <!-- Contact Fields -->
-              <div class="contact-fields">
-                <h3>Your contact details</h3>
-                <div class="fields-grid">
-                  <label class="field">
-                    <span>Name</span>
-                    <input name="fullName" autocomplete="name" required />
-                  </label>
-                  <label class="field">
-                    <span>Email</span>
-                    <input type="email" name="email" autocomplete="email" required />
-                  </label>
-                  <label class="field">
-                    <span>Mobile</span>
-                    <input type="tel" name="phone" autocomplete="tel" required />
-                  </label>
-                </div>
+                <span class="field-error" id="authConfirm-error"></span>
               </div>
 
               <!-- Hidden Fields -->
@@ -432,16 +439,27 @@
               <input type="hidden" name="referrer" />
               <input type="hidden" name="landing_path" />
 
-              <!-- Consent & Submit -->
-              <label class="check consent-check">
-                <input type="checkbox" name="consent" required />
-                <span>I agree to be contacted about my renewal.</span>
-              </label>
+              <!-- Consent & Submit (shown if No to both questions) -->
+              <div id="submit-section" style="display: none;">
+                <div id="consent-section">
+                  <label class="check consent-check">
+                    <input type="checkbox" name="consent" id="consent" required />
+                    <span>I agree to be contacted about my renewal.</span>
+                  </label>
+                  <span class="field-error" id="consent-error"></span>
+                </div>
+                <button class="btn btn-primary btn-block btn-lg" type="submit">Submit Renewal Request</button>
+              </div>
 
-              <button class="btn btn-primary btn-block btn-lg" type="submit">Submit Renewal Request</button>
-
-              <!-- Screening Note (shown if needs to book call) -->
-              <div class="screening-note" id="screening-note" style="display: none;"></div>
+              <!-- Screening Note (shown if Yes or Not Sure to either question) -->
+              <div class="screening-note" id="screening-note" style="display: none;">
+                <p>You have indicated you may need to make some changes to your trademark therefore before we can proceed with your renewal, we would like to review your information.</p>
+                <p>Please call us on <a href="tel:01618335400"><strong>01618335400</strong></a> or email us at <a href="mailto:support@thetrademarkhelpline.com"><strong>support@thetrademarkhelpline.com</strong></a></p>
+                <p>Alternatively, you can schedule a call here</p>
+                <div style="text-align: center; margin-top: 1rem;">
+                  <a class="btn btn-primary btn-lg" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a Call</a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -451,16 +469,18 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="foot-brand">
-          <img src="./tmh-logo.svg" alt="The Trademark Helpline" class="logo" />
-          <p>Providing straightforward and affordable trademark and brand protection advice for businesses.</p>
+          <img src="./tmh-logo-dark.svg" alt="The Trademark Helpline" class="logo" />
+          <p class="copyright">© 2024, The Trademark Helpline. All Rights Reserved.</p>
         </div>
-        <div class="foot-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms</a>
-          <a href="#">Contact</a>
-        </div>
-        <div class="foot-cta">
-          <a class="btn btn-primary" data-link="bookCall" href="#renewal-form">Book a call</a>
+        <div class="foot-address">
+          <svg class="location-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+          </svg>
+          <div class="address-text">
+            <p>Craven Business Centre, 4-5 Craven Court,</p>
+            <p>Craven Road, Altrincham, Greater Manchester,</p>
+            <p>WA14 5DY, UK</p>
+          </div>
         </div>
       </div>
     </footer>
