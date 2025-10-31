@@ -1,3 +1,2 @@
-Next, "How We Can Really Help" block
-The portret is still 208px width!
-Make photo 360px width, keep the ration, align quote card in the center verticaly relative to the photo
+lets do it right, look carefuly at @docs/correct.png - everything is fine but the quite must be aligned with photo horizontally, they have the same width but the quote is shifted to the right.
+the look at 3 other breakpoints @docs/bad1.png, @docs/bad2.png, @docs/bad3.png - they are all wrong!!!
