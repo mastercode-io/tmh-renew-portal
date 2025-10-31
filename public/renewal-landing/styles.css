@@ -237,15 +237,6 @@ input[type="checkbox"]:focus {
   .audit-grid { grid-template-columns: 1fr; }
   .monitoring-grid { grid-template-columns: minmax(0, 1fr) minmax(140px, 170px); gap: 0.65rem; }
   .monitor-photo { width: 170px; }
-  .metric { padding: 0.9rem; }
-  .metric-value { font-size: 1.3rem; }
-  .metric-label { font-size: 0.82rem; }
-  .trusted-grid { gap: 1.5rem; }
-  .logo-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-  .client-logo { padding: 0.4rem; }
-  .testimonial-carousel { padding: 1.5rem 1rem 3.5rem; }
-  .carousel-prev, .carousel-next { width: 32px; height: 32px; }
-  .carousel-dots .dot { width: 8px; height: 8px; }
 }
 .notice {
   background: var(--soft-2);
@@ -314,6 +305,18 @@ input[type="checkbox"]:focus {
   .trusted-grid { grid-template-columns: 1fr; }
   .logo-grid { grid-template-columns: repeat(2, 1fr); }
   .testimonial-carousel { padding: 1.5rem 1rem 4rem; }
+}
+
+@media (max-width: 480px) {
+  .metric-strip { gap: 1rem; }
+  .metric { padding: 0.85rem; }
+  .metric-value { font-size: 1.25rem; }
+  .metric-label { font-size: 0.78rem; }
+  .logo-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .client-logo { padding: 0.4rem; }
+  .testimonial-carousel { padding: 1.5rem 1rem 3.5rem; }
+  .carousel-prev, .carousel-next { width: 32px; height: 32px; }
+  .carousel-dots .dot { width: 8px; height: 8px; }
 }
 
 .testimonial-carousel { position: relative; background: var(--soft); border-radius: var(--radius); padding: 2rem 1.5rem 4.5rem; box-shadow: var(--shadow); min-height: 320px; }
