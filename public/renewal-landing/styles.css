@@ -315,8 +315,8 @@ input[type="checkbox"]:focus {
   .logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; justify-items: center; }
   .client-logo { padding: 0.35rem; width: min(100%, 150px); }
   .client-logo svg { width: 100%; height: auto; }
-  .testimonial-carousel { padding: 1.1rem 0.75rem 3.3rem; min-height: 300px; }
-  .testimonial-card { left: 0.75rem; right: 0.75rem; bottom: 3.3rem; }
+  .testimonial-carousel { padding: 1.1rem 0.75rem 3.3rem; min-height: 300px; max-width: 290px; margin: 0 auto; }
+  .testimonial-card { left: 0.5rem; right: 0.5rem; bottom: 3.3rem; }
   .testimonial-quote { font-size: 0.85rem; }
   .testimonial-author strong { font-size: 0.85rem; }
   .testimonial-author span { font-size: 0.8rem; }
