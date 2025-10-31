@@ -122,11 +122,13 @@ form { margin-top: 0.2rem; }
 .icon-card--confirm .icon-card__icon,
 .icon-card--review .icon-card__icon,
 .icon-card--ensure .icon-card__icon,
-.icon-card--reinforce .icon-card__icon { background: rgba(245, 114, 146, 0.16); border-color: rgba(245, 114, 146, 0.45); }
-
-.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); }
-.steps li { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; align-items: start; background: #fff; border: 1px solid #eef2f6; border-radius: var(--radius); padding: 1rem; }
-.step-num { width: 32px; height: 32px; display: inline-grid; place-items: center; border-radius: 50%; background: var(--brand-pink); color: #fff; font-weight: 800; }
+.icon-card--reinforce .icon-card__icon,
+.monitor-card--manage .icon-card__icon,
+.monitor-card--review .icon-card__icon,
+.monitor-card--monitor .icon-card__icon,
+.monitor-card--combine .icon-card__icon { background: rgba(245, 114, 146, 0.16); border-color: rgba(245, 114, 146, 0.45); }
+.monitoring-cards { margin-top: 1.5rem; }
+.monitoring-summary { margin: 1.6rem 0 0; font-weight: 600; color: var(--brand-navy); max-width: 720px; }
 
 .pricing { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); }
 .price-card { background: #fff; border: 1px solid #eef2f6; border-radius: var(--radius); padding: 1rem; text-align: center; }
@@ -149,10 +151,10 @@ form { margin-top: 0.2rem; }
   .hero-media { justify-self: center; }
   .hero-renewals { justify-content: center; }
   .monitoring-grid { grid-template-columns: 1fr; }
+  .monitor-photo { justify-self: center; }
   .metric-strip { grid-template-columns: 1fr; }
   .trusted-grid { grid-template-columns: 1fr; }
   .form-hub { grid-template-columns: 1fr; }
-  .steps { grid-template-columns: 1fr; }
   .grid.three-col { grid-template-columns: 1fr; }
   .pricing { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; }
@@ -173,15 +175,16 @@ form { margin-top: 0.2rem; }
 .hero-renewals { margin-top: 1.5rem; display: flex; justify-content: flex-start; align-items: flex-start; }
 .hero-renewals .next-renewals { margin-top: 0; width: auto; max-width: min(480px, 100%); text-align: left; }
 
-.quote-card { background: #fff; border-left: 6px solid var(--brand-pink); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); }
-.quote-card blockquote { margin: 0; font-size: 1.05rem; }
+.quote-card { background: #fff; border-left: 6px solid var(--brand-pink); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); align-self: center; }
+.quote-card blockquote { margin: 0; font-size: 1.05rem; display: grid; gap: 0.6rem; font-style: italic; }
+.quote-card blockquote p { margin: 0; }
 .quote-card cite { display: block; color: var(--muted); margin-top: 0.5rem; font-style: normal; }
+.quote-card cite .author-name { display: block; font-weight: 700; color: var(--brand-navy); font-style: normal; }
+.quote-card cite .author-title { display: block; margin-top: 0.15rem; font-weight: 600; font-size: 0.85rem; color: var(--muted); }
 
-.monitoring-grid { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: stretch; }
-.profile-card { background: #fff; border-radius: var(--radius); overflow: hidden; margin: 0; box-shadow: var(--shadow); display: grid; grid-template-rows: auto auto; text-align: center; }
-.profile-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.profile-card figcaption { padding: 1rem; background: #fff; font-weight: 700; color: var(--brand-navy); }
-.profile-card figcaption span { display: block; font-weight: 600; font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
+.monitoring-grid { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: center; }
+.monitor-photo { background: #fff; border-radius: var(--radius); overflow: hidden; margin: 0; box-shadow: var(--shadow); width: 360px; max-width: 100%; justify-self: end; }
+.monitor-photo img { width: 100%; height: auto; object-fit: cover; display: block; }
 
 .metric-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
 .metric { background: #fff; border-radius: var(--radius); border: 1px solid #ffd4e1; padding: 1.2rem; text-align: center; box-shadow: 0 8px 20px rgba(229, 22, 82, 0.08); }

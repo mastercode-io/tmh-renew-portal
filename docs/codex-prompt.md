@@ -1,1 +1,3 @@
-Jeez, @docs/icon-bullets.png is not an icon, it's an example of high icons look and placed on the bullet-cards!
+Next, "How We Can Really Help" block
+The portret is still 208px width!
+Make photo 360px width, keep the ration, align quote card in the center verticaly relative to the photo
