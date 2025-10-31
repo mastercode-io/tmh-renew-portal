@@ -312,11 +312,17 @@ input[type="checkbox"]:focus {
   .metric { padding: 0.85rem; }
   .metric-value { font-size: 1.25rem; }
   .metric-label { font-size: 0.78rem; }
-  .logo-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-  .client-logo { padding: 0.4rem; }
-  .testimonial-carousel { padding: 1.5rem 1rem 3.5rem; }
-  .carousel-prev, .carousel-next { width: 32px; height: 32px; }
-  .carousel-dots .dot { width: 8px; height: 8px; }
+  .logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; justify-items: center; }
+  .client-logo { padding: 0.35rem; width: min(100%, 150px); }
+  .client-logo svg { width: 100%; height: auto; }
+  .testimonial-carousel { padding: 1.1rem 0.75rem 3.3rem; min-height: 300px; }
+  .testimonial-card { left: 0.75rem; right: 0.75rem; bottom: 3.3rem; }
+  .testimonial-quote { font-size: 0.85rem; }
+  .testimonial-author strong { font-size: 0.85rem; }
+  .testimonial-author span { font-size: 0.8rem; }
+  .carousel-controls { bottom: 1.2rem; }
+  .carousel-prev, .carousel-next { width: 28px; height: 28px; font-size: 1.05rem; }
+  .carousel-dots .dot { width: 7px; height: 7px; }
 }
 
 .testimonial-carousel { position: relative; background: var(--soft); border-radius: var(--radius); padding: 2rem 1.5rem 4.5rem; box-shadow: var(--shadow); min-height: 320px; }
