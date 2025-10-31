@@ -421,8 +421,8 @@ input[type="checkbox"]:focus {
   .logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; justify-items: stretch; }
   .client-logo { width: 100%; max-width: 150px; padding: 0.35rem; }
   .client-logo svg { width: 100%; height: auto; }
-  .testimonial-carousel { padding: 1.05rem 0.7rem 3.2rem; min-height: 320px; }
-  .testimonial-card { left: 1.1rem; right: 1.1rem; bottom: 3.2rem; }
+  .testimonial-carousel { padding: 1.05rem 0.7rem 3.2rem; min-height: 320px; max-width: 280px; margin: 0 auto; }
+  .testimonial-card { left: 0.8rem; right: 0.8rem; bottom: 3.2rem; }
   .testimonial-quote { font-size: 0.9rem; line-height: 1.45; }
   .testimonial-author strong { font-size: 0.85rem; }
   .testimonial-author span { font-size: 0.78rem; }
