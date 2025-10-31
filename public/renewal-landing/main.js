@@ -240,14 +240,18 @@
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const missing = [];
-    ['firstName','lastName','email','trademark','consent'].forEach((name) => {
+    ['fullName','email','phone','qOwnership','qClasses','authConfirm','consent'].forEach((name) => {
       const el = form.elements[name];
       if (!el) return;
       if (el.type === 'checkbox') { if (!el.checked) missing.push(name); }
+      else if (el.type === 'radio') {
+        const checked = form.querySelector(`input[name="${name}"]:checked`);
+        if (!checked) missing.push(name);
+      }
       else if (!el.value) missing.push(name);
     });
     if (missing.length) {
-      alert('Please complete the required fields.');
+      alert('Please complete all required fields.');
       return;
     }
 
@@ -272,31 +276,6 @@
       if (btn) btn.disabled = false;
     }
   });
-
-  // Screening flow
-  const cont = document.getElementById('screening-continue');
-  const note = document.getElementById('screening-note');
-  if (cont) {
-    cont.addEventListener('click', (e) => {
-      e.preventDefault();
-      const own = document.querySelector('input[name="qOwnership"]:checked')?.value;
-      const cls = document.querySelector('input[name="qClasses"]:checked')?.value;
-      const auth = document.getElementById('authConfirm')?.checked;
-      if (!auth) {
-        note.textContent = 'Please confirm you are authorised to renew this trademark.';
-        return;
-      }
-      if (own === 'Yes' || cls === 'Yes' || own === 'Not Sure' || cls === 'Not Sure') {
-        note.innerHTML = 'You indicated you may need to make changes. Please call 0161 833 5400 or email support@thetrademarkhelpline.com, or <a href="' + booking + '" target="_blank" rel="noopener">schedule a call</a>.';
-        note.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        return;
-      }
-      // Proceed to payment (pass through request_id for continuity)
-      const url = new URL(paymentUrl, location.origin);
-      if (requestId) url.searchParams.set('request_id', requestId);
-      location.href = url.toString();
-    });
-  }
 })();
 
 // Testimonial Carousel
