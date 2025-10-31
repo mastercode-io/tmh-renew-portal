@@ -59,8 +59,8 @@ p { margin: 0.25rem 0 1rem; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; }
 .brand { display: flex; align-items: center; }
 .logo { width: clamp(160px, 18vw, 220px); height: auto; display: block; }
-.nav { display: flex; gap: 1rem; align-items: center; }
-.nav a { color: var(--brand-navy); text-decoration: none; font-weight: 600; }
+.nav { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.nav a { color: var(--brand-navy); text-decoration: none; font-weight: 600; white-space: nowrap; }
 .nav a:hover { color: var(--brand-pink-600); }
 
 main[id],
