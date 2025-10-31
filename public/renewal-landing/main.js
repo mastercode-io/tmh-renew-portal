@@ -38,7 +38,8 @@
     regDate: document.querySelector('[data-merge="regDate"]'),
     trademark: document.querySelector('[data-merge="trademark"]'),
     markType: document.querySelector('[data-merge="markType"]'),
-    classCount: document.querySelector('[data-merge="classCount"]'),
+    classCountLabel: document.querySelector('[data-merge="classCountLabel"]'),
+    classList: document.querySelector('[data-merge="classList"]'),
     jurisdiction: document.querySelector('[data-merge="jurisdiction"]'),
   };
 
@@ -59,15 +60,48 @@
         el.value = val;
       }
       reflectSummary(name, el.tagName === 'SELECT' ? el.options[el.selectedIndex]?.textContent || val : val);
+      if (name === 'classCount') {
+        if (mergeTargets.classCountLabel) {
+          mergeTargets.classCountLabel.textContent = formatClassCountLabel(val, null);
+        }
+        if (mergeTargets.classList && (!mergeTargets.classList.textContent || mergeTargets.classList.textContent === '—')) {
+          mergeTargets.classList.textContent = '—';
+        }
+      }
     }
   };
 
-  // Helper to format classes display with list
-  const formatClasses = (count, classes) => {
-    if (!count) return '—';
-    if (!classes || !Array.isArray(classes) || classes.length === 0) return String(count);
-    const classList = classes.map(c => typeof c === 'object' ? c.nice : c).join(', ');
-    return `${count} (${classList})`;
+  const normaliseClassEntries = (classes) => {
+    if (classes == null) return [];
+    const arr = Array.isArray(classes) ? classes : [classes];
+    return arr
+      .map((entry) => {
+        if (entry == null) return null;
+        if (typeof entry === 'object') {
+          if (entry.nice != null) return entry.nice;
+          if (entry.code != null) return entry.code;
+          if (entry.class != null) return entry.class;
+          if (entry.number != null) return entry.number;
+        }
+        return entry;
+      })
+      .map((value) => {
+        if (value == null) return null;
+        const text = String(value).trim();
+        return text.length ? text : null;
+      })
+      .filter(Boolean);
+  };
+
+  const formatClassList = (classes) => {
+    const entries = normaliseClassEntries(classes);
+    return entries.length ? entries.join(', ') : '—';
+  };
+
+  const formatClassCountLabel = (count, classes) => {
+    if (count != null && count !== '') return `(${count})`;
+    const fallback = normaliseClassEntries(classes).length;
+    return fallback ? `(${fallback})` : '(—)';
   };
 
   fields.forEach((f) => {
@@ -87,7 +121,7 @@
   // Personalized greeting + renewals list via payload
   const requestId = params.get('request_id');
   const prefillEndpoint = form.dataset.prefillEndpoint || '/api/prefill';
-  const summaryNames = ['applicationNumber','status','regDate','trademark','markType','classCount','jurisdiction'];
+  const summaryNames = ['applicationNumber','status','regDate','trademark','markType','jurisdiction'];
   const renewalsList = document.getElementById('renewals');
   let paymentUrl = form.dataset.paymentUrl || '/pay';
   let booking = 'https://bookings.thetrademarkhelpline.com/#/4584810000004811044';
@@ -191,9 +225,12 @@
       setIf(name, value);
     });
 
-    // Special handling for classCount display with class list
-    if (classesCount && mergeTargets.classCount) {
-      mergeTargets.classCount.textContent = formatClasses(classesCount, classes);
+    // Special handling for classes label + list
+    if (mergeTargets.classList) {
+      mergeTargets.classList.textContent = formatClassList(classes);
+    }
+    if (mergeTargets.classCountLabel) {
+      mergeTargets.classCountLabel.textContent = formatClassCountLabel(classesCount, classes);
     }
 
     // Prefill contact fields in the form
