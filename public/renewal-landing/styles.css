@@ -213,6 +213,39 @@ input[type="checkbox"]:focus {
   .nav { order: 2; width: 100%; flex: 1 1 100%; justify-content: center; gap: 0.85rem; font-size: 0.9rem; margin-top: 0.35rem; }
   .nav a { flex: 0 1 auto; text-align: center; padding: 0.2rem 0.45rem; white-space: nowrap; }
 }
+
+@media (max-width: 540px) {
+  .header-inner { gap: 0.5rem; }
+  .logo { width: clamp(130px, 32vw, 180px); }
+  .header-cta { width: 100%; justify-content: center; }
+  .nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.3rem 0.75rem; font-size: 0.82rem; justify-items: center; }
+  .nav a { padding: 0.2rem 0; white-space: normal; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  body { overflow-x: hidden; }
+  .hero-heading { gap: 0.2rem; }
+  .hero-line { font-size: clamp(1.2rem, 4vw, 1.4rem); }
+  .notice { padding: 0.65rem 0.75rem; }
+  .quote-card { padding: 0.75rem; }
+  .quote-card blockquote { font-size: 0.95rem; }
+  .hero-media-stack { width: min(260px, 100%); }
+  .hero-media img { border-radius: var(--radius); }
+  .hero-cta .btn { width: 100%; }
+  .icon-card-grid { grid-template-columns: 1fr; }
+  .audit-grid { grid-template-columns: 1fr; }
+  .monitoring-grid { grid-template-columns: minmax(0, 1fr) minmax(140px, 170px); gap: 0.65rem; }
+  .monitor-photo { width: 170px; }
+  .metric { padding: 1rem; }
+  .metric-value { font-size: 1.45rem; }
+  .metric-label { font-size: 0.88rem; }
+  .trusted-grid { gap: 1.5rem; }
+  .logo-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .client-logo { padding: 0.4rem; }
+  .testimonial-carousel { padding: 1.5rem 1rem 3.5rem; }
+  .carousel-prev, .carousel-next { width: 32px; height: 32px; }
+  .carousel-dots .dot { width: 8px; height: 8px; }
+}
 .notice {
   background: var(--soft-2);
   border-left: 4px solid var(--brand-pink);
