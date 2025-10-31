@@ -421,12 +421,13 @@ input[type="checkbox"]:focus {
   .logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; justify-items: stretch; }
   .client-logo { width: 100%; max-width: 150px; padding: 0.35rem; }
   .client-logo svg { width: 100%; height: auto; }
-  .testimonial-carousel { padding: 1rem 0.6rem 3.1rem; min-height: 320px; max-width: 320px; margin: 0 auto; }
-  .testimonial-card { left: 50%; right: auto; width: min(100%, 260px); transform: translateX(-50%); bottom: 3.1rem; }
+  .testimonial-carousel { padding: 1rem 1rem 2.5rem; min-height: auto; max-width: 320px; margin: 0 auto; position: relative; }
+  .testimonial-card { position: static; display: none; width: 100%; transform: none; margin: 0 auto; }
+  .testimonial-card.active { display: block; }
   .testimonial-quote { font-size: 0.9rem; line-height: 1.45; }
   .testimonial-author strong { font-size: 0.85rem; }
   .testimonial-author span { font-size: 0.78rem; }
-  .carousel-controls { bottom: 1.15rem; }
+  .carousel-controls { position: static; margin-top: 1rem; }
   .carousel-prev, .carousel-next { width: 28px; height: 28px; font-size: 1.1rem; }
   .carousel-dots .dot { width: 7px; height: 7px; }
   .btn { padding: 0.55rem 0.85rem; font-size: 0.9rem; }
