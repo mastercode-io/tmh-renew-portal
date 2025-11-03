@@ -176,11 +176,49 @@ function initOrderPage() {
   console.log('Order loaded:', orderData);
 }
 
+/**
+ * Handle terms and conditions validation
+ */
+function initTermsValidation() {
+  const payNowBtn = document.getElementById('pay-now-btn');
+  const termsCheckbox = document.getElementById('terms-checkbox');
+  const termsError = document.getElementById('terms-error');
+
+  if (payNowBtn && termsCheckbox) {
+    payNowBtn.addEventListener('click', function(e) {
+      if (!termsCheckbox.checked) {
+        e.preventDefault();
+        termsError.style.display = 'block';
+        termsCheckbox.focus();
+
+        // Scroll to terms section
+        const termsSection = document.querySelector('.terms-section');
+        if (termsSection) {
+          termsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } else {
+        termsError.style.display = 'none';
+      }
+    });
+
+    // Hide error when checkbox is checked
+    termsCheckbox.addEventListener('change', function() {
+      if (termsCheckbox.checked) {
+        termsError.style.display = 'none';
+      }
+    });
+  }
+}
+
 // Initialize on page load
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initOrderPage);
+  document.addEventListener('DOMContentLoaded', function() {
+    initOrderPage();
+    initTermsValidation();
+  });
 } else {
   initOrderPage();
+  initTermsValidation();
 }
 
 /**
