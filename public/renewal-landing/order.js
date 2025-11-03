@@ -1,11 +1,11 @@
 /**
- * Invoice Page - Trademark Renewal Portal
- * Displays quote/invoice after form submission
+ * Order Page - Trademark Renewal Portal
+ * Displays quote/order after form submission
  */
 
-// Mock invoice data for development
+// Mock order data for development
 // In production, this will come from API response payload
-const MOCK_INVOICE = {
+const MOCK_ORDER = {
   trademark: {
     word_mark: 'EXAMPLE BRAND',
     application_number: 'UK00003123456',
@@ -66,9 +66,9 @@ function populateTrademarkInfo(trademark) {
 }
 
 /**
- * Populate invoice line items
+ * Populate order line items
  */
-function populateInvoiceItems(lineItems) {
+function populateOrderItems(lineItems) {
   const tbody = document.getElementById('invoice-items');
   tbody.innerHTML = '';
 
@@ -89,12 +89,12 @@ function populateInvoiceItems(lineItems) {
 }
 
 /**
- * Populate invoice totals
+ * Populate order totals
  */
-function populateInvoiceTotals(invoice) {
-  document.getElementById('subtotal').textContent = formatCurrency(invoice.subtotal);
-  document.getElementById('vat').textContent = formatCurrency(invoice.vat_amount);
-  document.getElementById('total').textContent = formatCurrency(invoice.total);
+function populateOrderTotals(order) {
+  document.getElementById('subtotal').textContent = formatCurrency(order.subtotal);
+  document.getElementById('vat').textContent = formatCurrency(order.vat_amount);
+  document.getElementById('total').textContent = formatCurrency(order.total);
 }
 
 /**
@@ -108,86 +108,86 @@ function updatePaymentLink(paymentUrl) {
 }
 
 /**
- * Load invoice from URL parameters or localStorage
+ * Load order from URL parameters or localStorage
  */
-function loadInvoiceData() {
-  // Try to get invoice data from window.__invoicePayload (set by mock-data.js)
-  if (window.__invoicePayload) {
-    console.log('Using window.__invoicePayload');
-    return window.__invoicePayload;
+function loadOrderData() {
+  // Try to get order data from window.__orderPayload (set by mock-data.js)
+  if (window.__orderPayload) {
+    console.log('Using window.__orderPayload');
+    return window.__orderPayload;
   }
 
-  // Try to get invoice data from URL parameter (base64 encoded JSON)
+  // Try to get order data from URL parameter (base64 encoded JSON)
   const urlParams = new URLSearchParams(window.location.search);
-  const invoiceParam = urlParams.get('invoice');
+  const orderParam = urlParams.get('order');
 
-  if (invoiceParam) {
+  if (orderParam) {
     try {
-      const invoiceData = JSON.parse(atob(invoiceParam));
-      console.log('Using invoice data from URL parameter');
-      return invoiceData;
+      const orderData = JSON.parse(atob(orderParam));
+      console.log('Using order data from URL parameter');
+      return orderData;
     } catch (e) {
-      console.error('Failed to parse invoice data from URL:', e);
+      console.error('Failed to parse order data from URL:', e);
     }
   }
 
-  // Try to get invoice data from localStorage
-  const storedInvoice = localStorage.getItem('renewal_invoice');
-  if (storedInvoice) {
+  // Try to get order data from localStorage
+  const storedOrder = localStorage.getItem('renewal_order');
+  if (storedOrder) {
     try {
-      console.log('Using invoice data from localStorage');
-      return JSON.parse(storedInvoice);
+      console.log('Using order data from localStorage');
+      return JSON.parse(storedOrder);
     } catch (e) {
-      console.error('Failed to parse invoice data from storage:', e);
+      console.error('Failed to parse order data from storage:', e);
     }
   }
 
   // Fallback to mock data for development
-  console.log('Using MOCK_INVOICE fallback');
-  return MOCK_INVOICE;
+  console.log('Using MOCK_ORDER fallback');
+  return MOCK_ORDER;
 }
 
 /**
- * Save invoice data to localStorage
+ * Save order data to localStorage
  */
-function saveInvoiceData(invoiceData) {
+function saveOrderData(orderData) {
   try {
-    localStorage.setItem('renewal_invoice', JSON.stringify(invoiceData));
+    localStorage.setItem('renewal_order', JSON.stringify(orderData));
   } catch (e) {
-    console.error('Failed to save invoice data:', e);
+    console.error('Failed to save order data:', e);
   }
 }
 
 /**
- * Initialize invoice page
+ * Initialize order page
  */
-function initInvoicePage() {
-  const invoiceData = loadInvoiceData();
+function initOrderPage() {
+  const orderData = loadOrderData();
 
   // Populate all sections
-  populateTrademarkInfo(invoiceData.trademark);
-  populateInvoiceItems(invoiceData.line_items);
-  populateInvoiceTotals(invoiceData);
-  updatePaymentLink(invoiceData.payment_url);
+  populateTrademarkInfo(orderData.trademark);
+  populateOrderItems(orderData.line_items);
+  populateOrderTotals(orderData);
+  updatePaymentLink(orderData.payment_url);
 
   // Save to localStorage for reference
-  saveInvoiceData(invoiceData);
+  saveOrderData(orderData);
 
-  console.log('Invoice loaded:', invoiceData);
+  console.log('Order loaded:', orderData);
 }
 
 // Initialize on page load
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initInvoicePage);
+  document.addEventListener('DOMContentLoaded', initOrderPage);
 } else {
-  initInvoicePage();
+  initOrderPage();
 }
 
 /**
- * Helper function to create invoice URL with embedded data
- * Call this from the main form page when redirecting to invoice
+ * Helper function to create order URL with embedded data
+ * Call this from the main form page when redirecting to order
  */
-window.createInvoiceUrl = function(invoiceData) {
-  const encodedData = btoa(JSON.stringify(invoiceData));
-  return `invoice.html?invoice=${encodeURIComponent(encodedData)}`;
+window.createOrderUrl = function(orderData) {
+  const encodedData = btoa(JSON.stringify(orderData));
+  return `order.html?order=${encodeURIComponent(encodedData)}`;
 };
