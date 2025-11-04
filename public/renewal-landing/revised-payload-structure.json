@@ -1,4 +1,4 @@
-window.__renewalPayload = {
+{
   "account": {
     "type": "organization",
     "name": "Tech Innovations Ltd",
@@ -114,4 +114,4 @@ window.__renewalPayload = {
     "manage_prefs": "https://portal.thetrademarkhelpline.com/preferences",
     "terms_conditions": "https://www.thetrademarkhelpline.com/terms-and-conditions"
   }
-};
+}

@@ -119,7 +119,7 @@
   if (form.elements['landing_path']) form.elements['landing_path'].value = location.pathname + location.search;
 
   // Personalized greeting + renewals list via payload
-  const requestId = params.get('request_id');
+  const token = params.get('token');
   const prefillEndpoint = form.dataset.prefillEndpoint || '/api/prefill';
   const summaryNames = ['applicationNumber','status','regDate','trademark','markType','jurisdiction'];
   const renewalsList = document.getElementById('renewals');
@@ -171,53 +171,46 @@
   function applyPrefillPayload(payload) {
     if (!payload || typeof payload !== 'object') return;
 
-    const person = payload.person || {};
-    const contact = payload.prefill?.contact || {};
-    const org = payload.organisation || {};
-    const tmPrefill = payload.prefill?.trademark || {};
-    const hasPrefillData = tmPrefill && Object.keys(tmPrefill).length > 0;
-    const allMarks = Array.isArray(payload.trademarks) ? payload.trademarks.slice() : [];
-    const [contactFirst, contactLast] = splitName(contact.name);
-    const [personFullFirst, personFullLast] = splitName(person.full_name);
+    // New structure uses account, contact, trademark (singular), next_due (array)
+    const account = payload.account || {};
+    const contact = payload.contact || {};
+    const trademark = payload.trademark || {};
+    const nextDue = Array.isArray(payload.next_due) ? payload.next_due : [];
 
-    const nextDueId = payload.next_due?.trademark_id || tmPrefill.id;
-    const dueMatch = nextDueId ? allMarks.find(tm => tm.id === nextDueId) : null;
-    const prefillNumber = tmPrefill.registration_number || tmPrefill.application_number;
-
-    if (hasPrefillData && prefillNumber && !allMarks.some(tm => (tm.registration_number || tm.application_number) === prefillNumber)) {
-      allMarks.unshift(tmPrefill);
-    }
-
-    const primaryTrademark = dueMatch || (hasPrefillData ? tmPrefill : null) || allMarks[0] || {};
-    const heroFirstName = (person.first_name || personFullFirst || contactFirst || '').trim();
+    // Build full name from contact
+    const fullName = [contact.first_name, contact.last_name].filter(Boolean).join(' ') || '';
+    const heroFirstName = (contact.first_name || '').trim();
     const heroName = heroFirstName || 'there';
-    const heroTrademarkNumber = prefillNumber
-      || primaryTrademark.registration_number
-      || primaryTrademark.application_number
-      || payload.next_due?.trademark_id
+
+    // Primary trademark number from the main trademark object
+    const heroTrademarkNumber = trademark.registration_number
+      || trademark.application_number
+      || trademark.id
       || '—';
 
+    // Update hero section
     if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
     if (mergeTargets.primaryTrademarkNumber) mergeTargets.primaryTrademarkNumber.textContent = heroTrademarkNumber;
 
-    const fullName = contact.name || person.full_name || [person.first_name, person.last_name].filter(Boolean).join(' ');
-    const classes = tmPrefill.classes || primaryTrademark.classes;
-    const classesCount = tmPrefill.classes_count || primaryTrademark.classes_count || (Array.isArray(classes) ? classes.length : undefined);
+    // Get classes data
+    const classes = trademark.classes;
+    const classesCount = trademark.classes_count || (Array.isArray(classes) ? classes.length : undefined);
 
+    // Populate form fields with trademark and contact data
     const fieldValues = {
-      firstName: person.first_name || contactFirst || personFullFirst,
-      lastName: person.last_name || contactLast || personFullLast,
-      email: contact.email || person.email,
-      phone: contact.mobile || person.mobile,
-      company: org.name,
-      trademark: tmPrefill.word_mark || primaryTrademark.word_mark,
-      jurisdiction: tmPrefill.jurisdiction || primaryTrademark.jurisdiction,
+      firstName: contact.first_name,
+      lastName: contact.last_name,
+      email: contact.email,
+      phone: contact.mobile,
+      company: account.name,
+      trademark: trademark.word_mark,
+      jurisdiction: trademark.jurisdiction,
       regNumber: heroTrademarkNumber,
-      classCount: tmPrefill.classes_count || primaryTrademark.classes_count || (Array.isArray(tmPrefill.classes) ? tmPrefill.classes.length : undefined),
-      applicationNumber: tmPrefill.application_number || primaryTrademark.application_number,
-      status: tmPrefill.status || primaryTrademark.status,
-      regDate: tmPrefill.registration_date || primaryTrademark.registration_date,
-      markType: tmPrefill.mark_type || primaryTrademark.mark_type
+      classCount: classesCount,
+      applicationNumber: trademark.application_number,
+      status: trademark.status,
+      regDate: trademark.registration_date,
+      markType: trademark.mark_type
     };
 
     Object.entries(fieldValues).forEach(([name, value]) => {
@@ -239,11 +232,26 @@
     const phoneField = document.getElementById('phone');
 
     if (fullNameField && fullName) fullNameField.value = fullName;
-    if (emailField && (contact.email || person.email)) emailField.value = contact.email || person.email;
-    if (phoneField && (contact.mobile || person.mobile)) phoneField.value = contact.mobile || person.mobile;
+    if (emailField && contact.email) emailField.value = contact.email;
+    if (phoneField && contact.mobile) phoneField.value = contact.mobile;
 
+    // Handle trademark image display
+    const trademarkImageContainer = document.getElementById('trademark-image-container');
+    const trademarkImage = document.getElementById('trademark-image');
+    if (trademark.image_url && trademarkImage && trademarkImageContainer) {
+      trademarkImage.src = trademark.image_url;
+      trademarkImage.alt = trademark.word_mark || 'Trademark logo';
+      trademarkImageContainer.style.display = 'block';
+    } else if (trademarkImageContainer) {
+      trademarkImageContainer.style.display = 'none';
+    }
+
+    // Render renewals list - next_due is now an array of full trademark objects
+    // We also need to include the main trademark in the display
+    const allMarks = [trademark, ...nextDue].filter(Boolean);
     renderRenewals(allMarks);
 
+    // Handle links
     if (payload.links?.book_call) {
       booking = payload.links.book_call;
       document.querySelectorAll('[data-link="bookCall"]').forEach((link) => {
@@ -256,6 +264,20 @@
       paymentUrl = payload.links.pay_now;
       form.dataset.paymentUrl = payload.links.pay_now;
     }
+    if (payload.links?.terms_conditions) {
+      document.querySelectorAll('[data-link="termsConditions"]').forEach((link) => {
+        link.href = payload.links.terms_conditions;
+        link.target = '_blank';
+        link.rel = 'noopener';
+      });
+    }
+    if (payload.links?.manage_prefs) {
+      document.querySelectorAll('[data-link="managePrefs"]').forEach((link) => {
+        link.href = payload.links.manage_prefs;
+        link.target = '_blank';
+        link.rel = 'noopener';
+      });
+    }
   }
 
   async function fetchPrefill() {
@@ -263,9 +285,9 @@
       applyPrefillPayload(window.__renewalPayload);
       return;
     }
-    if (!requestId) return;
+    if (!token) return;
     try {
-      const res = await fetch(`${prefillEndpoint}?request_id=${encodeURIComponent(requestId)}`, { credentials: 'include' });
+      const res = await fetch(`${prefillEndpoint}?token=${encodeURIComponent(token)}`, { credentials: 'include' });
       if (!res.ok) throw new Error('Prefill fetch failed');
       const payload = await res.json();
       applyPrefillPayload(payload);

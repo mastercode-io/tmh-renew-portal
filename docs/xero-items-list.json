@@ -1,0 +1,3238 @@
+{
+  "Id": "d28fc37f-fa2e-4753-834f-931e98fec8c7",
+  "Status": "OK",
+  "ProviderName": "Trademark Helpline Zoho sync",
+  "DateTimeUTC": "/Date(1762189891725)/",
+  "Items": [
+    {
+      "ItemID": "51051feb-f1db-4d2d-9d88-12e279fba3c5",
+      "Code": "COLATTMFEE",
+      "Description": "Individual Attorney Fee to edit an international trademark designating in Colombia",
+      "UpdatedDateUTC": "/Date(1757067567870+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "Individual Attorney Fee to Edit a Colombian Mark",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "efb2c564-5563-48bc-8468-2532e779583e",
+      "Code": "COREMEM1",
+      "Description": "Core Monthly Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724146035000+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 104.5,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 165.0,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Core Monthly Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "b550dde2-92c7-43a8-bb6a-2110517fd30e",
+      "Code": "COREMEM12",
+      "Description": "Core 12 Month Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724147200630+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 1045.0,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 1650.0,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Core 12 Month Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "da375729-48b7-454a-922b-d2d268c6547a",
+      "Code": "COREMEM6",
+      "Description": "Core 6 Month Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724146858913+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 522.5,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 907.5,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Core 6 Month Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "eb8c205c-25dc-4c39-80f7-4e564da07cd4",
+      "Code": "Credit100",
+      "Description": "Unused credit on customer account",
+      "UpdatedDateUTC": "/Date(1711579321943+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": -100.0,
+        "AccountCode": "223",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Unused credit on customer account",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "ca76450d-292e-4176-b79d-4bc22407a113",
+      "Code": "ELITEMEM1",
+      "Description": "Elite Monthly Monthly Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724147299730+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 170.5,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Elite Monthly Monthly Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "34903126-c6cd-449a-bd7d-55df9bdb9da2",
+      "Code": "ELITEMEM6",
+      "Description": "Elite 6 Month Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724146950783+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 937.75,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 2312.75,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Elite 6 Month Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "2c82292a-5866-4eb1-808b-0b795c278e3f",
+      "Code": "EUATTADDCHA",
+      "Description": "Submitting of a change of address request to the EUIPO",
+      "PurchaseDescription": "Submitting of a change of address request to the EUIPO",
+      "UpdatedDateUTC": "/Date(1754927032277+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 135.0,
+        "AccountCode": "209",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 135.0,
+        "AccountCode": "209",
+        "TaxType": "NONE"
+      },
+      "Name": "European Union Attorney Trademark Address Change",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "7f361bfa-9eb7-41fa-a14b-dc9eb6e31dfa",
+      "Code": "EUATTTMAPP",
+      "Description": "Local attorney fee for a European Union trademark application",
+      "PurchaseDescription": "Local attorney fee for a European Union trademark application",
+      "UpdatedDateUTC": "/Date(1754925275667+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 310.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 310.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "European Union Attorney Trademark Application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "dceb3f02-a9a6-47e0-ba1c-2aef589ca02f",
+      "Code": "EUBPA",
+      "Description": "EU Brand Protection Audit",
+      "UpdatedDateUTC": "/Date(1733913258147+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 139.0,
+        "AccountCode": "205",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Brand Protection Audit",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "2595715b-49da-4dda-a4dd-031b84f61743",
+      "Code": "EUDRAPP",
+      "Description": "Application for an EU Design Registration",
+      "PurchaseDescription": "Application for an EU Design Registration",
+      "UpdatedDateUTC": "/Date(1639670170957+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "218",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 300.0,
+        "AccountCode": "218",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Design Registration Application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "23419795-6c2d-4056-9b8c-7c909736dbf5",
+      "Code": "EUDRTRAN",
+      "Description": "Transfer of an EU Design Registration",
+      "PurchaseDescription": "Transfer of an EU Design Registration",
+      "UpdatedDateUTC": "/Date(1665586793147+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 249.0,
+        "AccountCode": "219",
+        "TaxType": ""
+      },
+      "SalesDetails": {
+        "UnitPrice": 299.0,
+        "AccountCode": "219",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Design Registration Transfer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "882e0c7c-f087-4aaa-9bc4-e05c1aa3c234",
+      "Code": "EUIPO1AC",
+      "Description": "EUIPO fee for the first additional class",
+      "PurchaseDescription": "EUIPO fee for the first additional class",
+      "UpdatedDateUTC": "/Date(1754926064910+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 45.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 45.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "EUIPO 1st Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "bc5e7845-c74d-4ed6-89ba-3b57b376407c",
+      "Code": "EUIPO2AC",
+      "Description": "EUIPO fee for a second additional class onwards",
+      "PurchaseDescription": "EUIPO fee for a second additional class onwards",
+      "UpdatedDateUTC": "/Date(1754926079240+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 135.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 135.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "EUIPO 2nd Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "93f0bddd-acd2-43d7-a191-732f88578955",
+      "Code": "EUIPOINTCON",
+      "Description": "EUIPO fee for converting an existing EU trademark to an International one",
+      "PurchaseDescription": "EUIPO fee for converting an existing EU trademark to an International one",
+      "UpdatedDateUTC": "/Date(1754926116183+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "EUIPO International Conversion",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "bab53a93-7ef6-473d-a601-555a7016185b",
+      "Code": "EUIPOOPP",
+      "Description": "EUIPO fee for opposing an EU trademark application",
+      "UpdatedDateUTC": "/Date(1754926151463+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 290.0,
+        "AccountCode": "201",
+        "TaxType": "NONE"
+      },
+      "Name": "EUIPO Opposition",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "ec65be8a-75b2-491a-b9be-00beacc9b51e",
+      "Code": "EUIPOTMAPP",
+      "Description": "European Union IPO fee of EUR850 for one trademark application including one class",
+      "UpdatedDateUTC": "/Date(1760367627980+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 750.0,
+        "AccountCode": "201",
+        "TaxType": "NONE"
+      },
+      "Name": "EUIPO Trademark Application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "ebcf11f6-eac6-4082-8367-bc4b0a1e86ee",
+      "Code": "EUIPOTMREN",
+      "Description": "EUIPO fee for renewal of an EU trademark including one class",
+      "UpdatedDateUTC": "/Date(1760526999583+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 870.0,
+        "AccountCode": "201",
+        "TaxType": "NONE"
+      },
+      "Name": "EUIPO Trademark Renewal",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "9b198a36-c82a-4b51-8d98-fd6ea2795a99",
+      "Code": "EUTMAC",
+      "Description": "Additional class for an EU trademark application",
+      "PurchaseDescription": "Additional class for an EU trademark application",
+      "UpdatedDateUTC": "/Date(1754300279760+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 65.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "205",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Application Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "9966ae43-91e7-4249-9510-536a744a0364",
+      "Code": "EUTMAPPEX",
+      "Description": "EUTM Application not including a search",
+      "PurchaseDescription": "EUTM Application not including a search",
+      "UpdatedDateUTC": "/Date(1755522288977+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 310.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 599.0,
+        "AccountCode": "205",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Application Existing Customer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "a05fb2cb-69c4-4f43-a9e0-d567e07ae416",
+      "Code": "EUTMAPPNEW",
+      "Description": "EU trademark search and application including one class for a new customer",
+      "PurchaseDescription": "EU trademark search and application including one class for a new customer",
+      "UpdatedDateUTC": "/Date(1755522300747+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 310.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 699.0,
+        "AccountCode": "205",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Application New Customer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "1d312136-1e9c-46d0-8aef-0cfb469b4823",
+      "Code": "EUTMMON",
+      "Description": "1 month monitoring service for a single EU trademark",
+      "UpdatedDateUTC": "/Date(1681835108947+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 49.0,
+        "AccountCode": "204",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Monitoring (1 Month)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "589ec194-378a-4a5b-9554-ddfb018420ce",
+      "Code": "EUTMMON12MTH",
+      "Description": "12 months monitoring for an EU trademark.",
+      "UpdatedDateUTC": "/Date(1712054046093+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 490.0,
+        "AccountCode": "204",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Monitoring (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "00c7d8b2-1741-4e7a-a5e1-b0d5613c9b37",
+      "Code": "EUTMOPP",
+      "Description": "Opposition filing for an EU trademark",
+      "PurchaseDescription": "Opposition filing for an EU trademark",
+      "UpdatedDateUTC": "/Date(1639670171080+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 150.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "214",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Opposition",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "f8d13e0d-756d-4d7e-a161-633bbd3f3a9d",
+      "Code": "EUTMREN",
+      "Description": "Renewal of an existing EU trademark registration",
+      "PurchaseDescription": "Renewal of an existing EU trademark registration",
+      "UpdatedDateUTC": "/Date(1681834635187+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 310.0,
+        "AccountCode": "310",
+        "TaxType": ""
+      },
+      "SalesDetails": {
+        "UnitPrice": 599.0,
+        "AccountCode": "215",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Renewal",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "b67675bb-05c8-43c8-97a1-9dfa0230f743",
+      "Code": "EUTMRENLATE",
+      "Description": "Late renewal fee of 25% total",
+      "PurchaseDescription": "Late renewal fee of 25% total",
+      "UpdatedDateUTC": "/Date(1711575409017+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "201",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "EU Trademark Renewal (Late)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "c5e24189-3e61-48ae-8038-a1f80eeec0db",
+      "Code": "EUTMSEARCH",
+      "Description": "A brand availability search for a potential EU trademark",
+      "UpdatedDateUTC": "/Date(1649259627460+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "205",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Brand Availability Search",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "593fe980-b910-4ccc-88a1-17c5689a9465",
+      "Code": "EUTMTRAN",
+      "Description": "Transfer of ownership for an EU trademark",
+      "PurchaseDescription": "Transfer of ownership for an EU trademark",
+      "UpdatedDateUTC": "/Date(1665586809427+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 249.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 299.0,
+        "AccountCode": "205",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "EU Trademark Transfer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "62c3be86-45a2-4943-8f8d-bdd6814d0686",
+      "Code": "FINANCE",
+      "Description": "Finance Plan",
+      "UpdatedDateUTC": "/Date(1643195708170+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1.0,
+        "AccountCode": "850",
+        "TaxType": "NONE"
+      },
+      "Name": "Finance Plan",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "d9a12d7e-0787-4aff-80fd-1dac6891ed78",
+      "Code": "FRTMAPP",
+      "Description": "FRTM application including one class",
+      "UpdatedDateUTC": "/Date(1639670171097+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 265.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "FRTM application including one class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "3cf51ae8-a596-48dd-b9be-134e741e7d51",
+      "Code": "GIBTMAPP",
+      "Description": "Official fees to register a trademark in Gibraltar",
+      "UpdatedDateUTC": "/Date(1761586553630+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 30.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "Gibraltar Office Fee",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "903b146e-217f-4b68-9815-e53d2cf97536",
+      "Code": "HKFEE",
+      "Description": "Hong Kong Fee of SFr. 297 per class",
+      "PurchaseDescription": "Hong Kong Fee of SFr. 297 per class",
+      "UpdatedDateUTC": "/Date(1674738921583+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 260.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {},
+      "Name": "Hong Kong Fee of SFr. 297 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "c41ceed8-86aa-4db1-8906-b81b3ed750d8",
+      "Code": "IDRSEARCH",
+      "Description": "Search for International Design Registrations",
+      "UpdatedDateUTC": "/Date(1639670171097+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 150.0,
+        "AccountCode": "221",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "International Design Registration Search",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "08b600b9-4e4f-460e-b910-7115269168be",
+      "Code": "IDRTRAN",
+      "Description": "Transfer of an International Design Registration",
+      "UpdatedDateUTC": "/Date(1665586824610+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 499.0,
+        "AccountCode": "222",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "International Design Registration Transfer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c05c4564-1bcc-4184-80c1-7b82179382d8",
+      "Code": "INTAPP2AC",
+      "Description": "INTTM application with 3 classes",
+      "UpdatedDateUTC": "/Date(1639670171110+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 725.0,
+        "AccountCode": "200",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "INTTM application with 3 classes",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "9ea6ab8c-8429-410a-8993-1dbcac86a227",
+      "Code": "INTMAPP2ACWIPOEU",
+      "Description": "WIPO fee for a second additional class onwards designating the European Union",
+      "UpdatedDateUTC": "/Date(1754347851477+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 144.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "Second Additional Class European Union",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "12e8ff80-f113-4d5a-8af6-f54b891b5abc",
+      "Code": "INTMAPPAC1WIPOEU",
+      "Description": "WIPO fee for the first additional class in an international trademark application designating the European Union",
+      "UpdatedDateUTC": "/Date(1754347273127+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 48.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "First Additional Class European Union",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c02260f1-fc12-4dab-aa45-ada8d1691401",
+      "Code": "INTSEARCH",
+      "Description": "Worldwide brand availability search",
+      "UpdatedDateUTC": "/Date(1649259641870+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Worldwide Trademark Search",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c54678b3-1993-4b3d-9828-cfcd2582e367",
+      "Code": "INTTMAC",
+      "Description": "Additional class for an international trademark application.",
+      "UpdatedDateUTC": "/Date(1761232695133+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "International Trademark Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "0123a181-6391-45eb-bba2-29e7e43c2a0b",
+      "Code": "INTTMAD",
+      "Description": "Additional country designation for an INTTM registration",
+      "UpdatedDateUTC": "/Date(1639670171110+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 75.0,
+        "AccountCode": "200",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Additional country designation for an INTTM regist",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "346a9b81-5e4f-43ca-8797-38a5bb797c70",
+      "Code": "INTTMADDCHA",
+      "Description": "Submitting of a Form MM9 to WIPO for a change of address on an International Trademark",
+      "UpdatedDateUTC": "/Date(1711576055997+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 199.0,
+        "AccountCode": "209",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "International Trademark Address Change",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "b694bf1f-d50b-4ce4-9496-da7f1e01476c",
+      "Code": "INTTMAPPACWIPOCOL",
+      "Description": "WIPO fee for an additional class for an international trademark application designating Columbia",
+      "UpdatedDateUTC": "/Date(1754347716957+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 130.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "Additional Class Columbia",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "1dc0fafd-f5e4-49a0-8abe-1bc28c924f28",
+      "Code": "INTTMAPPEX",
+      "Description": "International trademark application including one class for an existing customer",
+      "UpdatedDateUTC": "/Date(1754924446347+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 349.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "International Trademark Application (Existing)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "36ba03f4-7f21-48f4-ac0d-474f64768ee3",
+      "Code": "INTTMAPPICEAC",
+      "Description": "International Trademark Iceland Additional Class",
+      "UpdatedDateUTC": "/Date(1731505717460+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 48.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Iceland Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "cf5df9b7-5dde-4a6c-a2a8-63c670437f3b",
+      "Code": "INTTMAPPNEW",
+      "Description": "International trademark application including one class for a new client",
+      "UpdatedDateUTC": "/Date(1754924462987+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 399.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "International Trademark Application (New)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "84d440a7-0d8f-4aeb-959d-b12d8871a62b",
+      "Code": "INTTMAPPWIPO",
+      "Description": "WIPO fee of CHF 653 for an international application in black & white",
+      "UpdatedDateUTC": "/Date(1754346380240+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 653.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application WIPO",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "7b831d44-0d14-4202-bc7d-70dd4b705c77",
+      "Code": "INTTMAPPWIPOALG",
+      "Description": "International Trademark Application WIPO (Algeria)",
+      "UpdatedDateUTC": "/Date(1711577457210+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application WIPO (Algeria)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "875c99d7-9f7f-430b-bc8b-4ac40709558f",
+      "Code": "INTTMAPPWIPOAUS",
+      "Description": "WIPO fee per class for an international trademark application designating Australia",
+      "UpdatedDateUTC": "/Date(1754346602533+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 232.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application Australia",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "72a2966f-b3d2-48fc-87b0-963e4b0ec163",
+      "Code": "INTTMAPPWIPOCAN",
+      "Description": "WIPO fee of CHF 299 for an international trademark application designating Canada",
+      "UpdatedDateUTC": "/Date(1754347992810+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 299.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application Canada",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "76a234a8-5231-4265-adaa-8595b555f8c0",
+      "Code": "INTTMAPPWIPOCL",
+      "Description": "WIPO fee of CHF 903 for an international application in colour",
+      "UpdatedDateUTC": "/Date(1754347228343+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 903.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application In Colour",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "2571e060-0855-4b10-9946-44fe5acb1ff5",
+      "Code": "INTTMAPPWIPOCOL",
+      "Description": "WIPO fee for an international trademark application designating Columbia",
+      "UpdatedDateUTC": "/Date(1754347241883+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 260.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application Columbia",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "abe01ae0-434f-456e-aa02-96474b5d17ec",
+      "Code": "INTTMAPPWIPOEU",
+      "Description": "WIPO fee of CHF 789 for an international trademark application designating the European Union",
+      "UpdatedDateUTC": "/Date(1754347034473+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 789.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application European Union",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "ce1786df-1e71-440e-a904-46ead8db0c1f",
+      "Code": "INTTMAPPWIPOICE",
+      "Description": "International trademark application designating Iceland",
+      "UpdatedDateUTC": "/Date(1731505627573+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 225.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application Iceland",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "8ec117d7-bbd6-426c-95c0-533abb65079f",
+      "Code": "INTTMAPPWIPOMAL",
+      "Description": "WIPO fee of CHF 221 per class for an international trademark application designating Malaysia",
+      "UpdatedDateUTC": "/Date(1754347403373+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 221.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application Malaysia",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "5e3dde46-9c94-4d79-bcec-a342a2dd5666",
+      "Code": "INTTMAPPWIPOMOR",
+      "Description": "WIPO fee of CHF 219 for an international trademark application designating Morocco",
+      "UpdatedDateUTC": "/Date(1754346338990+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 219.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application Morocco",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "bf2520ed-d4bb-46b4-8d11-852390633836",
+      "Code": "INTTMAPPWIPONZ",
+      "Description": "WIPO fee per class for an international trademark application designating New Zealand",
+      "UpdatedDateUTC": "/Date(1754346973080+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 55.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application New Zealand",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "23418747-8de6-43df-8912-3db8ea52df12",
+      "Code": "INTTMAPPWIPOSK",
+      "Description": "WIPO fee per class of an international trademark application designating South Korea",
+      "UpdatedDateUTC": "/Date(1754346159927+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 191.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application South Korea",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "ddd686de-247f-4015-ae49-1e8135de1bc7",
+      "Code": "INTTMAPPWIPOSWI",
+      "Description": "Switzerland WIPO fee for an application",
+      "UpdatedDateUTC": "/Date(1747989940970+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 375.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "Switzerland WIPO fee for an application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "92f5d38d-0c8e-4cd6-b4e5-e9ad9468df61",
+      "Code": "INTTMAPPWIPOUS",
+      "Description": "WIPO fee of CHF 530 per class for an international trademark application designating the United States of America",
+      "UpdatedDateUTC": "/Date(1754346497993+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 530.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Application United States",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "a2882c3f-64f2-42ac-9797-ae5d07b767c9",
+      "Code": "INTTMMON12MTH",
+      "Description": "12 months monitoring of an international trademark",
+      "UpdatedDateUTC": "/Date(1739873635910+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 990.0,
+        "AccountCode": "224",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "INT Trademark Monitoring (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "6b74b006-2c18-41b4-ab74-a820b49c41ff",
+      "Code": "INTTMMON1MTH",
+      "Description": "INT Trademark Monitoring (1 Month)",
+      "UpdatedDateUTC": "/Date(1681835090480+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "INT Trademark Monitoring (1 Month)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "63e6e501-eb91-4bc6-a1b1-476bcfb2114f",
+      "Code": "INTTMREP",
+      "Description": "International Trademark Representation",
+      "UpdatedDateUTC": "/Date(1714896435310+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 120.0,
+        "AccountCode": "209",
+        "TaxType": "NONE"
+      },
+      "Name": "International Trademark Representation",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "4d084859-f510-45fc-8679-3f0d95bdd57f",
+      "Code": "IPDOCREV",
+      "Description": "Review of an IP Document",
+      "UpdatedDateUTC": "/Date(1639670171130+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 150.0,
+        "AccountCode": "223",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "IP Document Review",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "4e6895b5-65fe-4de4-97ac-813d56b17ab2",
+      "Code": "JPCONS",
+      "Description": "JP Consultancy",
+      "UpdatedDateUTC": "/Date(1645547595580+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1000.0,
+        "AccountCode": "260",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "JP Consultancy",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "1b5b67e5-9364-4e19-8b50-d3ed0febc163",
+      "Code": "KICKST",
+      "Description": "Kickstarter Credit",
+      "UpdatedDateUTC": "/Date(1639670171143+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1010.75,
+        "AccountCode": "260",
+        "TaxType": "NONE"
+      },
+      "Name": "Kickstarter Credit",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "cbc20304-2f82-4c61-8019-408965b4178c",
+      "Code": "LITEMEM1",
+      "Description": "Elite Monthly Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724146100750+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 44.0,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 80.0,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Lite Monthly Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "4b72097d-8088-41d6-898c-86d49d74e005",
+      "Code": "LITEMEM12",
+      "Description": "Lite 12 Month Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724146529067+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 440.0,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 800.0,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Lite 12 Month Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "f7143d9f-8b32-44bb-9f6a-8752b073fa66",
+      "Code": "LITEMEM6",
+      "Description": "Lite 6 Month Membership",
+      "PurchaseDescription": "Prosper2 Rewards",
+      "UpdatedDateUTC": "/Date(1724147048740+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 242.0,
+        "AccountCode": "400",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 484.0,
+        "AccountCode": "226",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Lite 6 Month Membership",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "3ad06732-8681-49c5-887f-1c073af7280f",
+      "Code": "MILDIS",
+      "Description": "Military discount (50 off application fee)",
+      "UpdatedDateUTC": "/Date(1639670171143+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": -50.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Military discount (50 off application fee)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "d567ca5d-4057-4250-b5c7-7354ebe9c85c",
+      "Code": "MS365",
+      "PurchaseDescription": "Access to a single Microsoft 365 licence",
+      "UpdatedDateUTC": "/Date(1639670171160+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 9.4,
+        "AccountCode": "463",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {},
+      "Name": "Microsoft 365",
+      "IsTrackedAsInventory": false,
+      "IsSold": false,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "7b4a047f-2dab-46dc-b03b-61963a80ba51",
+      "Code": "MULTMAPPDIS",
+      "Description": "Multiple application discount (15% off fee)",
+      "UpdatedDateUTC": "/Date(1680540903883+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": -65.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Multiple application discount (15% off fee)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "e581269f-3e38-4792-8888-96965e1538b0",
+      "Code": "NEWSETUP",
+      "Description": "Onboarding and filing of form TM33",
+      "UpdatedDateUTC": "/Date(1683821491710+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 199.0,
+        "AccountCode": "212",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "New Customer Initial Setup",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "cec1c6fd-b7b6-413a-9d77-bab7db55d620",
+      "Code": "NOMDISPUTE",
+      "Description": "Nominet Fee For Final Stage Of Dispute",
+      "UpdatedDateUTC": "/Date(1758208608653+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 900.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Nominet Fee For Final Stage Of Dispute",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c461c170-a1d0-4804-9795-8eae317518aa",
+      "Code": "NONWIPOAN",
+      "Description": "NON WIPO ANGOLA",
+      "UpdatedDateUTC": "/Date(1711576985093+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 760.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "NON WIPO ANGOLA",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "1ed321ab-5ebd-4f3c-b698-19a87c7184f7",
+      "Code": "NONWIPODJ",
+      "Description": "NON WIPO DJBOUTI",
+      "UpdatedDateUTC": "/Date(1711577026830+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1570.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "NON WIPO DJBOUTI",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "05221b1a-0632-4c2e-845a-c4a07a5b43a0",
+      "Code": "NONWIPOET",
+      "Description": "NON WIPO ETHIOPIA",
+      "UpdatedDateUTC": "/Date(1711577053993+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1320.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "NON WIPO ETHIOPIA",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "e1fe5b4c-1092-4d48-ad3a-374f05b828f5",
+      "Code": "NONWIPOUG",
+      "Description": "NON WIPO UGANDA",
+      "UpdatedDateUTC": "/Date(1711577237420+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 875.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "NON WIPO UGANDA",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "49706924-c1b9-4dc4-8b0e-4cce4fd3480d",
+      "Code": "PP3MONTHS",
+      "Description": "Fee for a 3-month payment plan",
+      "UpdatedDateUTC": "/Date(1644255397297+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 12.5,
+        "AccountCode": "200",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "3-Month Payment Plan",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "5774f1cf-335a-4563-b105-70b07fd98170",
+      "Code": "PP6MONTHS",
+      "Description": "Fee for a 6-month payment plan",
+      "UpdatedDateUTC": "/Date(1639670171237+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 12.5,
+        "AccountCode": "200",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "6-Month Payment Plan",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "da0cc0dd-f76d-4c4e-9c53-b152dc5dff91",
+      "Code": "PROSPCOREPACK12",
+      "Description": "Prosper Core Package (12 Months)",
+      "UpdatedDateUTC": "/Date(1742905033033+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1000.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper Core Package (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "9b7fe1a4-2dcf-472f-b556-d4b03e66d333",
+      "Code": "PROSPCOREPACK6",
+      "Description": "Prosper Core Package (6 Months)",
+      "UpdatedDateUTC": "/Date(1742904990817+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 550.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper Core Package (6 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c15c584d-44c2-4836-be41-a416c520c2bf",
+      "Code": "PROSPELITEPACK12",
+      "Description": "Prosper Elite Package (12 Months)",
+      "UpdatedDateUTC": "/Date(1742905087233+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1750.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper Elite Package (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "8c5c9fee-f5eb-4ea5-a5dc-cc7a5ab98a5c",
+      "Code": "PROSPELITEPACK6",
+      "Description": "Prosper Elite Package (6 Months)",
+      "UpdatedDateUTC": "/Date(1742905145663+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 962.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper Elite Package (6 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "1dcd0252-e319-453f-97ad-abd254964c23",
+      "Code": "PROSPMONPLUS12",
+      "Description": "Prosper Monitoring Plus (12 Months)",
+      "UpdatedDateUTC": "/Date(1742904759343+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1184.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper Monitoring Plus (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "2b696b7d-f455-4e75-91db-834bebb4032e",
+      "Code": "PROSPMONPLUS6",
+      "Description": "Prosper Monitoring Plus (6 Months)",
+      "UpdatedDateUTC": "/Date(1742904699607+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 592.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper Monitoring Plus (6 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "9f6a7664-0c66-46f4-a90a-e5e40e724594",
+      "Code": "PROSWWBPA",
+      "Description": "Prosper Worldwide Brand Protection Audit",
+      "UpdatedDateUTC": "/Date(1726607339153+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper Worldwide Brand Protection Audit",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "9aa5e196-ad4a-4b76-a05d-acd4518cc49c",
+      "Code": "PRSUKTMMON12MTH",
+      "Description": "Prosper UKTM Monitoring (12 Months)",
+      "UpdatedDateUTC": "/Date(1684922877490+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 588.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper UKTM Monitoring (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "e46273ea-9d59-4504-b15b-1406da11188b",
+      "Code": "PRSUKTMMON1MTH",
+      "Description": "Prosper UKTM Monitoring (1 Month)",
+      "UpdatedDateUTC": "/Date(1684922798887+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 49.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper UKTM Monitoring (1 Month)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "acfea6cc-10c9-4dc6-b7b0-85e83df570b7",
+      "Code": "PRSUKTMMON6MTH",
+      "Description": "Prosper UKTM Monitoring (6 Months)",
+      "UpdatedDateUTC": "/Date(1684922845613+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 294.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Prosper UKTM Monitoring (6 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "ea620862-cd02-40c6-9af0-b41c30924070",
+      "Code": "QATIPOFEE",
+      "Description": "Qatar IPO fee for an International Registration per class",
+      "UpdatedDateUTC": "/Date(1751633815617+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1050.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "Qatar IPO fee for an International Registration",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "253895fd-4345-433f-a11e-c163c25a867b",
+      "Code": "R5MD",
+      "Description": "Real 5 Networking member discount (20% off application fee)",
+      "UpdatedDateUTC": "/Date(1639670171253+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 0.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Real 5 Networking member discount (20% off applica",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c0af9678-8a8b-4ff2-82ea-a57e39e21a17",
+      "Code": "SAFEE",
+      "Description": "South Africa office fee per class",
+      "PurchaseDescription": "South Africa office fee per class",
+      "UpdatedDateUTC": "/Date(1639670171253+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 451.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 451.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "South Africa office fee per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "fd0a4df2-1c50-414c-80d5-16e42f4883b3",
+      "Code": "SATMAPP",
+      "Description": "SATM application",
+      "UpdatedDateUTC": "/Date(1639670171253+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 300.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "SATM application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "1edce180-0d8b-48cb-ba82-ed895c7847db",
+      "Code": "SAUIPOFEE",
+      "Description": "Saudi Arabia IPO fee for an International Registration",
+      "UpdatedDateUTC": "/Date(1674738102033+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 2947.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "Saudi Arabia IPO fee for an International Registra",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "534a6882-e48c-4dfb-979a-60e381071d35",
+      "Code": "TAFEE",
+      "Description": "Taiwan fee of SFr. 94 per class",
+      "PurchaseDescription": "Taiwan fee of SFr. 94 per class",
+      "UpdatedDateUTC": "/Date(1674739110147+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 83.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {},
+      "Name": "Taiwan fee of SFr. 94 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "b28194f4-94f9-4460-92e4-1458ba2af323",
+      "Code": "UAEIPOFEE",
+      "Description": "UAE IPO fee for an International Registration per class",
+      "UpdatedDateUTC": "/Date(1751633674860+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1510.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UAE IPO fee for an International Registration",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "d0f1bbe9-064e-4b20-b9a9-45b66cdfd137",
+      "Code": "UKBPA",
+      "Description": "UK Brand Protection Audit",
+      "UpdatedDateUTC": "/Date(1756722525090+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Brand Protection Audit",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c992707f-15ce-4475-b4b7-c61441fcad54",
+      "Code": "UKCADLETTER",
+      "Description": "Cease-and-desist letter for the defence of a UK trademark",
+      "UpdatedDateUTC": "/Date(1739791885063+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "207",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Cease-and-desist Letter",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "f7a7648a-abfe-42e8-a4d1-35c5441e798d",
+      "Code": "UKDRAPPEX",
+      "Description": "Application for one UK Design Registration for an existing customer",
+      "UpdatedDateUTC": "/Date(1748599545920+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 299.0,
+        "AccountCode": "216",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Design Registration Application (Ex. Customer)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "33f98839-d562-4db0-8947-a7b98d5ef4c1",
+      "Code": "UKDRAPPNEW",
+      "Description": "Application for one UK Design Registration for a new customer",
+      "UpdatedDateUTC": "/Date(1748599469950+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 349.0,
+        "AccountCode": "216",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Design Registration Application (New Customer)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "c3f2d255-9e79-49cb-9e3f-c09658b878fc",
+      "Code": "UKDRAUDIT",
+      "Description": "UK Design Registration Availability Audit",
+      "UpdatedDateUTC": "/Date(1748599600943+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 59.0,
+        "AccountCode": "216",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Design Registration Availability Audit",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "bee25706-359e-426a-a601-50a6eb89571d",
+      "Code": "UKDRTRAN",
+      "Description": "Transfer of an UK Design Registration",
+      "UpdatedDateUTC": "/Date(1665586839807+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "217",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Design Registration Transfer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "14bda7e8-5753-49a5-997f-7b1453abacfb",
+      "Code": "UKIPODRAP",
+      "Description": "United Kingdom fee for an additional 10 pictures in a design registration",
+      "PurchaseDescription": "United Kingdom fee for an additional 10 pictures in a design registration",
+      "UpdatedDateUTC": "/Date(1754927398860+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 20.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 20.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Design Additional Picture",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "e3d6c341-279a-469c-8d74-378a4742aa8e",
+      "Code": "UKIPODRAPP",
+      "Description": "United Kingdom IPO fee for a design registration including 1 picture",
+      "PurchaseDescription": "United Kingdom IPO fee for a design registration including 1 picture",
+      "UpdatedDateUTC": "/Date(1754927374870+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Design Registration",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "17f863f6-8787-4c39-b9ac-2ff32d6b1bd2",
+      "Code": "UKIPOTMAC",
+      "Description": "UKIPO fee for an additional class",
+      "PurchaseDescription": "United Kingdom IPO fee for an additional class",
+      "UpdatedDateUTC": "/Date(1754927203417+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "02735a23-c14c-4f82-a5c9-177641ebac98",
+      "Code": "UKIPOTMAPP",
+      "Description": "United Kingdom IPO fee for a UK trademark including one class",
+      "PurchaseDescription": "United Kingdom IPO fee for a UK trademark including one class",
+      "UpdatedDateUTC": "/Date(1754927261793+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 170.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 170.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "70dfd8b8-c5cb-4720-a35d-17e761e65a02",
+      "Code": "UKIPOTMAPPAL",
+      "Description": "United Kingdom IPO fee for an additional logo",
+      "PurchaseDescription": "United Kingdom IPO fee for an additional logo",
+      "UpdatedDateUTC": "/Date(1754927122863+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Additional Logo",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "f5b02287-fa87-4692-b94c-43bc818f9003",
+      "Code": "UKIPOTMAPPRS1",
+      "Description": "UKIPO fee for a Right Start trademark application (Part 1)",
+      "PurchaseDescription": "UKIPO fee for a Right Start trademark application (Part 1)",
+      "UpdatedDateUTC": "/Date(1754927456697+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Right Start (Part 1)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "9ed45306-c4bc-4bc9-8dd2-eb70a81e4769",
+      "Code": "UKIPOTMAPPRS2",
+      "Description": "UKIPO fee for a Right Start trademark application (Part 2)",
+      "PurchaseDescription": "UKIPO fee for a Right Start trademark application (Part 2)",
+      "UpdatedDateUTC": "/Date(1754927442310+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Right Start (Part 2)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "54bd0a69-37df-42a3-801c-946d90fc79e6",
+      "Code": "UKIPOTMAPPRSAC1",
+      "Description": "United Kingdom IPO fee for a Right Start additional class (Part 1)",
+      "PurchaseDescription": "United Kingdom IPO fee for a Right Start additional class (Part 1)",
+      "UpdatedDateUTC": "/Date(1754927505250+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 25.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 25.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Right Start Additional Class (Part 1)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "0d2c6154-77ac-44c4-b116-0a7b3a485002",
+      "Code": "UKIPOTMAPPRSAC2",
+      "Description": "United Kingdom IPO fee for a Right Start additional class (Part 2)",
+      "PurchaseDescription": "United Kingdom IPO fee for a Right Start additional class (Part 2)",
+      "UpdatedDateUTC": "/Date(1754927539067+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 25.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 25.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Right Start Additional Class (Part 2)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "7e2a177a-633f-4b2b-baba-a043f11bf3d3",
+      "Code": "UKIPOTMCON",
+      "Description": "United Kingdom IPO fee for a UK trademark international conversion",
+      "PurchaseDescription": "United Kingdom IPO fee for a UK trademark international conversion",
+      "UpdatedDateUTC": "/Date(1754927581413+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 40.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 40.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark International Conversion",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "dbad8ab4-361e-4801-ac4b-0167fbdba023",
+      "Code": "UKIPOTMEXT",
+      "Description": "United Kingdom IPO fee to request an extension to a UK Trademark process.",
+      "PurchaseDescription": "United Kingdom IPO fee to request an extension to a UK Trademark process.",
+      "UpdatedDateUTC": "/Date(1754928235500+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Process Extension",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "d8e6f14f-c50e-4a83-bffa-1eec768ffc13",
+      "Code": "UKIPOTMFTOPP",
+      "Description": "United Kingdom IPO fee for filing a fast track opposition",
+      "PurchaseDescription": "United Kingdom IPO fee for filing a fast track opposition",
+      "UpdatedDateUTC": "/Date(1754927724890+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Fast Track Opposition",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "a2a978a2-147f-4a97-b03b-911175e45617",
+      "Code": "UKIPOTMINV",
+      "Description": "United Kingdom IPO fee for filing an invalidation application",
+      "PurchaseDescription": "United Kingdom IPO fee for filing an invalidation application",
+      "UpdatedDateUTC": "/Date(1754927659687+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Invalidation",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "b9da5d50-97be-441d-a75a-28e77a15a1ba",
+      "Code": "UKIPOTMOPPFULL",
+      "Description": "United Kingdom fee for filing a full opposition",
+      "PurchaseDescription": "United Kingdom fee for filing a full opposition",
+      "UpdatedDateUTC": "/Date(1754927904307+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Full Opposition",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "9c821c6e-e205-4a3a-9347-d153c85c54f2",
+      "Code": "UKIPOTMOWNCHA",
+      "Description": "United Kingdom IPO fee for filing a Form TM16 (change of owner)",
+      "PurchaseDescription": "United Kingdom IPO fee for filing a Form TM16 (change of owner)",
+      "UpdatedDateUTC": "/Date(1754928038090+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Owner Change",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "a865e438-9c3d-41f2-b27c-62e6bf18e30b",
+      "Code": "UKIPOTMREN",
+      "Description": "United Kingdom IPO fee for the renewal of a UK trademark including one class",
+      "PurchaseDescription": "United Kingdom IPO fee for the renewal of a UK trademark including one class",
+      "UpdatedDateUTC": "/Date(1754928091987+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Renewal",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "31f85fdf-cb3d-44b0-bb00-6ce4a111016a",
+      "Code": "UKIPOTMRENLATE",
+      "Description": "United Kingdom IPO fee for a late UK trademark renewal",
+      "PurchaseDescription": "United Kingdom IPO fee for a late UK trademark renewal",
+      "UpdatedDateUTC": "/Date(1754928165733+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Late Renewal",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "bc62096c-210f-462d-9c6b-3a67ac6ba76f",
+      "Code": "UKIPOTMTRAN",
+      "Description": "United Kingdom IPO fee for the transfer of UK trademarks",
+      "PurchaseDescription": "United Kingdom IPO fee for the transfer of UK trademarks",
+      "UpdatedDateUTC": "/Date(1754928213200+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UKIPO Trademark Transfer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "4c0f5310-47d8-4318-bba6-84cc663f6304",
+      "Code": "UKTM33",
+      "Description": "UKTM33",
+      "UpdatedDateUTC": "/Date(1750437284730+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "United Kingdom Trademark Representation Transfer",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "d9ee8328-f19e-4ec1-871f-a77efb3439a4",
+      "Code": "UKTMAC",
+      "Description": "Additional class for a UKTM application",
+      "UpdatedDateUTC": "/Date(1754300256970+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 45.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "bba9bc82-ab89-4d1e-8154-002f4ea0fad5",
+      "Code": "UKTMAPLIPO",
+      "Description": "IPO fee for submitting an appeal against a tribunal decision",
+      "PurchaseDescription": "IPO fee for submitting an appeal against a tribunal decision",
+      "UpdatedDateUTC": "/Date(1686149820713+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "209",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "209",
+        "TaxType": "NONE"
+      },
+      "Name": "IPO Appeal Fee",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "6892ec03-2b72-45bf-88ff-cb1e087ecc18",
+      "Code": "UKTMAPPAL",
+      "Description": "Additional logo for a UKTM application",
+      "UpdatedDateUTC": "/Date(1649259500867+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 29.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Additional Logo",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "07d63f89-bddf-49b4-87be-7033b32d3f6c",
+      "Code": "UKTMAPPCOM",
+      "Description": "UK Trademark Application Combined Fee",
+      "UpdatedDateUTC": "/Date(1713782391707+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 2000.0,
+        "AccountCode": "225",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Application Combined Fee",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "476a3616-a2d2-4e3c-a8ed-a765a6afea9a",
+      "Code": "UKTMAPPEX",
+      "Description": "UKTM application for an existing client",
+      "PurchaseDescription": "UK Trademark Application Existing Client",
+      "UpdatedDateUTC": "/Date(1754300236653+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 5.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 349.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Application Existing Client",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "b9ba117f-542e-4a79-9999-fc6cce419cac",
+      "Code": "UKTMAPPNEW",
+      "Description": "UKTM application including one class for a new customer",
+      "PurchaseDescription": "UK Trademark Application New Client",
+      "UpdatedDateUTC": "/Date(1700740689027+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 5.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 369.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Application New Client",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "bdba2767-6fa9-465c-95de-18a3a9143d2b",
+      "Code": "UKTMAPPRS1",
+      "Description": "UK Trademark Right Start Application (Part 1)",
+      "UpdatedDateUTC": "/Date(1683733596217+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 169.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UKTM Right Start (Part 1)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "f63b56b5-4852-4d73-9cc4-f55e4a06f170",
+      "Code": "UKTMAPPRS2",
+      "Description": "UK Trademark Right Start Application (Part 2)",
+      "UpdatedDateUTC": "/Date(1683733615447+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 169.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UKTM Right Start (Part 2)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "e60558e8-3dbc-444d-ba14-4b653fb2bd00",
+      "Code": "UKTMAPPRSAC1",
+      "Description": "UK Trademark Right Start Application Additional Class (Part 1)",
+      "UpdatedDateUTC": "/Date(1683733660157+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 19.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UKTM Right Start Additional Class (Part 1)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "b879767a-bfa9-41a7-b1b0-f36c53b2bb52",
+      "Code": "UKTMAPPRSAC2",
+      "Description": "UK Trademark Right Start Application Additional Class (Part 2)",
+      "UpdatedDateUTC": "/Date(1683733670157+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 19.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UKTM Right Start Additional Class (Part 2)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "aec4fbd5-8fc2-4909-9701-7032f666df5a",
+      "Code": "UKTMAUDIT",
+      "Description": "Brand availability search with report for the UK",
+      "UpdatedDateUTC": "/Date(1726607183390+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 49.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Brand Audit",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "b57a675d-5f15-44c1-870d-2f7619091a48",
+      "Code": "UKTMCB4KSEARCH",
+      "Description": "UK Trademark Search (£25 Cashback)",
+      "UpdatedDateUTC": "/Date(1700741541977+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "208",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Search (£25 Cashback)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "e936ba48-00cd-428b-b0f8-0011203871f2",
+      "Code": "UKTMCOSTS",
+      "Description": "Costs Award for a UK Trademark",
+      "UpdatedDateUTC": "/Date(1710336141730+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1650.0,
+        "AccountCode": "203",
+        "TaxType": ""
+      },
+      "Name": "Costs Award for a UK Trademark",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "2e014c84-e1d0-44a6-8cf3-ef28ffd7d1a7",
+      "Code": "UKTMCOSTSUR",
+      "Description": "Surcharge for Recovering Overdue Costs Award",
+      "UpdatedDateUTC": "/Date(1710338492007+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {},
+      "Name": "Surcharge for Recovering Overdue Costs Award",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "cb34c91c-bb35-4d66-9c47-aecdb7ff0053",
+      "Code": "UKTMENREP1",
+      "Description": "UK Trademark Enhanced Representation (1 Month)",
+      "UpdatedDateUTC": "/Date(1716561383093+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Enhanced Representation (1 Month)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "2182ae2a-0b87-47cb-b7b7-e22ffd996174",
+      "Code": "UKTMENREP12",
+      "Description": "UK Trademark Representation (12 Months)",
+      "UpdatedDateUTC": "/Date(1716561461440+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 990.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Representation (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "14466c1d-4529-4eff-b920-531cd38a8d68",
+      "Code": "UKTMFORM",
+      "Description": "Completion and sending of an official IPO form",
+      "UpdatedDateUTC": "/Date(1711576357483+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 199.0,
+        "AccountCode": "212",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Form Filing",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "7eda816c-18a0-406c-9b41-82533a4e1d8d",
+      "Code": "UKTMMON12",
+      "Description": "12 months of monitoring and monthly reports for one UKTM",
+      "UpdatedDateUTC": "/Date(1716561013497+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 290.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Monitoring (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "8ad1378d-3982-4291-9f59-769c20ac6927",
+      "Code": "UKTMMON1MTH",
+      "Description": "1 month of monitoring and a report for one UKTM",
+      "UpdatedDateUTC": "/Date(1716561503987+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 29.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Monitoring (1 Month)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "dcea83c5-75c9-4de9-9d61-85e370d64f28",
+      "Code": "UKTMMON24MTH",
+      "Description": "24 months of monitoring and monthly reports for one UKTM",
+      "UpdatedDateUTC": "/Date(1716561791203+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 551.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Monitoring (24 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "fc675e52-a175-4346-bbc8-944f7f83cd86",
+      "Code": "UKTMMON6MTH",
+      "Description": "UK Trademark Monitoring (6 Months)",
+      "UpdatedDateUTC": "/Date(1684920902753+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 145.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Monitoring (6 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "2c9cacde-6239-4490-84ca-a9545eacb5bb",
+      "Code": "UKTMMONCOM",
+      "Description": "UK Trademark Monitoring Combined Fee",
+      "UpdatedDateUTC": "/Date(1713782447137+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1000.0,
+        "AccountCode": "225",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Monitoring Combined Fee",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "3e636c5f-706b-4d22-84fa-d0e1f3d1ca0d",
+      "Code": "UKTMOPPNOT",
+      "Description": "Notice of Opposition for a UK trademark",
+      "UpdatedDateUTC": "/Date(1754300444267+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 399.0,
+        "AccountCode": "207",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UKTM Notice of Opposition",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "f27dfa55-cb39-48ed-b963-bbdccd731c75",
+      "Code": "UKTMRENEX",
+      "Description": "Renewal of an existing UK trademark registration for an existing customer",
+      "UpdatedDateUTC": "/Date(1680479048420+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 249.0,
+        "AccountCode": "213",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Renewal (Existing)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "abc67108-4138-4209-bc5f-32094128d197",
+      "Code": "UKTMRENNEW",
+      "Description": "Renewal of an existing UK trademark registration for a new customer",
+      "UpdatedDateUTC": "/Date(1680479015737+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 299.0,
+        "AccountCode": "213",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Renewal (New)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "fca2113a-8cbe-4be4-848b-4acb728a8002",
+      "Code": "UKTMREP1",
+      "Description": "UK Trademark Representation (1 Month)",
+      "UpdatedDateUTC": "/Date(1716561075153+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 59.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Representation (1 Month)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "500f5d67-a660-4f3b-956c-e5e19362a8e7",
+      "Code": "UKTMREP12",
+      "Description": "UK Trademark Representation (12 Months)",
+      "UpdatedDateUTC": "/Date(1716560872060+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 590.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Representation (12 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "e0b39887-ad0f-4b13-bdcc-fd5f69a49cbd",
+      "Code": "UKTMREP24",
+      "Description": "UK Trademark Representation (24 Months)",
+      "UpdatedDateUTC": "/Date(1716561288167+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1980.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Representation (24 Months)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "cf824057-2327-4631-bfe3-eb76cc8008ca",
+      "Code": "UKTMREPCERTIPO",
+      "Description": "IPO fee for a replacement UK trademark certificate",
+      "UpdatedDateUTC": "/Date(1742221461153+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 20.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "UK Trademark Replacement Certificate (IPO)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "d093c712-ebcb-483f-a692-6f3296c74987",
+      "Code": "UKTMREPCHA",
+      "Description": "UK Trademark Change of Representative",
+      "UpdatedDateUTC": "/Date(1745850364973+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 50.0,
+        "AccountCode": "212",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Change of Representative",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "a91d4adc-8c48-49d9-b51e-7e36c5ac2000",
+      "Code": "UKTMREPHT",
+      "Description": "HT Legal Representation UK 2 Hours",
+      "UpdatedDateUTC": "/Date(1712663344010+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "203",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "HT Legal Representation UK 2 Hours",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "6aef0056-a292-4eef-9fdc-fcd978e41697",
+      "Code": "UKTMREPPART",
+      "Description": "UK Trademark Partner Representation",
+      "UpdatedDateUTC": "/Date(1716891288667+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 349.0,
+        "AccountCode": "203",
+        "TaxType": "ECZROUTPUTSERVICES"
+      },
+      "Name": "UK Trademark Partner Representation",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "da976a8e-da69-4732-8532-f93fb009c61d",
+      "Code": "UKTMTRANEX",
+      "Description": "Transfer of UK trademark for an existing client",
+      "UpdatedDateUTC": "/Date(1690275086790+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "212",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Transfer (Existing)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "bddd67a5-1bee-4b89-b36d-326d8e70e411",
+      "Code": "UKTMTRANNEW",
+      "Description": "Transfer of ownership on a UK trademark for a new customer",
+      "UpdatedDateUTC": "/Date(1690275127843+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 199.0,
+        "AccountCode": "212",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "UK Trademark Transfer (New)",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "8b592ed9-8710-4f0f-92d9-95441eb79c9e",
+      "Code": "USATTTMAPP",
+      "Description": "Local attorney fee for a United States trademark application",
+      "PurchaseDescription": "Local attorney fee for a United States trademark application",
+      "UpdatedDateUTC": "/Date(1754925379347+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 300.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 300.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "United States Attorney Trademark Application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "e3561506-d88b-433a-b538-7c5205a2d872",
+      "Code": "USPTOTMAC",
+      "Description": "USPTO fee for an additional class in a United States trademark application",
+      "PurchaseDescription": "USPTO fee for an additional class in a United States trademark application",
+      "UpdatedDateUTC": "/Date(1755523961170+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 450.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 450.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "United States PTO Trademark Additional Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "9e355d4e-8e38-408e-b981-e6be1a093e21",
+      "Code": "USPTOTMRESTORE",
+      "Description": "USPTO fee for the restoration of a US trademark",
+      "PurchaseDescription": "USPTO fee for the restoration of a US trademark",
+      "UpdatedDateUTC": "/Date(1754924305910+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 200.0,
+        "AccountCode": "202",
+        "TaxType": "NONE"
+      },
+      "Name": "United States PTO Trademark Restoration",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "34750fe3-1f2a-4979-a4c3-c1ca716e77e1",
+      "Code": "USSEARCH",
+      "Description": "Brand availability search with report for the US",
+      "UpdatedDateUTC": "/Date(1716561892473+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 69.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "US Brand Availability Search",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "b5555925-d531-4f0b-b507-36b7d418c809",
+      "Code": "USTMAC",
+      "Description": "Additional Class for a United States Trademark",
+      "UpdatedDateUTC": "/Date(1754923814720+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 99.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Additional Class for a United States Trademark",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "dc9c79c9-7199-47a3-be45-38f107757db1",
+      "Code": "USTMAPPNEW",
+      "Description": "United States Trademark Application",
+      "PurchaseDescription": "United States Trademark Application",
+      "UpdatedDateUTC": "/Date(1754923837467+0000)/",
+      "PurchaseDetails": {
+        "UnitPrice": 875.0,
+        "AccountCode": "310",
+        "TaxType": "NONE"
+      },
+      "SalesDetails": {
+        "UnitPrice": 999.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "United States Trademark Application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": true
+    },
+    {
+      "ItemID": "9b8be9b4-c91f-4bc1-b75f-a6e7a0f1ec12",
+      "Code": "WIPOBAHFEE",
+      "Description": "Bahrain fee of SFr.1710 per class",
+      "UpdatedDateUTC": "/Date(1639670171787+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 1485.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Bahrain fee of SFr.1710 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "f1989860-8e4e-430f-98b9-f33b122b9166",
+      "Code": "WIPOBRAFEE",
+      "Description": "Brazil office fee of SFr.75 per class",
+      "UpdatedDateUTC": "/Date(1639670171803+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 75.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Brazil office fee of SFr.75 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "87531602-d3d4-4b3d-901a-deda93b28df5",
+      "Code": "WIPOCAMFEE",
+      "Description": "Cambodia fee of SFr.139 per class",
+      "UpdatedDateUTC": "/Date(1639670171803+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 125.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Cambodia fee of SFr.139 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "83f00135-592d-48e1-a051-b5c3a25cc6f1",
+      "Code": "WIPOCHIFEE",
+      "Description": "China fee of £125 per class",
+      "UpdatedDateUTC": "/Date(1674736076817+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 125.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "China fee of SFr.499 for 3 classes",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "733c3b5e-af58-4f9a-b36f-c3360ac3b8f1",
+      "Code": "WIPOFEECHILE",
+      "Description": "WIPO Fee - Chile Priced SFr. 251 Per Class",
+      "UpdatedDateUTC": "/Date(1739379087437+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 225.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO Fee - Chile Priced SFr. 251 Per Class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "63e01141-dab2-4e7a-b91c-04204477f696",
+      "Code": "WIPOFEEDEN",
+      "Description": "WIPO fee for Denmark - 3x Classes at 360 CHF",
+      "UpdatedDateUTC": "/Date(1699959709170+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 325.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO fee for Denmark",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "57e8eae3-efe7-4d4f-ad71-8ab89976cc18",
+      "Code": "WIPOFEEEGY",
+      "Description": "WIPO fee for Egypt",
+      "UpdatedDateUTC": "/Date(1701877097947+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO fee for Egypt",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "ae31d1fb-b1a2-4a64-a8ca-93d2de5eabdd",
+      "Code": "WIPOFEEKEN",
+      "Description": "WIPO FEE KENYA",
+      "UpdatedDateUTC": "/Date(1711577883190+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 251.49,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO FEE KENYA",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "1ea3103a-6c91-496b-9cc2-9294c86ef635",
+      "Code": "WIPOFEEMEX",
+      "Description": "WIPO fee for Mexico at 132 CHF",
+      "UpdatedDateUTC": "/Date(1699958779723+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 120.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO fee for Mexico",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "282dec17-0f46-48dd-b877-ce1bc58014b9",
+      "Code": "WIPOFEESD",
+      "Description": "WIPO fee of SFr.300 for a subsequent designation of an existing TM",
+      "UpdatedDateUTC": "/Date(1639670171877+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 263.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO fee of SFr.300 for a subsequent designation o",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "7d8bab2e-1b0f-43e8-86dd-dd59f8e3f832",
+      "Code": "WIPOFEESWE",
+      "Description": "WIPO fee for Sweden - 3x classes at 346 CHF",
+      "UpdatedDateUTC": "/Date(1699958946817+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 313.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO fee for Sweden",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "fe23ac43-0e13-4439-bbb1-b44eac1ba572",
+      "Code": "WIPOFEETURK",
+      "Description": "WIPO Fee for Turkiye - 3x Classes at 144 CHF",
+      "UpdatedDateUTC": "/Date(1699959770777+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 130.0,
+        "AccountCode": "609",
+        "TaxType": "NONE"
+      },
+      "Name": "WIPO Fee for Turkiye",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "37af9a98-77e3-41b0-b7a2-3b8a94411376",
+      "Code": "WIPOFORM",
+      "Description": "International Trademark Administration",
+      "UpdatedDateUTC": "/Date(1711576072560+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "International Trademark Administration",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "7f0fa180-ac6a-40e8-9a04-de596357f4fb",
+      "Code": "WIPOFRAFEE",
+      "Description": "France fee of SFr.100 for a TM application with up to 3 classes",
+      "UpdatedDateUTC": "/Date(1639670171877+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 87.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "France fee of SFr.100 for a TM application with up",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "d105e478-0e84-45d2-8762-6036eddd13b7",
+      "Code": "WIPOINDFEE",
+      "Description": "India fee of SFr.124 per class",
+      "UpdatedDateUTC": "/Date(1639670171893+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 330.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "India fee of SFr.124 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "1d8ec5b0-0f24-4d96-9f82-1dd5160396cf",
+      "Code": "WIPOINDOFEE",
+      "Description": "Indonesia fee of SFr.144 per class",
+      "UpdatedDateUTC": "/Date(1639670171893+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 125.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Indonesia fee of SFr.144 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "84c0a473-e67e-40ab-9c77-6279733bf87a",
+      "Code": "WIPOJAPFEE",
+      "Description": "Japan office fee of SFr.266 for a TM application with one class",
+      "UpdatedDateUTC": "/Date(1757066404390+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 250.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Japan office fee of SFr.266 for a TM application w",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "2a1bda5e-b319-409d-8c62-4dfaba235c3a",
+      "Code": "WIPOJAPFEEAC",
+      "Description": "Japan office fee of SFr.250 per additional class",
+      "UpdatedDateUTC": "/Date(1757066075610+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 232.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Japan office fee of SFr.250 per additional class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "d28de183-8752-4d13-8f32-c7624a651220",
+      "Code": "WIPONORFEE",
+      "Description": "Norway WIPO fee of 280 CHF per class",
+      "UpdatedDateUTC": "/Date(1711577908043+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 260.0,
+        "AccountCode": "210",
+        "TaxType": "NONE"
+      },
+      "Name": "Norway WIPO fee of 280 CHF per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "84a26390-4a20-4a04-8328-87a523302f7c",
+      "Code": "WIPOOMAFEE",
+      "Description": "Oman fee of SFr.484 per class",
+      "UpdatedDateUTC": "/Date(1639670171910+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 425.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Oman fee of SFr.484 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "481ea643-17ee-4f75-ac46-9a6c4efa3d56",
+      "Code": "WIPOPHIFEE",
+      "Description": "Philippines fee of SFr.116 per class",
+      "UpdatedDateUTC": "/Date(1639670171923+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 100.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Philippines fee of SFr.116 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "12aa4a1c-1ce2-489e-b3c7-83fd453f73b4",
+      "Code": "WIPORUSFEE",
+      "Description": "Russia fee of SFr.100 per application",
+      "UpdatedDateUTC": "/Date(1639670171923+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 88.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Russia fee of SFr.100 per application",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "084c53d5-d548-4129-93c4-9acf431ebfe7",
+      "Code": "WIPOSINFEE",
+      "Description": "Singapore fee of SFr.242 per class",
+      "UpdatedDateUTC": "/Date(1639670171923+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 215.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Singapore fee of SFr.242 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "822572c8-2280-4ea6-bc29-2110963b65b6",
+      "Code": "WIPOTHAFEE",
+      "Description": "Thailand fee of SFr.418 per class",
+      "UpdatedDateUTC": "/Date(1639670171940+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 365.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Thailand fee of SFr.418 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "716024b2-d9ee-4a54-9272-a1974d7816a2",
+      "Code": "WIPOVIEFEE",
+      "Description": "Vietnam fee of SFr.161 per class",
+      "UpdatedDateUTC": "/Date(1639670171940+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 145.0,
+        "AccountCode": "200",
+        "TaxType": "NONE"
+      },
+      "Name": "Vietnam fee of SFr.161 per class",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    },
+    {
+      "ItemID": "b07cf825-1dc8-478f-852e-ac62979f3a3d",
+      "Code": "WWBPA",
+      "Description": "Worldwide Brand Protection Audit",
+      "UpdatedDateUTC": "/Date(1756722545620+0000)/",
+      "PurchaseDetails": {},
+      "SalesDetails": {
+        "UnitPrice": 149.0,
+        "AccountCode": "211",
+        "TaxType": "OUTPUT2"
+      },
+      "Name": "Worldwide Brand Protection Audit",
+      "IsTrackedAsInventory": false,
+      "IsSold": true,
+      "IsPurchased": false
+    }
+  ]
+}

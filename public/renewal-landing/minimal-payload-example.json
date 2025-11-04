@@ -1,0 +1,63 @@
+{
+  "person": {
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "john.smith@example.com",
+    "mobile": "+44 7700 900000"
+  },
+  "organisation": {
+    "name": "Example Ltd",
+    "company_number": "12345678"
+  },
+  "trademarks": [
+    {
+      "id": "tm_001",
+      "word_mark": "EXAMPLE BRAND",
+      "mark_type": "Word Mark",
+      "status": "Registered",
+      "jurisdiction": "UK",
+      "application_number": "UK00003123456",
+      "registration_number": "UK00003123456",
+      "registration_date": "2015-03-15",
+      "expiry_date": "2025-03-15",
+      "classes": [
+        {
+          "nice": "9",
+          "description": "Computer software"
+        },
+        {
+          "nice": "42",
+          "description": "Software development services"
+        }
+      ],
+      "classes_count": 2
+    }
+  ],
+  "next_due": {
+    "trademark_id": "tm_001",
+    "expiry_date": "2025-03-15"
+  },
+  "prefill": {
+    "contact": {
+      "name": "John Smith",
+      "email": "john.smith@example.com",
+      "mobile": "+44 7700 900000"
+    },
+    "trademark": {
+      "id": "tm_001"
+    },
+    "authorisations": {
+      "ownership_change": null,
+      "classification_change": null,
+      "authorized": null
+    }
+  },
+  "links": {
+    "book_call": "https://bookings.thetrademarkhelpline.com/#/4584810000004811044",
+    "manage_prefs": "#"
+  },
+  "security": {
+    "request_id": "req_abc123xyz",
+    "expires_at": "2025-03-01T23:59:59Z"
+  }
+}

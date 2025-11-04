@@ -1,0 +1,44 @@
+{
+  "account": {
+    "type": "individual",
+    "name": "John Smith",
+    "address": {
+      "line1": "123 Main St",
+      "city": "London",
+      "postcode": "SW1A 1AA",
+      "country": "UK"
+    }
+  },
+  "contact": {
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "john@example.com",
+    "mobile": "+44 7700 900000"
+  },
+  "trademark": {
+    "id": "tm_001",
+    "word_mark": "BRAND NAME",
+    "mark_type": "Word Mark",
+    "status": "Registered",
+    "jurisdiction": "UK",
+    "application_number": "UK00003123456",
+    "registration_number": "UK00003123456",
+    "application_date": "2014-12-31",
+    "registration_date": "2015-12-31",
+    "expiry_date": "2025-12-31",
+    "next_renewal_date": "2025-12-31",
+    "image_url": null,
+    "classes": [
+      {
+        "nice": "9",
+        "description": "Software"
+      }
+    ],
+    "classes_count": 1,
+    "proprietor": {
+      "name": "John Smith",
+      "address": "123 Main St, London, SW1A 1AA, UK"
+    }
+  },
+  "next_due": []
+}
