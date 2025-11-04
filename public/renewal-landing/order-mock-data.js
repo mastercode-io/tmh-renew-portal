@@ -1,10 +1,10 @@
 /**
- * Mock invoice data for testing
- * To use: add <script src="invoice-mock-data.js"></script> before invoice.js
+ * Mock order data for testing
+ * To use: add <script src="order-mock-data.js"></script> before order.js
  */
 
 // Example 1: Standard 2-class renewal with discount
-window.__invoicePayload = {
+window.__orderPayload = {
   trademark: {
     word_mark: 'EXAMPLE BRAND',
     application_number: 'UK00003123456',
@@ -47,7 +47,7 @@ window.__invoicePayload = {
 };
 
 // Example 2: Single class renewal (cheaper)
-window.__invoicePayload_SingleClass = {
+window.__orderPayload_SingleClass = {
   trademark: {
     word_mark: 'SIMPLE MARK',
     application_number: 'UK00003987654',
@@ -84,7 +84,7 @@ window.__invoicePayload_SingleClass = {
 };
 
 // Example 3: Multi-class renewal (5 classes)
-window.__invoicePayload_MultiClass = {
+window.__orderPayload_MultiClass = {
   trademark: {
     word_mark: 'PREMIUM BRAND™',
     application_number: 'UK00003555123',
@@ -126,8 +126,8 @@ window.__invoicePayload_MultiClass = {
   booking_url: 'https://bookings.thetrademarkhelpline.com/#/4584810000004811044'
 };
 
-console.log('📋 Invoice mock data loaded');
+console.log('📋 Order mock data loaded');
 console.log('Available test scenarios:');
-console.log('  - window.__invoicePayload (default: 2 classes)');
-console.log('  - window.__invoicePayload_SingleClass (1 class)');
-console.log('  - window.__invoicePayload_MultiClass (5 classes)');
+console.log('  - window.__orderPayload (default: 2 classes)');
+console.log('  - window.__orderPayload_SingleClass (1 class)');
+console.log('  - window.__orderPayload_MultiClass (5 classes)');
