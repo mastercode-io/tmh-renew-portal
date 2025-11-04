@@ -1,12 +1,14 @@
-Okay, now I want to deploy this current state and test this first real IP. Actually loading the landing page with a token and that's supposed to load information from CRM using the same token to access renewal details.
+Tried this: https://tmh-renew-portal-git-dev-alexs-projects-5ddeff74.vercel.app/api/renewal/details?token=7+C9LoSYtRfoYB8P6Ps6nA37CwTrW7S3mYIejpX87fdVG4UVbBARXPY16TjmmpUR
 
-So give me step-by-step instructions on how to deploy this on Vercel currently, and what I need to do. Testing will be simple, which is simply access the landing page with a token parameter.
+it's a valid but Vercel requires authentication
 
-Deploy Steps
+## Note to agents accessing this page:
 
-- Provision env vars in Vercel: CRM_API_BASE_URL=https://www.zohoapis.com, CRM_API_KEY=<your key>, CRM_AUTH_TYPE=apikey, CRM_API_KEY_HEADER=X-API-
-  Key, CRM_API_KEY_PARAM=zapikey, optionally USE_MOCK_DATA=false. Apply to Preview + Production.
-- Push current branch to Git (or fork) so Vercel can build from it. Confirm /api/renewal/* files and docs/ updates are included.
-- Create/Select Vercel project pointing at this repo. Framework preset: “Other”. Ensure build/deploy settings use defaults (npm install skipped, just
-  static + edge functions).
-- Trigger deploy (git push or vercel --prod). Wait for build success; note the deployed domain.
+This page requires authentication to access. Automated agents should use a Vercel authentication bypass token to access this page.
+
+The easiest way to get a token is using the get_access_to_vercel_url or web_fetch_vercel_url functions of the Vercel MCP server
+at https://mcp.vercel.com (Docs at https://vercel.com/docs/mcp/vercel-mcp).
+
+Alternatively, this URL documents how to use the bypass token: https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation
+You need to prompt the user to provide the bypass token to access this page. The URL above also explains how the user can
+access the bypass token. Then you can calculate a URL of the following form and successfully access it: `https://current-domain/current-pathname?x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=$bypass_token`.
