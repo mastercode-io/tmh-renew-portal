@@ -120,7 +120,7 @@
 
   // Personalized greeting + renewals list via payload
   const token = params.get('token');
-  const prefillEndpoint = form.dataset.prefillEndpoint || '/api/prefill';
+  const prefillEndpoint = form.dataset.prefillEndpoint || '/api/renewal/details';
   const summaryNames = ['applicationNumber','status','regDate','trademark','markType','jurisdiction'];
   const renewalsList = document.getElementById('renewals');
   let paymentUrl = form.dataset.paymentUrl || '/pay';
@@ -488,13 +488,19 @@
     const data = Object.fromEntries(new FormData(form).entries());
 
     // Placeholder network request; replace with your endpoint URL.
-    const endpoint = form.dataset.endpoint || '/api/lead';
+    const endpoint = form.dataset.endpoint || '/api/renewal/order';
     form.querySelector('button[type="submit"]').disabled = true;
     try {
+      const payload = {
+        token,
+        source: 'renewal-landing',
+        data
+      };
+
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ source: 'renewal-landing', data })
+        body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error('Network error');
       form.innerHTML = '<div class="success"><h3>Thank you!</h3><p>We\'ll be in touch shortly to confirm your renewal details and quote.</p></div>';
