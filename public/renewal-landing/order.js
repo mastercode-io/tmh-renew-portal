@@ -227,5 +227,5 @@ if (document.readyState === 'loading') {
  */
 window.createOrderUrl = function(orderData) {
   const encodedData = btoa(JSON.stringify(orderData));
-  return `order.html?order=${encodeURIComponent(encodedData)}`;
+  return `/renewal-landing/order.html?order=${encodeURIComponent(encodedData)}`;
 };

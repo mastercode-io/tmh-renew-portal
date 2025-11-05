@@ -124,5 +124,7 @@ function shouldInjectMockData() {
   const search = window.location.search || '';
   if (search.includes('mock=1')) return true;
   const host = window.location.hostname;
-  return host === 'localhost' || host === '127.0.0.1';
+  if (!host) return true;
+  if (host === 'localhost' || host === '127.0.0.1') return true;
+  return window.location.protocol === 'file:';
 }
