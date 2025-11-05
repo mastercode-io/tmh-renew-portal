@@ -51,18 +51,24 @@ const MOCK_ORDER = {
  * Format currency (GBP)
  */
 function formatCurrency(amount) {
-  const formatted = Math.abs(amount).toFixed(2);
-  return amount < 0 ? `-£${formatted}` : `£${formatted}`;
+  const numeric = Number(amount);
+  if (Number.isNaN(numeric) || !Number.isFinite(numeric)) {
+    return '£0.00';
+  }
+  const formatted = Math.abs(numeric).toFixed(2);
+  return numeric < 0 ? `-£${formatted}` : `£${formatted}`;
 }
 
 /**
  * Populate trademark information
  */
 function populateTrademarkInfo(trademark) {
-  document.getElementById('word-mark').textContent = trademark.word_mark || '—';
-  document.getElementById('app-number').textContent = trademark.application_number || '—';
-  document.getElementById('mark-type').textContent = trademark.mark_type || '—';
-  document.getElementById('class-count').textContent = trademark.class_count || '—';
+  const info = trademark || {};
+  document.getElementById('word-mark').textContent = info.word_mark || info.name || '—';
+  document.getElementById('app-number').textContent = info.application_number || info.registration_number || info.id || '—';
+  document.getElementById('mark-type').textContent = info.mark_type || info.type || '—';
+  const classes = info.class_count ?? info.classes_count;
+  document.getElementById('class-count').textContent = classes != null ? classes : '—';
 }
 
 /**
@@ -78,10 +84,14 @@ function populateOrderItems(lineItems) {
       row.classList.add('discount-row');
     }
 
+    const itemName = item.description || item.name || item.sku || '—';
+    const quantity = item.quantity != null ? item.quantity : 1;
+    const amount = item.total != null ? item.total : item.unit_price;
+
     row.innerHTML = `
-      <td class="item-col">${item.description}</td>
-      <td class="qty-col">${item.quantity}</td>
-      <td class="cost-col">${formatCurrency(item.total)}</td>
+      <td class="item-col">${itemName}</td>
+      <td class="qty-col">${quantity}</td>
+      <td class="cost-col">${formatCurrency(amount)}</td>
     `;
 
     tbody.appendChild(row);
@@ -92,9 +102,13 @@ function populateOrderItems(lineItems) {
  * Populate order totals
  */
 function populateOrderTotals(order) {
-  document.getElementById('subtotal').textContent = formatCurrency(order.subtotal);
-  document.getElementById('vat').textContent = formatCurrency(order.vat_amount);
-  document.getElementById('total').textContent = formatCurrency(order.total);
+  const subtotal = order.subtotal ?? order.sub_total ?? 0;
+  const vat = order.vat_amount ?? order.vat ?? order.tax ?? 0;
+  const total = order.total ?? order.grand_total ?? (Number(subtotal) + Number(vat));
+
+  document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+  document.getElementById('vat').textContent = formatCurrency(vat);
+  document.getElementById('total').textContent = formatCurrency(total);
 }
 
 /**
@@ -110,6 +124,25 @@ function updatePaymentLink(paymentUrl) {
 /**
  * Load order from URL parameters or localStorage
  */
+function base64EncodeJson(value) {
+  const json = JSON.stringify(value);
+  return btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16))));
+}
+
+function base64DecodeJson(value) {
+  try {
+    const binary = atob(value);
+    const percentEncoded = Array.from(binary)
+      .map((char) => `%${`00${char.charCodeAt(0).toString(16)}`.slice(-2)}`)
+      .join('');
+    const json = decodeURIComponent(percentEncoded);
+    return JSON.parse(json);
+  } catch (error) {
+    console.error('Failed to decode order data', error);
+    throw error;
+  }
+}
+
 function loadOrderData() {
   // Try to get order data from window.__orderPayload (set by mock-data.js)
   if (window.__orderPayload) {
@@ -123,7 +156,7 @@ function loadOrderData() {
 
   if (orderParam) {
     try {
-      const orderData = JSON.parse(atob(orderParam));
+      const orderData = base64DecodeJson(orderParam);
       console.log('Using order data from URL parameter');
       return orderData;
     } catch (e) {
@@ -226,6 +259,6 @@ if (document.readyState === 'loading') {
  * Call this from the main form page when redirecting to order
  */
 window.createOrderUrl = function(orderData) {
-  const encodedData = btoa(JSON.stringify(orderData));
+  const encodedData = base64EncodeJson(orderData);
   return `/renewal-landing/order.html?order=${encodeURIComponent(encodedData)}`;
 };

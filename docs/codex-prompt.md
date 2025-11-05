@@ -1,8 +1,20 @@
-API works as expected
-https://tmh-renew-portal-git-dev-alexs-projects-5ddeff74.vercel.app/api/renewal/details?token=7+C9LoSYtRfoYB8P6Ps6nA37CwTrW7S3mYIejpX87fdVG4UVbBARXPY16TjmmpUR
+below is update json payload structure for /api/renewal/order endpoint. Source and type are hardcoded for now.
+Token and TM number are from initial request response.
+The rest is from form submission data "Your contact details" section.
+Also, split Name in contact details in to first and last name.
 
-but landing page shows 404
+{
+"token": "tok_abc123",
+"source": "renewal-landing",
+"type": "lead",
+"data": {
+"first_name": "John",
+"last_name": "Smith",
+"email": "john@example.com",
+"phone": "123456789",
+"trademark_number": "UK0000123456",
+}
+}
 
-04: NOT_FOUND Code: NOT_FOUND ID: lhr1:lhr1::lfqk8-1762301188143-e17530e3d255
-
-which is deployment not found
+let's make suret that we use consistent json keys naming style.
+I see that initial request response uses snake case, lets stick to it.
