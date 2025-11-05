@@ -1,14 +1,13 @@
-Tried this: https://tmh-renew-portal-git-dev-alexs-projects-5ddeff74.vercel.app/api/renewal/details?token=7+C9LoSYtRfoYB8P6Ps6nA37CwTrW7S3mYIejpX87fdVG4UVbBARXPY16TjmmpUR
+no API errors in console log
 
-it's a valid but Vercel requires authentication
+Layout was forced before the page was fully loaded. If stylesheets are not yet loaded this may cause a flash of unstyled content. node.js:409:1
+InstallTrigger is deprecated and will be removed in the future. commons.js:2:589527
+GET
+https://tmh-renew-portal-git-dev-alexs-projects-5ddeff74.vercel.app/favicon.ico
+[HTTP/2 404  0ms]
 
-## Note to agents accessing this page:
+Partitioned cookie or storage access was provided to “https://vercel.live/_next-live/feedback/feedback.html?dpl=dpl_FkmqypM5VNGhePTLTCTeY1R2esR7” because it is loaded in the third-party context and dynamic state partitioning is enabled.
+feedback.html:9:10574
 
-This page requires authentication to access. Automated agents should use a Vercel authentication bypass token to access this page.
+and no api calls in network log:
 
-The easiest way to get a token is using the get_access_to_vercel_url or web_fetch_vercel_url functions of the Vercel MCP server
-at https://mcp.vercel.com (Docs at https://vercel.com/docs/mcp/vercel-mcp).
-
-Alternatively, this URL documents how to use the bypass token: https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation
-You need to prompt the user to provide the bypass token to access this page. The URL above also explains how the user can
-access the bypass token. Then you can calculate a URL of the following form and successfully access it: `https://current-domain/current-pathname?x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=$bypass_token`.
