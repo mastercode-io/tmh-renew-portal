@@ -6,6 +6,7 @@
 // Mock order data for development
 // In production, this will come from API response payload
 const MOCK_ORDER = {
+  deal_id: 'DEAL-000001',
   trademark: {
     word_mark: 'EXAMPLE BRAND',
     application_number: 'UK00003123456',
@@ -218,9 +219,12 @@ function initTermsValidation() {
   const termsError = document.getElementById('terms-error');
 
   if (payNowBtn && termsCheckbox) {
-    payNowBtn.addEventListener('click', function(e) {
+    payNowBtn.addEventListener('click', async function(e) {
+      // Always prevent default navigation
+      e.preventDefault();
+
       if (!termsCheckbox.checked) {
-        e.preventDefault();
+        termsError.textContent = 'Please accept the terms and conditions to proceed.';
         termsError.style.display = 'block';
         termsCheckbox.focus();
 
@@ -229,16 +233,79 @@ function initTermsValidation() {
         if (termsSection) {
           termsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      } else {
-        termsError.style.display = 'none';
+        return;
+      }
 
-        // Add loading spinner to Pay Now button
-        payNowBtn.classList.add('btn-loading');
-        const originalHTML = payNowBtn.innerHTML;
-        payNowBtn.innerHTML = '<span><span class="spinner"></span>Redirecting to payment...</span>';
+      // Terms are checked, proceed with payment link creation
+      termsError.style.display = 'none';
 
-        // Note: Navigation will happen naturally via href
-        // Spinner stays visible during redirect
+      // Add loading spinner to Pay Now button
+      payNowBtn.classList.add('btn-loading');
+      payNowBtn.disabled = true;
+      const originalHTML = payNowBtn.innerHTML;
+      payNowBtn.innerHTML = '<span><span class="spinner"></span>Creating payment link...</span>';
+
+      try {
+        // Get order data from localStorage to extract dealId
+        const orderData = loadOrderData();
+        const dealId = orderData.deal_id || orderData.dealId;
+
+        if (!dealId) {
+          throw new Error('Order ID not found. Please refresh the page and try again.');
+        }
+
+        // Call payment link API
+        const response = await fetch(`/api/renewal/${dealId}/payment-link`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || 'Failed to create payment link');
+        }
+
+        const data = await response.json();
+
+        if (!data.payment_url) {
+          throw new Error('Payment link not available. Please try again.');
+        }
+
+        // Update button to show success
+        payNowBtn.innerHTML = '<span><span class="spinner"></span>Opening payment page...</span>';
+
+        // Open payment link in new tab
+        const paymentWindow = window.open(data.payment_url, '_blank', 'noopener,noreferrer');
+
+        if (!paymentWindow) {
+          // Popup was blocked
+          throw new Error('Popup blocked. Please allow popups for this site and try again.');
+        }
+
+        // Update button to show it was opened
+        setTimeout(() => {
+          payNowBtn.classList.remove('btn-loading');
+          payNowBtn.disabled = false;
+          payNowBtn.innerHTML = originalHTML;
+        }, 1000);
+
+      } catch (error) {
+        console.error('Payment link creation failed:', error);
+
+        // Show error to user
+        payNowBtn.classList.remove('btn-loading');
+        payNowBtn.disabled = false;
+        payNowBtn.innerHTML = originalHTML;
+
+        // Display error message
+        termsError.textContent = error.message || 'Failed to create payment link. Please try again.';
+        termsError.style.display = 'block';
+
+        // Scroll to error
+        const termsSection = document.querySelector('.terms-section');
+        if (termsSection) {
+          termsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }
     });
 
