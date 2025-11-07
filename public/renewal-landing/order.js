@@ -231,6 +231,14 @@ function initTermsValidation() {
         }
       } else {
         termsError.style.display = 'none';
+
+        // Add loading spinner to Pay Now button
+        payNowBtn.classList.add('btn-loading');
+        const originalHTML = payNowBtn.innerHTML;
+        payNowBtn.innerHTML = '<span><span class="spinner"></span>Redirecting to payment...</span>';
+
+        // Note: Navigation will happen naturally via href
+        // Spinner stays visible during redirect
       }
     });
 

@@ -579,3 +579,48 @@ main {
     gap: 0.5rem;
   }
 }
+
+/* Loading Spinner Styles */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.spinner.spinner-pink {
+  border: 2px solid rgba(229, 22, 82, 0.2);
+  border-top-color: var(--brand-pink);
+}
+
+.spinner.spinner-lg {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
+}
+
+/* Button Loading State */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btn-loading span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-loading .spinner {
+  margin-right: 8px;
+}

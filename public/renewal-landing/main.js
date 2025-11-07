@@ -327,18 +327,34 @@
   }
 
   async function fetchPrefill() {
-    if (window.__renewalPayload) {
-      applyPrefillPayload(window.__renewalPayload);
-      return;
+    const loadingOverlay = document.getElementById('page-loading');
+
+    // Show loading overlay if fetching from API
+    const needsLoading = !window.__renewalPayload && token;
+    if (needsLoading && loadingOverlay) {
+      loadingOverlay.classList.remove('hidden');
     }
-    if (!token) return;
+
     try {
+      if (window.__renewalPayload) {
+        applyPrefillPayload(window.__renewalPayload);
+        return;
+      }
+      if (!token) return;
+
       const res = await fetch(`${prefillEndpoint}?token=${encodeURIComponent(token)}`, { credentials: 'include' });
       if (!res.ok) throw new Error('Prefill fetch failed');
       const payload = await res.json();
       applyPrefillPayload(payload);
     } catch (e) {
       console.warn('Prefill fetch error', e);
+    } finally {
+      // Hide loading overlay
+      if (loadingOverlay) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+        }, 300);
+      }
     }
   }
   fetchPrefill();
@@ -564,7 +580,14 @@
 
     // Placeholder network request; replace with your endpoint URL.
     const endpoint = form.dataset.endpoint || '/api/renewal/order';
-    form.querySelector('button[type="submit"]').disabled = true;
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Add loading state to button
+    submitBtn.disabled = true;
+    submitBtn.classList.add('btn-loading');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="btn-text"><span class="spinner"></span>Processing your renewal...</span>';
+
     try {
       const payload = {
         token,
@@ -592,8 +615,12 @@
       console.error(err);
       alert('Something went wrong sending your details. Please try again, or call us.');
     } finally {
-      const btn = form.querySelector('button[type="submit"]');
-      if (btn) btn.disabled = false;
+      // Only restore button if still on page (not redirected)
+      if (submitBtn) {
+        submitBtn.classList.remove('btn-loading');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
     }
   });
 })();
