@@ -7,6 +7,7 @@
 // In production, this will come from API response payload
 const MOCK_ORDER = {
   deal_id: 'DEAL-000001',
+  deal_token: 'eyJkZWFsX2lkIjoiREVBTC0wMDAwMDEifQ',
   trademark: {
     word_mark: 'EXAMPLE BRAND',
     application_number: 'UK00003123456',
@@ -246,16 +247,16 @@ function initTermsValidation() {
       payNowBtn.innerHTML = '<span><span class="spinner"></span>Creating payment link...</span>';
 
       try {
-        // Get order data from localStorage to extract dealId
+        // Get order data from localStorage to extract deal token
         const orderData = loadOrderData();
-        const dealId = orderData.deal_id || orderData.dealId;
+        const dealToken = orderData.deal_token || orderData.dealToken;
 
-        if (!dealId) {
-          throw new Error('Order ID not found. Please refresh the page and try again.');
+        if (!dealToken) {
+          throw new Error('Order token not found. Please refresh the page and try again.');
         }
 
         // Call payment link API
-        const response = await fetch(`/api/renewal/${dealId}/payment-link`, {
+        const response = await fetch(`/api/renewal/payment-link?token=${encodeURIComponent(dealToken)}`, {
           method: 'GET',
           credentials: 'include'
         });

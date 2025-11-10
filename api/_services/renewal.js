@@ -47,14 +47,14 @@ export async function submitRenewalOrder(body) {
   return getMockOrderSummary();
 }
 
-export async function fetchRenewalOrderSummary(dealId) {
-  if (!dealId) {
-    throw new Error('DEAL_ID_REQUIRED');
+export async function fetchRenewalOrderSummary(dealToken) {
+  if (!dealToken) {
+    throw new Error('TOKEN_REQUIRED');
   }
 
   if (isCrmConfigured()) {
     const response = await callCrm(CRM_ENDPOINTS.renewalOrderSummary, {
-      query: { dealId }
+      query: { token: dealToken }
     });
     return normalizeOrderSummary(response);
   }
@@ -63,21 +63,23 @@ export async function fetchRenewalOrderSummary(dealId) {
     throw new Error('CRM_NOT_CONFIGURED');
   }
 
+  const mock = getMockOrderSummary();
   return {
-    ...getMockOrderSummary(),
-    deal_id: dealId
+    ...mock,
+    deal_id: mock.deal_id || null,
+    deal_token: dealToken || mock.deal_token
   };
 }
 
-export async function createOrRetrievePaymentLink(dealId) {
-  if (!dealId) {
-    throw new Error('DEAL_ID_REQUIRED');
+export async function createOrRetrievePaymentLink(token) {
+  if (!token) {
+    throw new Error('TOKEN_REQUIRED');
   }
 
   if (isCrmConfigured()) {
     const response = await callCrm(CRM_ENDPOINTS.xeroInvoiceLink, {
       method: 'POST',
-      query: { dealId }
+      query: { token }
     });
     return normalizePaymentLink(response);
   }
@@ -86,10 +88,7 @@ export async function createOrRetrievePaymentLink(dealId) {
     throw new Error('PAYMENT_LINK_UNAVAILABLE');
   }
 
-  return {
-    ...getMockPaymentLink(),
-    deal_id: dealId
-  };
+  return getMockPaymentLink();
 }
 
 export async function fetchPaymentStatus(dealId) {
@@ -143,6 +142,7 @@ function normalizeOrderSummary(response) {
 
   return {
     deal_id: data.deal_id || data.dealId || data.DealId || null,
+    deal_token: data.deal_token || data.dealToken || data.token || null,
     contact_id: data.contact_id || data.contactId || null,
     account_id: data.account_id || data.accountId || null,
     subtotal: data.subtotal || 0,
@@ -158,12 +158,18 @@ function normalizePaymentLink(response) {
 
   const data = response.data || response;
 
-  if (data.payment_url) return data;
+  if (data.payment_url) {
+    return {
+      ...data,
+      deal_token: data.deal_token || data.dealToken || data.token || null
+    };
+  }
 
   return {
     payment_url: data.paymentUrl || data.payment_link || data.url || null,
     invoice_id: data.invoice_id || data.invoiceId || null,
-    deal_id: data.deal_id || data.dealId || null
+    deal_id: data.deal_id || data.dealId || null,
+    deal_token: data.deal_token || data.dealToken || data.token || null
   };
 }
 

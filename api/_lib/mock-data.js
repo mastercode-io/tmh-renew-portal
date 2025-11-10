@@ -201,6 +201,7 @@ const INDIVIDUAL_PAYLOAD = {
 
 const MOCK_ORDER_SUMMARY = {
   deal_id: 'D-000001',
+  deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ',
   contact_id: 'C-000001',
   account_id: 'A-000001',
   subtotal: 760,
@@ -235,7 +236,8 @@ const MOCK_ORDER_SUMMARY = {
 const MOCK_PAYMENT_LINK = {
   payment_url: 'https://invoices.xero.com/link/example',
   invoice_id: 'INV-12345',
-  deal_id: 'D-000001'
+  deal_id: 'D-000001',
+  deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ'
 };
 
 const MOCK_PAYMENT_STATUS = {

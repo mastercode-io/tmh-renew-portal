@@ -14,24 +14,27 @@ export default async function handler(request) {
   }
 
   try {
-    const dealId = extractDealId(request.url);
-    if (!dealId) {
-      return withCors(error('deal_id_required', 400));
+    const dealToken = extractDealToken(request.url);
+    if (!dealToken) {
+      return withCors(error('deal_token_required', 400));
     }
 
-    const link = await createOrRetrievePaymentLink(dealId);
+    const link = await createOrRetrievePaymentLink(dealToken);
     return withCors(json(link));
   } catch (err) {
-    console.error('GET /renewal/:dealId/payment-link failed', err);
+    console.error('GET /renewal/:dealToken/payment-link failed', err);
     const status = err.status || 500;
     return withCors(error('payment_link_failed', status, { message: err.message }));
   }
 }
 
-function extractDealId(url) {
+function extractDealToken(url) {
   try {
-    const { pathname } = new URL(url);
-    const segments = pathname.split('/').filter(Boolean);
+    const parsedUrl = new URL(url);
+    const tokenParam = parsedUrl.searchParams.get('token');
+    if (tokenParam) return tokenParam;
+
+    const segments = parsedUrl.pathname.split('/').filter(Boolean);
     return segments[segments.length - 2] || null;
   } catch (err) {
     return null;

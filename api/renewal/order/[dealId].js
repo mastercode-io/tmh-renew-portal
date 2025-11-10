@@ -14,21 +14,21 @@ export default async function handler(request) {
   }
 
   try {
-    const dealId = extractDealId(request.url);
-    if (!dealId) {
-      return withCors(error('deal_id_required', 400));
+    const dealToken = extractDealToken(request.url);
+    if (!dealToken) {
+      return withCors(error('deal_token_required', 400));
     }
 
-    const summary = await fetchRenewalOrderSummary(dealId);
+    const summary = await fetchRenewalOrderSummary(dealToken);
     return withCors(json(summary));
   } catch (err) {
-    console.error('GET /renewal/order/:dealId failed', err);
+    console.error('GET /renewal/order/:dealToken failed', err);
     const status = err.status || 500;
     return withCors(error('renewal_order_summary_failed', status, { message: err.message }));
   }
 }
 
-function extractDealId(url) {
+function extractDealToken(url) {
   try {
     const { pathname } = new URL(url);
     const segments = pathname.split('/').filter(Boolean);
