@@ -236,7 +236,6 @@ const MOCK_ORDER_SUMMARY = {
 const MOCK_PAYMENT_LINK = {
   payment_url: 'https://invoices.xero.com/link/example',
   invoice_id: 'INV-12345',
-  deal_id: 'D-000001',
   deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ'
 };
 

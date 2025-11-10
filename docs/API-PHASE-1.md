@@ -41,7 +41,7 @@
   {
     "payment_url": "<OnlineInvoiceUrl>",
     "invoice_id": "...",
-    "deal_id": "..."
+    "deal_token": "..."
   }
   ```
 - Front-end opens `payment_url` in a new tab and switches to “Waiting for payment” state.
@@ -111,4 +111,3 @@
 - Phase 1 focuses on **Xero → Stripe** payments only.
 - Zoho Billing is used for **mirroring and reporting**, not live transactions.
 - Future phases will replace the Xero invoice step with a **Zoho Billing hosted page**.
-

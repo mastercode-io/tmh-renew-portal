@@ -157,19 +157,14 @@ function normalizePaymentLink(response) {
   if (!response) return getMockPaymentLink();
 
   const data = response.data || response;
-
-  if (data.payment_url) {
-    return {
-      ...data,
-      deal_token: data.deal_token || data.dealToken || data.token || null
-    };
-  }
+  const paymentUrl = data.payment_url || data.paymentUrl || data.payment_link || data.url || null;
+  const invoiceId = data.invoice_id || data.invoiceId || null;
+  const dealToken = data.deal_token || data.dealToken || data.token || null;
 
   return {
-    payment_url: data.paymentUrl || data.payment_link || data.url || null,
-    invoice_id: data.invoice_id || data.invoiceId || null,
-    deal_id: data.deal_id || data.dealId || null,
-    deal_token: data.deal_token || data.dealToken || data.token || null
+    payment_url: paymentUrl,
+    invoice_id: invoiceId,
+    deal_token: dealToken
   };
 }
 
