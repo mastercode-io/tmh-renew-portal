@@ -235,13 +235,11 @@ const MOCK_ORDER_SUMMARY = {
 
 const MOCK_PAYMENT_LINK = {
   payment_url: 'https://invoices.xero.com/link/example',
-  invoice_id: 'INV-12345',
   deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ'
 };
 
 const MOCK_PAYMENT_STATUS = {
-  deal_id: 'D-000001',
-  invoice_id: 'INV-12345',
+  deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ',
   status: 'pending',
   updated_at: new Date().toISOString()
 };
@@ -261,8 +259,12 @@ export function getMockPaymentLink() {
   return clone(MOCK_PAYMENT_LINK);
 }
 
-export function getMockPaymentStatus() {
-  return clone(MOCK_PAYMENT_STATUS);
+export function getMockPaymentStatus(token) {
+  const payload = clone(MOCK_PAYMENT_STATUS);
+  if (token) {
+    payload.deal_token = token;
+  }
+  return payload;
 }
 
 function clone(value) {

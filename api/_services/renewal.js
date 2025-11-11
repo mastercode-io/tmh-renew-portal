@@ -78,7 +78,6 @@ export async function createOrRetrievePaymentLink(token) {
 
   if (isCrmConfigured()) {
     const response = await callCrm(CRM_ENDPOINTS.xeroInvoiceLink, {
-      method: 'POST',
       query: { token }
     });
     return normalizePaymentLink(response);
@@ -91,14 +90,14 @@ export async function createOrRetrievePaymentLink(token) {
   return getMockPaymentLink();
 }
 
-export async function fetchPaymentStatus(dealId) {
-  if (!dealId) {
-    throw new Error('DEAL_ID_REQUIRED');
+export async function fetchPaymentStatus(token) {
+  if (!token) {
+    throw new Error('TOKEN_REQUIRED');
   }
 
   if (isCrmConfigured()) {
     const response = await callCrm(CRM_ENDPOINTS.xeroInvoiceStatus, {
-      query: { dealId }
+      query: { token }
     });
     return normalizePaymentStatus(response);
   }
@@ -107,10 +106,7 @@ export async function fetchPaymentStatus(dealId) {
     throw new Error('PAYMENT_STATUS_UNAVAILABLE');
   }
 
-  return {
-    ...getMockPaymentStatus(),
-    deal_id: dealId
-  };
+  return getMockPaymentStatus(token);
 }
 
 function normalizeRenewalDetails(response) {
@@ -158,12 +154,10 @@ function normalizePaymentLink(response) {
 
   const data = response.data || response;
   const paymentUrl = data.payment_url || data.paymentUrl || data.payment_link || data.url || null;
-  const invoiceId = data.invoice_id || data.invoiceId || null;
   const dealToken = data.deal_token || data.dealToken || data.token || null;
 
   return {
     payment_url: paymentUrl,
-    invoice_id: invoiceId,
     deal_token: dealToken
   };
 }
@@ -172,17 +166,21 @@ function normalizePaymentStatus(response) {
   if (!response) return getMockPaymentStatus();
 
   const data = response.data || response;
-
-  if (data.status) return data;
-
   const invoices = data.Invoices || data.invoices || [];
   const invoice = Array.isArray(invoices) ? invoices[0] : null;
-  const status = invoice?.Status || invoice?.status || data.payment_status || 'pending';
+
+  const statusValue = data.status || invoice?.Status || invoice?.status || data.payment_status || 'pending';
+  const updatedAt =
+    data.updated_at ||
+    data.updatedAt ||
+    invoice?.UpdatedDateUTC ||
+    invoice?.UpdatedDateUtc ||
+    new Date().toISOString();
+  const dealToken = data.deal_token || data.dealToken || data.token || invoice?.Token || null;
 
   return {
-    deal_id: data.deal_id || data.dealId || null,
-    invoice_id: data.invoice_id || data.invoiceId || invoice?.InvoiceID || invoice?.InvoiceId || null,
-    status: status.toLowerCase(),
-    updated_at: data.updated_at || data.updatedAt || invoice?.UpdatedDateUTC || new Date().toISOString()
+    deal_token: dealToken,
+    status: statusValue.toLowerCase(),
+    updated_at: updatedAt
   };
 }

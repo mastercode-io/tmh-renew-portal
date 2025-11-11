@@ -40,15 +40,14 @@
   ```json
   {
     "payment_url": "<OnlineInvoiceUrl>",
-    "invoice_id": "...",
     "deal_token": "..."
   }
   ```
 - Front-end opens `payment_url` in a new tab and switches to “Waiting for payment” state.
 
-### [ ] 5. `GET /renewal/{dealId}/payment-status`
+### [ ] 5. `GET /renewal/payment-status?token=<deal_token>`
 
-- Look up `XeroInvoiceID` from the Deal.
+- Look up `XeroInvoiceID` from the Deal using the encrypted token.
 - Fetch invoice from Xero and return a simplified status:
   - `pending | paid | failed | not_found | timeout`
 - When status = `paid`:

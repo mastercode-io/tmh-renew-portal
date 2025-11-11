@@ -4,7 +4,7 @@ export const CRM_ENDPOINTS = {
   renewalDetails: '/crm/v7/functions/renewalgetleadinfo/actions/execute',
   renewalOrder: '/crm/v7/functions/renewalcreateorder/actions/execute',
   renewalOrderSummary: '/crm/v7/functions/renewalgetordersummary/actions/execute',
-  xeroInvoiceLink: '/crm/v7/functions/renewalgetpaymentlink/actions/execute',
+  xeroInvoiceLink: '/crm/v7/functions/dealcreatepayment/actions/execute',
   xeroInvoiceStatus: '/crm/v7/functions/renewalgetpaymentstatus/actions/execute'
 };
 
