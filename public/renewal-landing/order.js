@@ -514,11 +514,12 @@ function handleReopenPayment() {
     return;
   }
 
-  const paymentWindow = window.open(paymentState.paymentUrl, '_blank', 'noopener,noreferrer');
+  const paymentWindow = window.open(paymentState.paymentUrl, '_blank');
   if (!paymentWindow) {
     alert('Popup blocked. Please allow popups for this site and try again.');
     return;
   }
+  paymentWindow.opener = null;
 
   startPaymentMonitoring(paymentState.token, paymentState.paymentUrl, { resetStartTime: true });
 }
@@ -738,12 +739,14 @@ function initTermsValidation() {
         payNowBtn.innerHTML = '<span><span class="spinner"></span>Opening payment page...</span>';
 
         // Open payment link in new tab
-        const paymentWindow = window.open(data.payment_url, '_blank', 'noopener,noreferrer');
+        const paymentWindow = window.open(data.payment_url, '_blank');
 
         if (!paymentWindow) {
           // Popup was blocked
           throw new Error('Popup blocked. Please allow popups for this site and try again.');
         }
+
+        paymentWindow.opener = null;
 
         startPaymentMonitoring(dealToken, data.payment_url, { resetStartTime: true });
 
