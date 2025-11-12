@@ -367,6 +367,61 @@ main {
   flex-wrap: wrap;
 }
 
+/* Payment Status Panel */
+.payment-status-panel {
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: var(--soft-2);
+  display: none;
+}
+
+.payment-status-panel.is-visible {
+  display: block;
+}
+
+.payment-status-panel.is-info {
+  border-color: #fdd7e1;
+  background: var(--soft-2);
+  color: var(--ink);
+}
+
+.payment-status-panel.is-warning {
+  border-color: #ffe1a6;
+  background: #fff8eb;
+  color: #664300;
+}
+
+.payment-status-panel.is-danger {
+  border-color: #f7b6c7;
+  background: #fff2f4;
+  color: #6e1a2c;
+}
+
+.payment-status-title {
+  font-weight: 700;
+  margin: 0 0 0.35rem 0;
+  font-size: 0.95rem;
+}
+
+.payment-status-message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: inherit;
+}
+
+.payment-status-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.payment-status-panel .btn {
+  width: auto;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -407,6 +462,32 @@ main {
 .btn-lg {
   padding: 0.7rem 1.2rem;
   font-size: 0.9rem;
+}
+
+.btn-sm {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--brand-pink);
+  color: var(--brand-pink);
+}
+
+.btn-outline:hover {
+  background: var(--soft);
+  color: var(--brand-pink-600);
+}
+
+.btn-dark {
+  background: var(--brand-navy);
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background: var(--brand-navy-700);
+  color: #fff;
 }
 
 /* Security Note */
