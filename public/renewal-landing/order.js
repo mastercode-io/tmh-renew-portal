@@ -543,6 +543,7 @@ async function performStatusCheck(options = {}) {
 
     const payload = await response.json();
     const status = normalizeStatus(payload.status);
+    maybeShowPendingBanner();
     paymentState.lastStatus = status;
 
     if (status === PAYMENT_STATUS.PAID) {
@@ -572,6 +573,15 @@ async function performStatusCheck(options = {}) {
   }
 }
 
+function maybeShowPendingBanner() {
+  if (!paymentState.active || paymentState.timedOut) return;
+  if (!paymentState.startTime) return;
+  if (paymentState.pendingBannerShown) return;
+  if (Date.now() - paymentState.startTime >= PAYMENT_POLLING_CONFIG.bannerDelayMs) {
+    showPendingBanner();
+  }
+}
+
 function handlePendingStatus() {
   setPayNowButtonMode('waiting', 'Waiting for payment...');
 
@@ -579,7 +589,7 @@ function handlePendingStatus() {
     paymentState.startTime = Date.now();
   }
 
-  ensurePendingBannerScheduled();
+  maybeShowPendingBanner();
 }
 
 function handlePaidStatus() {

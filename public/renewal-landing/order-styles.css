@@ -489,8 +489,8 @@ main {
 }
 
 .btn-outline:hover {
-  background: var(--brand-pink);
-  color: #fff;
+  background: var(--soft);
+  color: var(--brand-pink-600);
 }
 
 .btn-dark {
