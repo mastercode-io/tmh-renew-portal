@@ -150,7 +150,7 @@ Security and session information.
 1. User fills form and clicks "Submit Renewal Request"
 2. JavaScript POSTs to `/api/lead`
 3. API returns order payload (separate specification)
-4. Page redirects to `order.html` with order data
+4. Page redirects to `/renewal-landing/order.html` with order data
 
 ## Example API Response
 

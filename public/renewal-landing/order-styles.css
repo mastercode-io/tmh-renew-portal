@@ -319,6 +319,19 @@ main {
   accent-color: var(--brand-pink);
 }
 
+.terms-checkbox.is-disabled,
+.terms-checkbox.is-disabled * {
+  cursor: not-allowed !important;
+}
+
+.terms-checkbox.is-disabled input[type="checkbox"] {
+  opacity: 0.6;
+}
+
+.terms-checkbox.is-disabled span {
+  opacity: 0.7;
+}
+
 .terms-checkbox span {
   flex: 1;
 }
@@ -367,6 +380,61 @@ main {
   flex-wrap: wrap;
 }
 
+/* Payment Status Panel */
+.payment-status-panel {
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: var(--soft-2);
+  display: none;
+}
+
+.payment-status-panel.is-visible {
+  display: block;
+}
+
+.payment-status-panel.is-info {
+  border-color: #fdd7e1;
+  background: var(--soft-2);
+  color: var(--ink);
+}
+
+.payment-status-panel.is-warning {
+  border-color: #ffe1a6;
+  background: #fff8eb;
+  color: #664300;
+}
+
+.payment-status-panel.is-danger {
+  border-color: #f7b6c7;
+  background: #fff2f4;
+  color: #6e1a2c;
+}
+
+.payment-status-title {
+  font-weight: 700;
+  margin: 0 0 0.35rem 0;
+  font-size: 0.95rem;
+}
+
+.payment-status-message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: inherit;
+}
+
+.payment-status-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.payment-status-panel .btn {
+  width: auto;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -400,13 +468,46 @@ main {
 }
 
 .btn-ghost:hover {
-  background: var(--brand-navy-700);
+  background: var(--brand-navy);
   color: #fff;
 }
 
 .btn-lg {
   padding: 0.7rem 1.2rem;
   font-size: 0.9rem;
+}
+
+.btn-sm {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--brand-pink);
+  color: var(--brand-pink);
+}
+
+.btn-outline:hover {
+  background: var(--soft);
+  color: var(--brand-pink-600);
+}
+
+.btn-dark {
+  background: var(--brand-navy);
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background: var(--brand-navy-700);
+  color: #fff;
+}
+
+.btn.is-disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 /* Security Note */
@@ -578,4 +679,49 @@ main {
     width: 100%;
     gap: 0.5rem;
   }
+}
+
+/* Loading Spinner Styles */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.spinner.spinner-pink {
+  border: 2px solid rgba(229, 22, 82, 0.2);
+  border-top-color: var(--brand-pink);
+}
+
+.spinner.spinner-lg {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
+}
+
+/* Button Loading State */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btn-loading span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-loading .spinner {
+  margin-right: 8px;
 }

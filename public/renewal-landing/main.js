@@ -30,6 +30,8 @@
     'firstName','lastName','email','phone','company','trademark','jurisdiction','regNumber','contactTime','classCount','applicationNumber','status','regDate','markType'
   ];
 
+  let prefillState = { contact: {}, trademark: {}, heroTrademarkNumber: null };
+
   const mergeTargets = {
     personName: document.querySelector('[data-merge="personName"]'),
     primaryTrademarkNumber: document.querySelector('[data-merge="primaryTrademarkNumber"]'),
@@ -120,7 +122,7 @@
 
   // Personalized greeting + renewals list via payload
   const token = params.get('token');
-  const prefillEndpoint = form.dataset.prefillEndpoint || '/api/prefill';
+  const prefillEndpoint = form.dataset.prefillEndpoint || '/api/renewal/details';
   const summaryNames = ['applicationNumber','status','regDate','trademark','markType','jurisdiction'];
   const renewalsList = document.getElementById('renewals');
   let paymentUrl = form.dataset.paymentUrl || '/pay';
@@ -168,6 +170,35 @@
     }).join('');
   };
 
+  const toTrimmedString = (value) => (value == null ? '' : String(value).trim());
+
+  const base64EncodeJson = (value) => {
+    try {
+      const json = JSON.stringify(value);
+      return btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16))));
+    } catch (error) {
+      console.error('Failed to base64 encode JSON', error);
+      throw error;
+    }
+  };
+
+  const buildOrderUrl = (orderData) => {
+    try {
+      const encoded = base64EncodeJson(orderData);
+      return `/renewal-landing/order.html?order=${encodeURIComponent(encoded)}`;
+    } catch (error) {
+      return '/renewal-landing/order.html';
+    }
+  };
+
+  const persistOrderData = (orderData) => {
+    try {
+      localStorage.setItem('renewal_order', JSON.stringify(orderData));
+    } catch (error) {
+      console.warn('Unable to persist order data', error);
+    }
+  };
+
   function applyPrefillPayload(payload) {
     if (!payload || typeof payload !== 'object') return;
 
@@ -178,7 +209,13 @@
     const nextDue = Array.isArray(payload.next_due) ? payload.next_due : [];
 
     // Build full name from contact
-    const fullName = [contact.first_name, contact.last_name].filter(Boolean).join(' ') || '';
+    let fullName = [contact.first_name, contact.last_name].filter(Boolean).join(' ') || '';
+    if (!contact.first_name || !contact.last_name) {
+      const [derivedFirst, derivedLast] = splitName(fullName || contact.name);
+      contact.first_name = contact.first_name || derivedFirst || '';
+      contact.last_name = contact.last_name || derivedLast || '';
+      fullName = [contact.first_name, contact.last_name].filter(Boolean).join(' ') || fullName;
+    }
     const heroFirstName = (contact.first_name || '').trim();
     const heroName = heroFirstName || 'there';
 
@@ -187,6 +224,13 @@
       || trademark.application_number
       || trademark.id
       || '—';
+
+    prefillState = {
+      account,
+      contact,
+      trademark,
+      heroTrademarkNumber
+    };
 
     // Update hero section
     if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
@@ -227,11 +271,13 @@
     }
 
     // Prefill contact fields in the form
-    const fullNameField = document.getElementById('fullName');
+    const firstNameField = document.getElementById('firstName');
+    const lastNameField = document.getElementById('lastName');
     const emailField = document.getElementById('email');
     const phoneField = document.getElementById('phone');
 
-    if (fullNameField && fullName) fullNameField.value = fullName;
+    if (firstNameField && contact.first_name) firstNameField.value = contact.first_name;
+    if (lastNameField && contact.last_name) lastNameField.value = contact.last_name;
     if (emailField && contact.email) emailField.value = contact.email;
     if (phoneField && contact.mobile) phoneField.value = contact.mobile;
 
@@ -281,18 +327,34 @@
   }
 
   async function fetchPrefill() {
-    if (window.__renewalPayload) {
-      applyPrefillPayload(window.__renewalPayload);
-      return;
+    const loadingOverlay = document.getElementById('page-loading');
+
+    // Show loading overlay if fetching from API
+    const needsLoading = !window.__renewalPayload && token;
+    if (needsLoading && loadingOverlay) {
+      loadingOverlay.classList.remove('hidden');
     }
-    if (!token) return;
+
     try {
+      if (window.__renewalPayload) {
+        applyPrefillPayload(window.__renewalPayload);
+        return;
+      }
+      if (!token) return;
+
       const res = await fetch(`${prefillEndpoint}?token=${encodeURIComponent(token)}`, { credentials: 'include' });
       if (!res.ok) throw new Error('Prefill fetch failed');
       const payload = await res.json();
       applyPrefillPayload(payload);
     } catch (e) {
       console.warn('Prefill fetch error', e);
+    } finally {
+      // Hide loading overlay
+      if (loadingOverlay) {
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+        }, 300);
+      }
     }
   }
   fetchPrefill();
@@ -410,7 +472,7 @@
   };
 
   // Clear errors when user interacts with fields
-  ['fullName', 'email', 'phone'].forEach(fieldId => {
+  ['firstName', 'lastName', 'email', 'phone'].forEach(fieldId => {
     const field = document.getElementById(fieldId);
     if (field) {
       field.addEventListener('input', () => clearError(fieldId));
@@ -429,15 +491,23 @@
     e.preventDefault();
 
     // Clear all previous errors
-    ['fullName', 'email', 'phone', 'authConfirm', 'consent'].forEach(clearError);
+    ['firstName', 'lastName', 'email', 'phone', 'authConfirm', 'consent'].forEach(clearError);
 
     let hasErrors = false;
 
     // Validate name
-    const fullName = document.getElementById('fullName');
-    if (fullName && fullName.offsetParent !== null) { // Check if visible
-      if (!fullName.value.trim()) {
-        showError('fullName', 'Please provide your name');
+    const firstNameInput = document.getElementById('firstName');
+    if (firstNameInput && firstNameInput.offsetParent !== null) {
+      if (!firstNameInput.value.trim()) {
+        showError('firstName', 'Please provide your first name');
+        hasErrors = true;
+      }
+    }
+
+    const lastNameInput = document.getElementById('lastName');
+    if (lastNameInput && lastNameInput.offsetParent !== null) {
+      if (!lastNameInput.value.trim()) {
+        showError('lastName', 'Please provide your last name');
         hasErrors = true;
       }
     }
@@ -485,25 +555,72 @@
       return;
     }
 
-    const data = Object.fromEntries(new FormData(form).entries());
+    const rawFormData = Object.fromEntries(new FormData(form).entries());
+    const contactPrefill = prefillState.contact || {};
+    const firstNamePrefill = contactPrefill.first_name || '';
+    const lastNamePrefill = contactPrefill.last_name || '';
+    const emailPrefill = contactPrefill.email || '';
+    const phonePrefill = contactPrefill.mobile || contactPrefill.phone || '';
+    const heroNumber = prefillState.heroTrademarkNumber;
+    const normalizedHeroNumber = heroNumber && heroNumber !== '—' ? heroNumber : '';
+    const trademarkPrefill = normalizedHeroNumber
+      || prefillState.trademark?.registration_number
+      || prefillState.trademark?.application_number
+      || prefillState.trademark?.id
+      || rawFormData.regNumber
+      || '';
+
+    const data = {
+      first_name: toTrimmedString(rawFormData.firstName) || toTrimmedString(firstNamePrefill),
+      last_name: toTrimmedString(rawFormData.lastName) || toTrimmedString(lastNamePrefill),
+      email: toTrimmedString(rawFormData.email) || toTrimmedString(emailPrefill),
+      phone: toTrimmedString(rawFormData.phone) || toTrimmedString(phonePrefill),
+      trademark_number: toTrimmedString(trademarkPrefill)
+    };
 
     // Placeholder network request; replace with your endpoint URL.
-    const endpoint = form.dataset.endpoint || '/api/lead';
-    form.querySelector('button[type="submit"]').disabled = true;
+    const endpoint = form.dataset.endpoint || '/api/renewal/order';
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Add loading state to button
+    submitBtn.disabled = true;
+    submitBtn.classList.add('btn-loading');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="btn-text"><span class="spinner"></span>Processing your renewal...</span>';
+
     try {
+      const payload = {
+        token,
+        source: 'renewal-landing',
+        type: 'lead',
+        data
+      };
+
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ source: 'renewal-landing', data })
+        body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error('Network error');
-      form.innerHTML = '<div class="success"><h3>Thank you!</h3><p>We\'ll be in touch shortly to confirm your renewal details and quote.</p></div>';
+
+      const orderSummary = await res.json();
+      if (!orderSummary || typeof orderSummary !== 'object' || orderSummary.error) {
+        const errMsg = typeof orderSummary?.error === 'string' ? orderSummary.error : 'Invalid order response';
+        throw new Error(errMsg);
+      }
+
+      persistOrderData(orderSummary);
+      window.location.href = buildOrderUrl(orderSummary);
     } catch (err) {
       console.error(err);
       alert('Something went wrong sending your details. Please try again, or call us.');
     } finally {
-      const btn = form.querySelector('button[type="submit"]');
-      if (btn) btn.disabled = false;
+      // Only restore button if still on page (not redirected)
+      if (submitBtn) {
+        submitBtn.classList.remove('btn-loading');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
     }
   });
 })();

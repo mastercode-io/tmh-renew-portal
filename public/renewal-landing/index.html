@@ -13,6 +13,12 @@
     <script defer src="./main.js"></script>
   </head>
   <body>
+    <!-- Loading Overlay -->
+    <div class="page-loading-overlay hidden" id="page-loading">
+      <div class="spinner spinner-pink spinner-lg"></div>
+      <div class="page-loading-text">Loading your renewal details...</div>
+    </div>
+
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
@@ -338,7 +344,7 @@
           </div>
 
           <div class="card renewal-form-card">
-            <form id="lead-form" novalidate data-endpoint="/api/lead" data-prefill-endpoint="/api/prefill" data-payment-url="/pay">
+            <form id="lead-form" novalidate data-endpoint="/api/renewal/order" data-prefill-endpoint="/api/renewal/details" data-payment-url="/pay">
 
               <!-- Review Information (Read-only display) -->
               <div class="review-info-section">
@@ -401,9 +407,14 @@
                 <h3>Your contact details</h3>
                 <div class="fields-grid">
                   <label class="field">
-                    <span>Name <span class="required-mark">*</span></span>
-                    <input name="fullName" id="fullName" autocomplete="name" required />
-                    <span class="field-error" id="fullName-error"></span>
+                    <span>First name <span class="required-mark">*</span></span>
+                    <input name="firstName" id="firstName" autocomplete="given-name" required />
+                    <span class="field-error" id="firstName-error"></span>
+                  </label>
+                  <label class="field">
+                    <span>Last name <span class="required-mark">*</span></span>
+                    <input name="lastName" id="lastName" autocomplete="family-name" required />
+                    <span class="field-error" id="lastName-error"></span>
                   </label>
                   <label class="field">
                     <span>Email <span class="required-mark">*</span></span>
