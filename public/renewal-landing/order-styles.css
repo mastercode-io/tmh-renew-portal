@@ -468,7 +468,7 @@ main {
 }
 
 .btn-ghost:hover {
-  background: var(--brand-navy-700);
+  background: var(--brand-navy);
   color: #fff;
 }
 
@@ -489,8 +489,8 @@ main {
 }
 
 .btn-outline:hover {
-  background: var(--soft);
-  color: var(--brand-pink-600);
+  background: var(--brand-pink);
+  color: #fff;
 }
 
 .btn-dark {

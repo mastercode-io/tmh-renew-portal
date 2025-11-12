@@ -324,6 +324,19 @@ function resetPendingBannerState() {
   paymentState.pendingBannerShown = false;
 }
 
+function ensurePendingBannerScheduled() {
+  if (!paymentState.active || paymentState.timedOut) return;
+  if (!paymentState.startTime) {
+    paymentState.startTime = Date.now();
+  }
+  const elapsed = getElapsedTime();
+  if (elapsed >= PAYMENT_POLLING_CONFIG.bannerDelayMs) {
+    showPendingBanner();
+  } else {
+    schedulePendingBanner(PAYMENT_POLLING_CONFIG.bannerDelayMs - elapsed);
+  }
+}
+
 function rememberOfferUrl() {
   try {
     const referrer = document.referrer || '';
@@ -566,16 +579,7 @@ function handlePendingStatus() {
     paymentState.startTime = Date.now();
   }
 
-  if (paymentState.pendingBannerShown) {
-    return;
-  }
-
-  const elapsed = getElapsedTime();
-  if (elapsed >= PAYMENT_POLLING_CONFIG.bannerDelayMs) {
-    showPendingBanner();
-  } else {
-    schedulePendingBanner(PAYMENT_POLLING_CONFIG.bannerDelayMs - elapsed);
-  }
+  ensurePendingBannerScheduled();
 }
 
 function handlePaidStatus() {
@@ -626,7 +630,7 @@ function startPaymentMonitoring(token, paymentUrl, { resetStartTime = true } = {
   if (resetStartTime || !paymentState.startTime) {
     paymentState.startTime = Date.now();
   }
-  schedulePendingBanner();
+  ensurePendingBannerScheduled();
   setPayNowButtonMode('waiting', 'Waiting for payment...');
   performStatusCheck();
 }
@@ -704,7 +708,7 @@ async function handleManualRecheck() {
       paymentState.active = true;
       resetPendingBannerState();
       hidePaymentStatusPanel();
-      schedulePendingBanner();
+      ensurePendingBannerScheduled();
       setPayNowButtonMode('waiting', 'Waiting for payment...');
       scheduleNextPoll();
       handlePendingStatus();
@@ -920,6 +924,15 @@ function initTermsValidation() {
 
 window.addEventListener('beforeunload', () => stopPaymentMonitoring());
 window.addEventListener('pagehide', () => stopPaymentMonitoring());
+window.addEventListener('focus', () => {
+  if (!paymentState.active || paymentState.pendingBannerShown) return;
+  ensurePendingBannerScheduled();
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  if (!paymentState.active || paymentState.pendingBannerShown) return;
+  ensurePendingBannerScheduled();
+});
 
 // Initialize on page load
 if (document.readyState === 'loading') {
