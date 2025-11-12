@@ -92,12 +92,15 @@ const paymentStatusElements = {
   panel: document.getElementById('payment-status-panel'),
   title: document.getElementById('payment-status-title'),
   message: document.getElementById('payment-status-message'),
-  actions: document.getElementById('payment-status-actions')
+  actions: document.getElementById('payment-status-actions'),
+  upsell: document.querySelector('.monitoring-upsell')
 };
 
 let recheckButtonRef = null;
 const auxiliaryState = {
-  bookCallBtn: document.getElementById('book-call-btn')
+  bookCallBtn: document.getElementById('book-call-btn'),
+  termsCheckbox: document.getElementById('terms-checkbox'),
+  termsLabel: document.querySelector('.terms-checkbox')
 };
 const payNowButtonState = {
   button: null,
@@ -110,25 +113,29 @@ const TERMINAL_STATUS_CONTENT = {
     tone: 'danger',
     title: 'Invoice cancelled',
     message: 'This invoice was cancelled.',
-    actions: ['offer', 'contact']
+    actions: ['offer', 'contact'],
+    replaceUpsell: true
   },
   [PAYMENT_STATUS.NOT_FOUND]: {
     tone: 'danger',
     title: 'Payment link unavailable',
     message: 'This payment link is no longer available.',
-    actions: ['offer', 'contact']
+    actions: ['offer', 'contact'],
+    replaceUpsell: true
   },
   [PAYMENT_STATUS.FAILED]: {
     tone: 'warning',
     title: 'Payment not completed',
     message: 'Payment was not completed.',
-    actions: ['reopen', 'recheck', 'contact']
+    actions: ['reopen', 'recheck', 'contact'],
+    replaceUpsell: true
   },
   [PAYMENT_STATUS.TIMEOUT]: {
     tone: 'warning',
     title: 'Payment not detected',
     message: 'We didn’t detect a completed payment.',
-    actions: ['reopen', 'recheck', 'contact']
+    actions: ['reopen', 'recheck', 'contact'],
+    replaceUpsell: true
   }
 };
 
@@ -267,6 +274,18 @@ function setAuxiliaryActionsDisabled(isDisabled) {
       }
     }
   }
+
+  const termsCheckbox = auxiliaryState.termsCheckbox || document.getElementById('terms-checkbox');
+  if (termsCheckbox) {
+    auxiliaryState.termsCheckbox = termsCheckbox;
+    termsCheckbox.disabled = isDisabled;
+  }
+
+  const termsLabel = auxiliaryState.termsLabel || document.querySelector('.terms-checkbox');
+  if (termsLabel) {
+    auxiliaryState.termsLabel = termsLabel;
+    termsLabel.classList.toggle('is-disabled', isDisabled);
+  }
 }
 
 function clearPendingBannerTimer() {
@@ -277,8 +296,7 @@ function clearPendingBannerTimer() {
 }
 
 function schedulePendingBanner(remainingMs) {
-  if (paymentState.pendingBannerShown) return;
-  clearPendingBannerTimer();
+  if (paymentState.pendingBannerShown || paymentState.bannerTimeoutId) return;
   const delay =
     typeof remainingMs === 'number'
       ? Math.max(remainingMs, 0)
@@ -295,9 +313,15 @@ function showPendingBanner() {
   showPaymentStatusPanel({
     tone: 'info',
     title: 'Waiting for your payment...',
-    message: 'We’re waiting for your payment to complete in the other tab. This page will update automatically.'
+    message: 'We’re waiting for your payment to complete in the other tab. This page will update automatically.',
+    replaceUpsell: false
   });
   paymentState.pendingBannerShown = true;
+}
+
+function resetPendingBannerState() {
+  clearPendingBannerTimer();
+  paymentState.pendingBannerShown = false;
 }
 
 function rememberOfferUrl() {
@@ -385,7 +409,7 @@ function renderStatusActions(actionKeys = []) {
 
 function showPaymentStatusPanel(config = {}) {
   if (!paymentStatusElements.panel) return;
-  const { tone = 'info', title = '', message = '', actions = [] } = config;
+  const { tone = 'info', title = '', message = '', actions = [], replaceUpsell = false } = config;
   paymentStatusElements.panel.hidden = false;
   paymentStatusElements.panel.classList.add('is-visible');
   paymentStatusElements.panel.classList.remove('is-info', 'is-warning', 'is-danger');
@@ -402,6 +426,11 @@ function showPaymentStatusPanel(config = {}) {
   }
 
   renderStatusActions(actions);
+
+  if (paymentStatusElements.upsell) {
+    paymentStatusElements.upsell.hidden = replaceUpsell;
+    paymentStatusElements.upsell.setAttribute('aria-hidden', replaceUpsell ? 'true' : 'false');
+  }
 }
 
 function hidePaymentStatusPanel() {
@@ -412,6 +441,10 @@ function hidePaymentStatusPanel() {
   if (paymentStatusElements.message) paymentStatusElements.message.textContent = '';
   if (paymentStatusElements.actions) paymentStatusElements.actions.innerHTML = '';
   recheckButtonRef = null;
+  if (paymentStatusElements.upsell) {
+    paymentStatusElements.upsell.hidden = false;
+    paymentStatusElements.upsell.setAttribute('aria-hidden', 'false');
+  }
 }
 
 function getElapsedTime() {
@@ -573,7 +606,7 @@ function stopPaymentMonitoring(options = {}) {
     clearTimeout(paymentState.pollTimeoutId);
     paymentState.pollTimeoutId = null;
   }
-  clearPendingBannerTimer();
+  resetPendingBannerState();
   paymentState.active = false;
   paymentState.inFlight = false;
   if (!options.keepPanel) {
@@ -586,7 +619,7 @@ function startPaymentMonitoring(token, paymentUrl, { resetStartTime = true } = {
   stopPaymentMonitoring();
   paymentState.token = token;
   paymentState.paymentUrl = paymentUrl;
-  paymentState.pendingBannerShown = false;
+  resetPendingBannerState();
   paymentState.timedOut = false;
   paymentState.active = true;
   paymentState.manualRecheckInFlight = false;
@@ -669,9 +702,8 @@ async function handleManualRecheck() {
 
     if (status === PAYMENT_STATUS.PENDING && !paymentState.timedOut) {
       paymentState.active = true;
-      paymentState.pendingBannerShown = false;
+      resetPendingBannerState();
       hidePaymentStatusPanel();
-      clearPendingBannerTimer();
       schedulePendingBanner();
       setPayNowButtonMode('waiting', 'Waiting for payment...');
       scheduleNextPoll();

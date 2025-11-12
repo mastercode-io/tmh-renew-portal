@@ -319,6 +319,19 @@ main {
   accent-color: var(--brand-pink);
 }
 
+.terms-checkbox.is-disabled,
+.terms-checkbox.is-disabled * {
+  cursor: not-allowed !important;
+}
+
+.terms-checkbox.is-disabled input[type="checkbox"] {
+  opacity: 0.6;
+}
+
+.terms-checkbox.is-disabled span {
+  opacity: 0.7;
+}
+
 .terms-checkbox span {
   flex: 1;
 }
