@@ -201,7 +201,7 @@ const INDIVIDUAL_PAYLOAD = {
 
 const MOCK_ORDER_SUMMARY = {
   deal_id: 'D-000001',
-  deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ',
+  deal_token: 'mock_deal_token',
   contact_id: 'C-000001',
   account_id: 'A-000001',
   subtotal: 760,
@@ -235,11 +235,11 @@ const MOCK_ORDER_SUMMARY = {
 
 const MOCK_PAYMENT_LINK = {
   payment_url: 'https://invoices.xero.com/link/example',
-  deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ'
+  deal_token: 'mock_deal_token'
 };
 
 const MOCK_PAYMENT_STATUS = {
-  deal_token: 'eyJkZWFsX2lkIjoiRC0wMDAwMDEifQ',
+  deal_token: 'mock_deal_token',
   status: 'pending',
   updated_at: new Date().toISOString()
 };
