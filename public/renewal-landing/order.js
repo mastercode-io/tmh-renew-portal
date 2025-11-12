@@ -84,7 +84,8 @@ const paymentState = {
   pendingBannerShown: false,
   lastStatus: null,
   timedOut: false,
-  active: false
+  active: false,
+  bannerTimeoutId: null
 };
 
 const paymentStatusElements = {
@@ -95,6 +96,9 @@ const paymentStatusElements = {
 };
 
 let recheckButtonRef = null;
+const auxiliaryState = {
+  bookCallBtn: document.getElementById('book-call-btn')
+};
 const payNowButtonState = {
   button: null,
   defaultHtml: '',
@@ -218,6 +222,8 @@ function setPayNowButtonMode(mode = 'default', labelText = '') {
   const btn = ensurePayNowButton();
   if (!btn) return;
   payNowButtonState.mode = mode;
+  const disableAux = mode === 'loading' || mode === 'waiting';
+  setAuxiliaryActionsDisabled(disableAux);
 
   if (mode === 'loading' || mode === 'waiting') {
     const text =
@@ -230,6 +236,68 @@ function setPayNowButtonMode(mode = 'default', labelText = '') {
     btn.classList.remove('btn-loading');
     btn.innerHTML = payNowButtonState.defaultHtml || '<span>No - I want to pay now</span>';
   }
+}
+
+function setAuxiliaryActionsDisabled(isDisabled) {
+  const bookBtn = auxiliaryState.bookCallBtn || document.getElementById('book-call-btn');
+  if (bookBtn) {
+    auxiliaryState.bookCallBtn = bookBtn;
+    if (isDisabled) {
+      bookBtn.classList.add('is-disabled');
+      bookBtn.setAttribute('aria-disabled', 'true');
+      if (!bookBtn.dataset.originalTabindex) {
+        const currentTabindex = bookBtn.getAttribute('tabindex');
+        if (currentTabindex !== null) {
+          bookBtn.dataset.originalTabindex = currentTabindex;
+        }
+      }
+      bookBtn.setAttribute('tabindex', '-1');
+    } else {
+      bookBtn.classList.remove('is-disabled');
+      bookBtn.removeAttribute('aria-disabled');
+      if (bookBtn.dataset.originalTabindex !== undefined) {
+        if (bookBtn.dataset.originalTabindex) {
+          bookBtn.setAttribute('tabindex', bookBtn.dataset.originalTabindex);
+        } else {
+          bookBtn.removeAttribute('tabindex');
+        }
+        delete bookBtn.dataset.originalTabindex;
+      } else {
+        bookBtn.removeAttribute('tabindex');
+      }
+    }
+  }
+}
+
+function clearPendingBannerTimer() {
+  if (paymentState.bannerTimeoutId) {
+    clearTimeout(paymentState.bannerTimeoutId);
+    paymentState.bannerTimeoutId = null;
+  }
+}
+
+function schedulePendingBanner(remainingMs) {
+  if (paymentState.pendingBannerShown) return;
+  clearPendingBannerTimer();
+  const delay =
+    typeof remainingMs === 'number'
+      ? Math.max(remainingMs, 0)
+      : Math.max(PAYMENT_POLLING_CONFIG.bannerDelayMs - getElapsedTime(), 0);
+  paymentState.bannerTimeoutId = window.setTimeout(() => {
+    paymentState.bannerTimeoutId = null;
+    if (!paymentState.active || paymentState.timedOut || paymentState.pendingBannerShown) return;
+    showPendingBanner();
+  }, delay);
+}
+
+function showPendingBanner() {
+  if (paymentState.pendingBannerShown) return;
+  showPaymentStatusPanel({
+    tone: 'info',
+    title: 'Waiting for your payment...',
+    message: 'We’re waiting for your payment to complete in the other tab. This page will update automatically.'
+  });
+  paymentState.pendingBannerShown = true;
 }
 
 function rememberOfferUrl() {
@@ -465,14 +533,15 @@ function handlePendingStatus() {
     paymentState.startTime = Date.now();
   }
 
+  if (paymentState.pendingBannerShown) {
+    return;
+  }
+
   const elapsed = getElapsedTime();
-  if (elapsed >= PAYMENT_POLLING_CONFIG.bannerDelayMs && !paymentState.pendingBannerShown) {
-    showPaymentStatusPanel({
-      tone: 'info',
-      title: 'Waiting for your payment...',
-      message: 'We’re waiting for your payment to complete in the other tab. This page will update automatically.'
-    });
-    paymentState.pendingBannerShown = true;
+  if (elapsed >= PAYMENT_POLLING_CONFIG.bannerDelayMs) {
+    showPendingBanner();
+  } else {
+    schedulePendingBanner(PAYMENT_POLLING_CONFIG.bannerDelayMs - elapsed);
   }
 }
 
@@ -486,6 +555,7 @@ function handleTerminalStatus(statusKey) {
   const config = TERMINAL_STATUS_CONTENT[statusKey];
   stopPaymentMonitoring({ keepPanel: true });
   setPayNowButtonMode('default');
+  clearPendingBannerTimer();
   if (config) {
     showPaymentStatusPanel(config);
   }
@@ -503,6 +573,7 @@ function stopPaymentMonitoring(options = {}) {
     clearTimeout(paymentState.pollTimeoutId);
     paymentState.pollTimeoutId = null;
   }
+  clearPendingBannerTimer();
   paymentState.active = false;
   paymentState.inFlight = false;
   if (!options.keepPanel) {
@@ -522,6 +593,7 @@ function startPaymentMonitoring(token, paymentUrl, { resetStartTime = true } = {
   if (resetStartTime || !paymentState.startTime) {
     paymentState.startTime = Date.now();
   }
+  schedulePendingBanner();
   setPayNowButtonMode('waiting', 'Waiting for payment...');
   performStatusCheck();
 }
@@ -599,6 +671,8 @@ async function handleManualRecheck() {
       paymentState.active = true;
       paymentState.pendingBannerShown = false;
       hidePaymentStatusPanel();
+      clearPendingBannerTimer();
+      schedulePendingBanner();
       setPayNowButtonMode('waiting', 'Waiting for payment...');
       scheduleNextPoll();
       handlePendingStatus();

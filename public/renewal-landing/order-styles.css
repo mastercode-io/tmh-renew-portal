@@ -490,6 +490,13 @@ main {
   color: #fff;
 }
 
+.btn.is-disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 /* Security Note */
 .security-note {
   text-align: left;
