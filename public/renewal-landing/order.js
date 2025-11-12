@@ -95,6 +95,11 @@ const paymentStatusElements = {
 };
 
 let recheckButtonRef = null;
+const payNowButtonState = {
+  button: null,
+  defaultHtml: '',
+  mode: 'default'
+};
 
 const TERMINAL_STATUS_CONTENT = {
   [PAYMENT_STATUS.VOIDED]: {
@@ -194,6 +199,36 @@ function updatePaymentLink(paymentUrl) {
   const payNowBtn = document.getElementById('pay-now-btn');
   if (paymentUrl) {
     payNowBtn.href = paymentUrl;
+  }
+}
+
+function ensurePayNowButton() {
+  if (payNowButtonState.button && payNowButtonState.button.isConnected) {
+    return payNowButtonState.button;
+  }
+  const btn = document.getElementById('pay-now-btn');
+  if (btn) {
+    payNowButtonState.button = btn;
+    payNowButtonState.defaultHtml = btn.innerHTML;
+  }
+  return btn;
+}
+
+function setPayNowButtonMode(mode = 'default', labelText = '') {
+  const btn = ensurePayNowButton();
+  if (!btn) return;
+  payNowButtonState.mode = mode;
+
+  if (mode === 'loading' || mode === 'waiting') {
+    const text =
+      labelText || (mode === 'loading' ? 'Processing your renewal...' : 'Waiting for payment...');
+    btn.disabled = true;
+    btn.classList.add('btn-loading');
+    btn.innerHTML = `<span class="btn-text"><span class="spinner"></span>${text}</span>`;
+  } else {
+    btn.disabled = false;
+    btn.classList.remove('btn-loading');
+    btn.innerHTML = payNowButtonState.defaultHtml || '<span>No - I want to pay now</span>';
   }
 }
 
@@ -424,6 +459,8 @@ async function performStatusCheck(options = {}) {
 }
 
 function handlePendingStatus() {
+  setPayNowButtonMode('waiting', 'Waiting for payment...');
+
   if (!paymentState.startTime) {
     paymentState.startTime = Date.now();
   }
@@ -448,6 +485,7 @@ function handlePaidStatus() {
 function handleTerminalStatus(statusKey) {
   const config = TERMINAL_STATUS_CONTENT[statusKey];
   stopPaymentMonitoring({ keepPanel: true });
+  setPayNowButtonMode('default');
   if (config) {
     showPaymentStatusPanel(config);
   }
@@ -484,6 +522,7 @@ function startPaymentMonitoring(token, paymentUrl, { resetStartTime = true } = {
   if (resetStartTime || !paymentState.startTime) {
     paymentState.startTime = Date.now();
   }
+  setPayNowButtonMode('waiting', 'Waiting for payment...');
   performStatusCheck();
 }
 
@@ -560,6 +599,7 @@ async function handleManualRecheck() {
       paymentState.active = true;
       paymentState.pendingBannerShown = false;
       hidePaymentStatusPanel();
+      setPayNowButtonMode('waiting', 'Waiting for payment...');
       scheduleNextPoll();
       handlePendingStatus();
     }
@@ -674,6 +714,8 @@ function initTermsValidation() {
   const termsError = document.getElementById('terms-error');
 
   if (payNowBtn && termsCheckbox) {
+    ensurePayNowButton();
+    setPayNowButtonMode('default');
     payNowBtn.addEventListener('click', async function(e) {
       // Always prevent default navigation
       e.preventDefault();
@@ -695,10 +737,7 @@ function initTermsValidation() {
       termsError.style.display = 'none';
 
       // Add loading spinner to Pay Now button
-      payNowBtn.classList.add('btn-loading');
-      payNowBtn.disabled = true;
-      const originalHTML = payNowBtn.innerHTML;
-      payNowBtn.innerHTML = '<span><span class="spinner"></span>Creating payment link...</span>';
+      setPayNowButtonMode('loading', 'Creating payment link...');
 
       try {
         // Get order data from localStorage to extract deal token
@@ -735,9 +774,6 @@ function initTermsValidation() {
         paymentState.paymentUrl = data.payment_url;
         paymentState.token = dealToken;
 
-        // Update button to show success
-        payNowBtn.innerHTML = '<span><span class="spinner"></span>Opening payment page...</span>';
-
         // Open payment link in new tab
         const paymentWindow = window.open(data.payment_url, '_blank');
 
@@ -750,20 +786,10 @@ function initTermsValidation() {
 
         startPaymentMonitoring(dealToken, data.payment_url, { resetStartTime: true });
 
-        // Update button to show it was opened
-        setTimeout(() => {
-          payNowBtn.classList.remove('btn-loading');
-          payNowBtn.disabled = false;
-          payNowBtn.innerHTML = originalHTML;
-        }, 1000);
-
       } catch (error) {
         console.error('Payment link creation failed:', error);
 
-        // Show error to user
-        payNowBtn.classList.remove('btn-loading');
-        payNowBtn.disabled = false;
-        payNowBtn.innerHTML = originalHTML;
+        setPayNowButtonMode('default');
 
         // Display error message
         termsError.textContent = error.message || 'Failed to create payment link. Please try again.';
