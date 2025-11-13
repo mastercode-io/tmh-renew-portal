@@ -70,40 +70,50 @@
         <!-- Trademark Info Card -->
         <div class="container">
           <div class="trademark-info-card">
-            <!-- Trademark Image (if logo mark) -->
-            <div class="tm-image-container" id="hero-tm-image" style="display: none;">
-              <img id="hero-tm-img" src="" alt="Trademark logo" class="tm-image">
+            <!-- Left Column: Type, Classes, Status -->
+            <div class="tm-details-left">
+              <dl>
+                <div>
+                  <dt>Type:</dt>
+                  <dd data-merge="heroMarkType">—</dd>
+                </div>
+                <div>
+                  <dt>Classes:</dt>
+                  <dd data-merge="heroClassCount">—</dd>
+                </div>
+                <div>
+                  <dt>Status:</dt>
+                  <dd data-merge="heroStatus">—</dd>
+                </div>
+              </dl>
             </div>
 
-            <!-- Trademark Header -->
-            <div class="tm-header">
-              <h3 class="tm-name" data-merge="heroTrademarkName">—</h3>
-              <span class="tm-badge" data-merge="heroTrademarkNumber">—</span>
+            <!-- Middle Column: Registered, Expires -->
+            <div class="tm-details-middle">
+              <dl>
+                <div>
+                  <dt>Registered:</dt>
+                  <dd data-merge="heroRegDate">—</dd>
+                </div>
+                <div>
+                  <dt>Expires:</dt>
+                  <dd data-merge="heroExpiryDate">—</dd>
+                </div>
+              </dl>
             </div>
 
-            <!-- Trademark Details -->
-            <dl class="tm-details-compact">
-              <div>
-                <dt>Registered:</dt>
-                <dd data-merge="heroRegDate">—</dd>
+            <!-- Right Column: Word Mark or Logo -->
+            <div class="tm-brand-display">
+              <!-- Logo (if exists) -->
+              <div class="tm-image-container" id="hero-tm-image" style="display: none;">
+                <img id="hero-tm-img" src="" alt="Trademark logo" class="tm-image">
               </div>
-              <div>
-                <dt>Expires:</dt>
-                <dd data-merge="heroExpiryDate">—</dd>
+              <!-- Word Mark Text -->
+              <div class="tm-wordmark" id="hero-tm-wordmark">
+                <div class="tm-wordmark-text" data-merge="heroTrademarkName">—</div>
+                <div class="tm-number-badge" data-merge="heroTrademarkNumber">—</div>
               </div>
-              <div>
-                <dt>Type:</dt>
-                <dd data-merge="heroMarkType">—</dd>
-              </div>
-              <div>
-                <dt>Status:</dt>
-                <dd data-merge="heroStatus">—</dd>
-              </div>
-              <div>
-                <dt>Classes:</dt>
-                <dd data-merge="heroClassCount">—</dd>
-              </div>
-            </dl>
+            </div>
           </div>
         </div>
 
@@ -143,7 +153,7 @@
                 <thead>
                   <tr>
                     <th>Number</th>
-                    <th>Name</th>
+                    <th>Text</th>
                     <th>Type</th>
                     <th>Status</th>
                     <th>Expiry</th>

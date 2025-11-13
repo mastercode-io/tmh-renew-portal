@@ -100,14 +100,58 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
   margin: 1.5rem auto;
   max-width: 800px;
   border-left: 6px solid var(--brand-pink);
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Left and Middle Columns - Details */
+.tm-details-left dl,
+.tm-details-middle dl {
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.tm-details-left div,
+.tm-details-middle div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.tm-details-left dt,
+.tm-details-middle dt {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.tm-details-left dd,
+.tm-details-middle dd {
+  color: var(--brand-navy);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Right Column - Brand Display */
+.tm-brand-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  min-width: 200px;
 }
 
 .tm-image-container {
   text-align: center;
-  margin-bottom: 1.25rem;
-  padding: 1rem;
-  background: var(--card);
-  border-radius: var(--radius-sm);
+  width: 100%;
 }
 
 .tm-image {
@@ -118,114 +162,90 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
   border-radius: var(--radius-sm);
 }
 
-.tm-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+.tm-wordmark {
+  text-align: center;
+  width: 100%;
 }
 
-.tm-name {
+.tm-wordmark-text {
+  font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--brand-navy);
-  margin: 0;
-  flex: 1 1 auto;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
 }
 
-.tm-badge {
+.tm-number-badge {
   background: var(--soft-2);
   border: 1px solid #ffd4e1;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
   font-weight: 700;
   color: var(--brand-navy);
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.tm-details-compact {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem 1.5rem;
-  margin: 0;
-}
-
-.tm-details-compact div {
-  display: flex;
-  gap: 0.5rem;
-  align-items: baseline;
-}
-
-.tm-details-compact dt {
-  color: var(--muted);
-  font-weight: 600;
   font-size: 0.85rem;
-  white-space: nowrap;
-}
-
-.tm-details-compact dd {
-  color: var(--brand-navy);
-  font-weight: 700;
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-/* Optional: Side-by-side layout when image exists */
-.trademark-info-card.has-image {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 1.5rem;
-  align-items: start;
-}
-
-.trademark-info-card.has-image .tm-image-container {
-  margin-bottom: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
 }
 
 @media (max-width: 768px) {
   .trademark-info-card {
     padding: 1rem;
     margin: 1rem 0;
-  }
-
-  .trademark-info-card.has-image {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     gap: 1rem;
   }
 
-  .tm-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  /* Stack left and middle columns together */
+  .tm-details-left {
+    grid-column: 1;
+    grid-row: 1;
   }
 
-  .tm-name {
-    font-size: 1.25rem;
+  .tm-details-middle {
+    grid-column: 1;
+    grid-row: 2;
   }
 
-  .tm-badge {
-    font-size: 0.8rem;
-  }
-
-  .tm-details-compact {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
-  }
-
-  .tm-image-container {
+  .tm-brand-display {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    min-width: 140px;
     padding: 0.75rem;
-    margin-bottom: 1rem;
+  }
+
+  .tm-wordmark-text {
+    font-size: 1.2rem;
+  }
+
+  .tm-number-badge {
+    font-size: 0.75rem;
   }
 
   .tm-image {
-    max-height: 140px;
+    max-height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trademark-info-card {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .tm-details-left {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .tm-details-middle {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .tm-brand-display {
+    grid-column: 1;
+    grid-row: 3;
+    min-width: unset;
   }
 }
 

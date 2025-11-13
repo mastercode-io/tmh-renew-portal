@@ -175,7 +175,7 @@
       return `
         <tr>
           <td class="tm-number" data-label="Number">${number}</td>
-          <td class="tm-name" data-label="Name">${name}</td>
+          <td class="tm-name" data-label="Text">${name}</td>
           <td class="tm-type" data-label="Type">${type}</td>
           <td class="tm-status" data-label="Status">${status}</td>
           <td class="tm-expiry ${expiryClass}" data-label="Expiry">${expiryText}</td>
@@ -303,17 +303,19 @@
       heroClassCount.textContent = count ? `${count} ${count === 1 ? 'class' : 'classes'}` : '—';
     }
 
-    // Show trademark image if available
+    // Show trademark logo if available, otherwise show word mark
+    const heroTmWordmark = document.getElementById('hero-tm-wordmark');
+
     if (trademark.image_url && heroTmImageContainer && heroTmImg) {
+      // Show logo, hide word mark
       heroTmImg.src = trademark.image_url;
       heroTmImg.alt = trademark.word_mark || 'Trademark logo';
       heroTmImageContainer.style.display = 'block';
-
-      // Add class for side-by-side layout
-      const card = document.querySelector('.trademark-info-card');
-      if (card) {
-        card.classList.add('has-image');
-      }
+      if (heroTmWordmark) heroTmWordmark.style.display = 'none';
+    } else {
+      // Show word mark, hide logo
+      if (heroTmImageContainer) heroTmImageContainer.style.display = 'none';
+      if (heroTmWordmark) heroTmWordmark.style.display = 'block';
     }
 
     // Get classes data
