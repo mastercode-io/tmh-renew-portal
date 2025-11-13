@@ -1,9 +1,10 @@
 {
   "redirects": [
-    { "source": "/", "destination": "https://www.thetrademarkhelpline.com", "permanent": false }
+    { "source": "/", "destination": "https://www.thetrademarkhelpline.com", "permanent": false },
+    { "source": "/uktm", "destination": "/uktm/", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/uktm", "destination": "/renewal/uktm/index.html" },
+    { "source": "/uktm/", "destination": "/renewal/uktm/index.html" },
     { "source": "/uktm/index.html", "destination": "/renewal/uktm/index.html" },
     { "source": "/uktm/order", "destination": "/renewal/uktm/order.html" },
     { "source": "/uktm/order.html", "destination": "/renewal/uktm/order.html" },
