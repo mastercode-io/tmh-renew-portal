@@ -199,6 +199,11 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
 }
 
 @media (max-width: 768px) {
+  .hero-grid .hero-cta {
+    grid-column: 1 / -1;
+    margin-top: 1.5rem;
+  }
+
   .trademark-info-card {
     padding: 1rem;
     margin: 1rem 0;
