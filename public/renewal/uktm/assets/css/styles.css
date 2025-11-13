@@ -107,6 +107,17 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
 }
 
 /* Left and Middle Columns - Details */
+.tm-details-left,
+.tm-details-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tm-details-left .tm-number-badge {
+  margin-bottom: 0.25rem;
+}
+
 .tm-details-left dl,
 .tm-details-middle dl {
   margin: 0;
