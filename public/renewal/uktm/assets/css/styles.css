@@ -97,7 +97,7 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.25rem;
-  margin: 1.5rem auto;
+  margin: 1.5rem 0;
   max-width: 800px;
   border-left: 6px solid var(--brand-pink);
   display: grid;
