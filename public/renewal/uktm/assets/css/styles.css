@@ -586,40 +586,18 @@ input[type="checkbox"]:focus {
 }
 
 /* Responsive table */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .renewals-table {
     font-size: 0.85rem;
   }
 
   .renewals-table thead th {
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 0.4rem;
     font-size: 0.75rem;
   }
 
   .renewals-table tbody td {
-    padding: 0.6rem 0.5rem;
-  }
-
-  /* Hide Type column and separate Status/Expiry columns */
-  .renewals-table .tm-type,
-  .renewals-table th:nth-child(3),
-  .renewals-table .tm-status,
-  .renewals-table th:nth-child(4),
-  .renewals-table .tm-expiry,
-  .renewals-table th:nth-child(5) {
-    display: none;
-  }
-
-  /* Show combined Status/Expiry column */
-  .renewals-table .tm-status-expiry,
-  .renewals-table th.combined-status-expiry {
-    display: table-cell;
-  }
-
-  /* Make status and expiry stack vertically on tablet */
-  .renewals-table .tm-status-expiry .status,
-  .renewals-table .tm-status-expiry .expiry {
-    display: block;
+    padding: 0.6rem 0.4rem;
   }
 
   .renewals-table .tm-number {
@@ -628,69 +606,62 @@ input[type="checkbox"]:focus {
 
   .renewals-table .tm-name {
     font-size: 0.9rem;
-    word-wrap: break-word;
-    white-space: normal;
-    max-width: 150px;
+  }
+
+  .renewals-table .tm-type {
+    font-size: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
-  /* Stack table data differently on mobile */
-  .renewals-table thead {
-    display: none;
+  /* Keep table layout on mobile, just more compact with 4 columns */
+  .renewals-table {
+    font-size: 0.75rem;
   }
 
-  .renewals-table tbody tr {
-    display: block;
-    margin-bottom: 1rem;
-    border: 1px solid var(--soft-2);
-    border-radius: var(--radius-sm);
-    background: #fff;
+  .renewals-table thead th {
+    padding: 0.4rem 0.3rem;
+    font-size: 0.65rem;
+    line-height: 1.2;
   }
 
   .renewals-table tbody td {
-    display: block;
-    text-align: right;
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid #f5f5f5;
+    padding: 0.5rem 0.3rem;
   }
 
-  .renewals-table tbody td:last-child {
-    border-bottom: none;
+  .renewals-table .tm-number {
+    font-size: 0.7rem;
   }
 
-  .renewals-table tbody td::before {
-    content: attr(data-label);
-    float: left;
-    font-weight: 700;
-    color: var(--muted);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-  }
-
-  /* Remove max-width on name for card layout */
   .renewals-table .tm-name {
-    max-width: none;
+    font-size: 0.85rem;
+    max-width: 100px;
+    word-wrap: break-word;
+    white-space: normal;
   }
 
-  /* Keep Type column visible on mobile card view */
   .renewals-table .tm-type {
-    display: block;
+    font-size: 0.7rem;
   }
 
-  /* Show combined Status/Expiry on mobile */
-  .renewals-table .tm-status-expiry {
-    display: block !important;
+  /* Hide separate Status and Expiry columns on mobile */
+  .renewals-table .tm-status,
+  .renewals-table th:nth-child(4),
+  .renewals-table .tm-expiry,
+  .renewals-table th:nth-child(5) {
+    display: none;
+  }
+
+  /* Show combined Status/Expiry column on mobile - stacked vertically */
+  .renewals-table .tm-status-expiry,
+  .renewals-table th.combined-status-expiry {
+    display: table-cell !important;
+    font-size: 0.7rem;
   }
 
   .renewals-table .tm-status-expiry .status,
   .renewals-table .tm-status-expiry .expiry {
-    display: inline;
-  }
-
-  .renewals-table .tm-status-expiry .status::after {
-    content: " • ";
-    margin: 0 0.25rem;
+    display: block;
   }
 
   .renewals-table .tm-empty {
