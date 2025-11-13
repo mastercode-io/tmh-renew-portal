@@ -834,9 +834,11 @@ function saveOrderData(orderData) {
 function initOrderPage() {
   const orderData = loadOrderData();
 
-  // If no order data is available in production mode, show error banner
+  // If no order data is available in production mode, redirect to index page
+  // The index page will show the appropriate error banner
   if (!orderData) {
-    showErrorBanner('You must complete the renewal form before accessing this page. Please start from the beginning to review your trademark renewal.');
+    console.log('No order data found, redirecting to index page');
+    window.location.href = '/uktm/';
     return;
   }
 
