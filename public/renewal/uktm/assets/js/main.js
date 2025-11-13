@@ -280,10 +280,8 @@
       trademarkImageContainer.style.display = 'none';
     }
 
-    // Render renewals list - next_due is now an array of full trademark objects
-    // We also need to include the main trademark in the display
-    const allMarks = [trademark, ...nextDue].filter(Boolean);
-    renderRenewals(allMarks);
+    // Render renewals list - show only next_due trademarks (not including the main one being renewed)
+    renderRenewals(nextDue);
 
     // Handle links
     if (payload.links?.book_call) {
