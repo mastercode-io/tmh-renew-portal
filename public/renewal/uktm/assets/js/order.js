@@ -595,7 +595,18 @@ function handlePendingStatus() {
 function handlePaidStatus() {
   stopPaymentMonitoring();
   hidePaymentStatusPanel();
-  window.location.href = CONFIRMATION_URL;
+
+  // Store token in sessionStorage for confirmation page validation
+  if (paymentState.token) {
+    sessionStorage.setItem('payment_completed', paymentState.token);
+  }
+
+  // Redirect to confirmation with token in URL
+  const confirmUrl = paymentState.token
+    ? `${CONFIRMATION_URL}?token=${encodeURIComponent(paymentState.token)}`
+    : CONFIRMATION_URL;
+
+  window.location.href = confirmUrl;
 }
 
 function handleTerminalStatus(statusKey) {
