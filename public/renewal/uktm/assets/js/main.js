@@ -230,6 +230,7 @@
     // Update hero trademark info card
     const heroTmName = document.querySelector('[data-merge="heroTrademarkName"]');
     const heroTmNumber = document.querySelector('[data-merge="heroTrademarkNumber"]');
+    const heroRegDate = document.querySelector('[data-merge="heroRegDate"]');
     const heroExpiryDate = document.querySelector('[data-merge="heroExpiryDate"]');
     const heroMarkType = document.querySelector('[data-merge="heroMarkType"]');
     const heroStatus = document.querySelector('[data-merge="heroStatus"]');
@@ -239,6 +240,21 @@
 
     if (heroTmName) heroTmName.textContent = trademark.word_mark || '—';
     if (heroTmNumber) heroTmNumber.textContent = heroTrademarkNumber;
+
+    if (heroRegDate) {
+      const regDate = trademark.registration_date;
+      if (regDate) {
+        const date = new Date(regDate);
+        const formatted = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        heroRegDate.textContent = formatted;
+      } else {
+        heroRegDate.textContent = '—';
+      }
+    }
 
     if (heroExpiryDate) {
       const expiryDate = trademark.expiry_date || trademark.next_renewal_date;
