@@ -88,6 +88,19 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
   flex-direction: column;
   justify-content: space-between;
 }
+.hero-subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.highlight-box {
+  background: #e5e7eb;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
 .hero .ticks { list-style: none; padding: 0; margin: 0 0 1rem; }
 .ticks li { position: relative; padding-left: 1.6rem; margin: 0.25rem 0; }
 .ticks li::before { content: '✔'; position: absolute; left: 0; color: var(--brand-pink); font-weight: 700; }
