@@ -517,28 +517,34 @@ input[type="checkbox"]:focus {
 
 /* Table cell styles */
 .renewals-table .tm-number {
-  font-weight: 700;
-  color: var(--brand-navy);
+  font-weight: 600;
+  color: var(--muted);
   font-family: 'Poppins', sans-serif;
   white-space: nowrap;
+  font-size: 0.85rem;
 }
 
 .renewals-table .tm-name {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--brand-navy);
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .renewals-table .tm-type {
   color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .renewals-table .tm-status {
   font-weight: 600;
+  font-size: 0.85rem;
 }
 
 .renewals-table .tm-expiry {
   white-space: nowrap;
   font-weight: 600;
+  font-size: 0.85rem;
 }
 
 .renewals-table .tm-expiry.expired {
@@ -546,6 +552,29 @@ input[type="checkbox"]:focus {
 }
 
 .renewals-table .tm-expiry.active {
+  color: var(--brand-navy);
+}
+
+.renewals-table .tm-status-expiry {
+  font-size: 0.85rem;
+}
+
+.renewals-table .tm-status-expiry .status {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.renewals-table .tm-status-expiry .expiry {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.renewals-table .tm-status-expiry .expiry.expired {
+  color: #dc2626;
+}
+
+.renewals-table .tm-status-expiry .expiry.active {
   color: var(--brand-navy);
 }
 
@@ -557,7 +586,7 @@ input[type="checkbox"]:focus {
 }
 
 /* Responsive table */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .renewals-table {
     font-size: 0.85rem;
   }
@@ -571,9 +600,37 @@ input[type="checkbox"]:focus {
     padding: 0.6rem 0.5rem;
   }
 
-  /* Hide less important columns on very small screens */
-  .renewals-table .tm-type {
+  /* Hide Type column and separate Status/Expiry columns */
+  .renewals-table .tm-type,
+  .renewals-table th:nth-child(3),
+  .renewals-table .tm-status,
+  .renewals-table th:nth-child(4),
+  .renewals-table .tm-expiry,
+  .renewals-table th:nth-child(5) {
     display: none;
+  }
+
+  /* Show combined Status/Expiry column */
+  .renewals-table .tm-status-expiry,
+  .renewals-table th.combined-status-expiry {
+    display: table-cell;
+  }
+
+  /* Make status and expiry stack vertically on tablet */
+  .renewals-table .tm-status-expiry .status,
+  .renewals-table .tm-status-expiry .expiry {
+    display: block;
+  }
+
+  .renewals-table .tm-number {
+    font-size: 0.8rem;
+  }
+
+  .renewals-table .tm-name {
+    font-size: 0.9rem;
+    word-wrap: break-word;
+    white-space: normal;
+    max-width: 150px;
   }
 }
 
@@ -611,8 +668,29 @@ input[type="checkbox"]:focus {
     text-transform: uppercase;
   }
 
+  /* Remove max-width on name for card layout */
+  .renewals-table .tm-name {
+    max-width: none;
+  }
+
+  /* Keep Type column visible on mobile card view */
   .renewals-table .tm-type {
     display: block;
+  }
+
+  /* Show combined Status/Expiry on mobile */
+  .renewals-table .tm-status-expiry {
+    display: block !important;
+  }
+
+  .renewals-table .tm-status-expiry .status,
+  .renewals-table .tm-status-expiry .expiry {
+    display: inline;
+  }
+
+  .renewals-table .tm-status-expiry .status::after {
+    content: " • ";
+    margin: 0 0.25rem;
   }
 
   .renewals-table .tm-empty {

@@ -136,7 +136,7 @@
     if (!tbody) return;
 
     if (!items?.length) {
-      tbody.innerHTML = '<tr><td colspan="5" class="tm-empty">No upcoming renewals listed.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="tm-empty">No upcoming renewals listed.</td></tr>';
       return;
     }
 
@@ -172,6 +172,12 @@
         expiryClass = isExpired ? 'expired' : 'active';
       }
 
+      // Combined Status/Expiry for smaller screens
+      const combinedCell = `
+        <span class="status">${status}</span>
+        <span class="expiry ${expiryClass}">${expiryText}</span>
+      `;
+
       return `
         <tr>
           <td class="tm-number" data-label="Number">${number}</td>
@@ -179,6 +185,7 @@
           <td class="tm-type" data-label="Type">${type}</td>
           <td class="tm-status" data-label="Status">${status}</td>
           <td class="tm-expiry ${expiryClass}" data-label="Expiry">${expiryText}</td>
+          <td class="tm-status-expiry" data-label="Status/Expiry" style="display: none;">${combinedCell}</td>
         </tr>
       `;
     }).join('');
