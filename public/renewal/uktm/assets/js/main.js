@@ -130,10 +130,16 @@
 
   const renderRenewals = (items) => {
     if (!renewalsList) return;
+
+    // Get tbody element (table now instead of ul)
+    const tbody = renewalsList.querySelector('tbody');
+    if (!tbody) return;
+
     if (!items?.length) {
-      renewalsList.innerHTML = '<li class="tm-empty">No upcoming renewals listed.</li>';
+      tbody.innerHTML = '<tr><td colspan="5" class="tm-empty">No upcoming renewals listed.</td></tr>';
       return;
     }
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const sorted = items.slice().sort((a, b) => {
@@ -141,23 +147,40 @@
       const bd = b.expiry_date ? new Date(b.expiry_date) : new Date(8640000000000000);
       return ad - bd;
     });
-    renewalsList.innerHTML = sorted.map((it) => {
+
+    tbody.innerHTML = sorted.map((it) => {
       const number = it.registration_number || it.application_number || it.id || '—';
-      let expiryLabel = null;
+      const name = it.word_mark || '—';
+      const type = it.mark_type || '—';
+      const status = it.status || '—';
+
+      let expiryText = '—';
+      let expiryClass = '';
       if (it.expiry_date) {
         const expiryDate = new Date(it.expiry_date);
         expiryDate.setHours(0, 0, 0, 0);
         const isExpired = expiryDate < today;
-        expiryLabel = `${isExpired ? 'Expired' : 'Expires'} ${it.expiry_date}`;
+
+        // Format date nicely
+        const formatted = expiryDate.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+
+        expiryText = formatted;
+        expiryClass = isExpired ? 'expired' : 'active';
       }
-      const metaParts = [
-        it.word_mark,
-        it.mark_type,
-        it.status,
-        expiryLabel
-      ].filter(Boolean).join(', ');
-      const content = metaParts.length ? metaParts : '—';
-      return `<li><span class="tm-number">${number}</span><span class="tm-meta">${content}</span></li>`;
+
+      return `
+        <tr>
+          <td class="tm-number" data-label="Number">${number}</td>
+          <td class="tm-name" data-label="Name">${name}</td>
+          <td class="tm-type" data-label="Type">${type}</td>
+          <td class="tm-status" data-label="Status">${status}</td>
+          <td class="tm-expiry ${expiryClass}" data-label="Expiry">${expiryText}</td>
+        </tr>
+      `;
     }).join('');
   };
 
