@@ -41,7 +41,6 @@
     trademark: document.querySelector('[data-merge="trademark"]'),
     markType: document.querySelector('[data-merge="markType"]'),
     classCountLabel: document.querySelector('[data-merge="classCountLabel"]'),
-    classList: document.querySelector('[data-merge="classList"]'),
     jurisdiction: document.querySelector('[data-merge="jurisdiction"]'),
   };
 
@@ -65,9 +64,6 @@
       if (name === 'classCount') {
         if (mergeTargets.classCountLabel) {
           mergeTargets.classCountLabel.textContent = formatClassCountLabel(val, null);
-        }
-        if (mergeTargets.classList && (!mergeTargets.classList.textContent || mergeTargets.classList.textContent === '—')) {
-          mergeTargets.classList.textContent = '—';
         }
       }
     }
@@ -95,15 +91,10 @@
       .filter(Boolean);
   };
 
-  const formatClassList = (classes) => {
-    const entries = normaliseClassEntries(classes);
-    return entries.length ? entries.join(', ') : '—';
-  };
-
   const formatClassCountLabel = (count, classes) => {
-    if (count != null && count !== '') return `(${count})`;
+    if (count != null && count !== '') return String(count);
     const fallback = normaliseClassEntries(classes).length;
-    return fallback ? `(${fallback})` : '(—)';
+    return fallback ? String(fallback) : '—';
   };
 
   fields.forEach((f) => {
@@ -262,10 +253,7 @@
       setIf(name, value);
     });
 
-    // Special handling for classes label + list
-    if (mergeTargets.classList) {
-      mergeTargets.classList.textContent = formatClassList(classes);
-    }
+    // Special handling for classes count
     if (mergeTargets.classCountLabel) {
       mergeTargets.classCountLabel.textContent = formatClassCountLabel(classesCount, classes);
     }
