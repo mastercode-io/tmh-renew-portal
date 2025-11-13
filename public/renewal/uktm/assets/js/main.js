@@ -227,6 +227,50 @@
     if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
     if (mergeTargets.primaryTrademarkNumber) mergeTargets.primaryTrademarkNumber.textContent = heroTrademarkNumber;
 
+    // Update hero trademark info card
+    const heroTmName = document.querySelector('[data-merge="heroTrademarkName"]');
+    const heroTmNumber = document.querySelector('[data-merge="heroTrademarkNumber"]');
+    const heroExpiryDate = document.querySelector('[data-merge="heroExpiryDate"]');
+    const heroMarkType = document.querySelector('[data-merge="heroMarkType"]');
+    const heroStatus = document.querySelector('[data-merge="heroStatus"]');
+    const heroClassCount = document.querySelector('[data-merge="heroClassCount"]');
+    const heroTmImageContainer = document.getElementById('hero-tm-image');
+    const heroTmImg = document.getElementById('hero-tm-img');
+
+    if (heroTmName) heroTmName.textContent = trademark.word_mark || '—';
+    if (heroTmNumber) heroTmNumber.textContent = heroTrademarkNumber;
+
+    if (heroExpiryDate) {
+      const expiryDate = trademark.expiry_date || trademark.next_renewal_date;
+      if (expiryDate) {
+        // Format date nicely (e.g., "9 June 2025")
+        const date = new Date(expiryDate);
+        const formatted = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        heroExpiryDate.textContent = formatted;
+      } else {
+        heroExpiryDate.textContent = '—';
+      }
+    }
+
+    if (heroMarkType) heroMarkType.textContent = trademark.mark_type || '—';
+    if (heroStatus) heroStatus.textContent = trademark.status || '—';
+
+    if (heroClassCount) {
+      const count = trademark.classes_count || (Array.isArray(trademark.classes) ? trademark.classes.length : null);
+      heroClassCount.textContent = count ? `${count} ${count === 1 ? 'class' : 'classes'}` : '—';
+    }
+
+    // Show trademark image if available
+    if (trademark.image_url && heroTmImageContainer && heroTmImg) {
+      heroTmImg.src = trademark.image_url;
+      heroTmImg.alt = trademark.word_mark || 'Trademark logo';
+      heroTmImageContainer.style.display = 'block';
+    }
+
     // Get classes data
     const classes = trademark.classes;
     const classesCount = trademark.classes_count || (Array.isArray(classes) ? classes.length : undefined);

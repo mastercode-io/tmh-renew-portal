@@ -64,8 +64,45 @@
       <section class="hero">
         <div class="container hero-heading">
           <p class="hero-line hero-subline hero-greeting">Hi <span data-merge="personName">there</span>,</p>
-          <p class="hero-line hero-subline">Your trademark <span class="tm-number-highlight" data-merge="primaryTrademarkNumber">—</span> is coming up for renewal</p>
+          <p class="hero-line hero-subline">Your trademark is coming up for renewal</p>
         </div>
+
+        <!-- Trademark Info Card -->
+        <div class="container">
+          <div class="trademark-info-card">
+            <!-- Trademark Image (if logo mark) -->
+            <div class="tm-image-container" id="hero-tm-image" style="display: none;">
+              <img id="hero-tm-img" src="" alt="Trademark logo" class="tm-image">
+            </div>
+
+            <!-- Trademark Header -->
+            <div class="tm-header">
+              <h3 class="tm-name" data-merge="heroTrademarkName">—</h3>
+              <span class="tm-badge" data-merge="heroTrademarkNumber">—</span>
+            </div>
+
+            <!-- Trademark Details -->
+            <dl class="tm-details-compact">
+              <div>
+                <dt>Expires:</dt>
+                <dd data-merge="heroExpiryDate">—</dd>
+              </div>
+              <div>
+                <dt>Type:</dt>
+                <dd data-merge="heroMarkType">—</dd>
+              </div>
+              <div>
+                <dt>Status:</dt>
+                <dd data-merge="heroStatus">—</dd>
+              </div>
+              <div>
+                <dt>Classes:</dt>
+                <dd data-merge="heroClassCount">—</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
         <div class="container hero-grid">
           <div class="hero-copy">
             <p class="notice">Scammers target businesses during renewals. We’ll ensure your registration stays active for another 10 years and your brand remains secure.</p>
