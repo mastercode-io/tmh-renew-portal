@@ -278,7 +278,7 @@ input[type="checkbox"]:focus {
   margin: 0;
   font-size: 1.05rem;
   color: var(--ink);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .error-banner-actions {

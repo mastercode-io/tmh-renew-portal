@@ -361,21 +361,21 @@
 
       // Check if token is missing - show error banner
       if (!token) {
-        showErrorBanner('To access your trademark renewal details, please use the exact link provided in your email.<br><br>This ensures your information is securely loaded.');
+        showErrorBanner('To access your trademark renewal details, please use the exact link provided in your email.<br>This ensures your information is securely loaded.');
         return;
       }
 
       const res = await fetch(`${prefillEndpoint}?token=${encodeURIComponent(token)}`, { credentials: 'include' });
       if (!res.ok) {
         // Token is invalid or expired
-        showErrorBanner('This link has expired or is invalid.<br><br>Please use the link from your most recent email, or contact us for assistance.');
+        showErrorBanner('This link has expired or is invalid.<br>Please use the link from your most recent email, or contact us for assistance.');
         return;
       }
       const payload = await res.json();
       applyPrefillPayload(payload);
     } catch (e) {
       console.warn('Prefill fetch error', e);
-      showErrorBanner('We encountered an error loading your renewal details.<br><br>Please try again or contact support@thetrademarkhelpline.com for assistance.');
+      showErrorBanner('We encountered an error loading your renewal details.<br>Please try again or contact support@thetrademarkhelpline.com for assistance.');
     } finally {
       // Hide loading overlay
       if (loadingOverlay) {

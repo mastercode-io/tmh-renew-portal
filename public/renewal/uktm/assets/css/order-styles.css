@@ -112,7 +112,7 @@ p { margin: 0.3rem 0; }
   margin: 0;
   font-size: 1.05rem;
   color: var(--ink);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .error-banner-actions {
