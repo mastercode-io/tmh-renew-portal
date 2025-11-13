@@ -759,7 +759,7 @@ function showErrorBanner(message) {
   if (errorBanner) {
     errorBanner.classList.remove('hidden');
     if (errorMessage && message) {
-      errorMessage.textContent = message;
+      errorMessage.innerHTML = message;
     }
   }
 
