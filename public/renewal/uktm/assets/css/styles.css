@@ -104,10 +104,10 @@ section[id] { scroll-margin-top: calc(var(--header-offset) + 1.5rem); }
 /* Mobile font size override for subtitle */
 @media (max-width: 768px) {
   .hero .hero-copy .hero-subtitle {
-    font-size: 0.5rem !important;
+    font-size: 0.7rem !important;
   }
   .hero .hero-copy .highlight-box {
-    font-size: 0.5rem !important;
+    font-size: 0.7rem !important;
     padding: 0.05rem 0.2rem;
   }
 }
@@ -855,8 +855,8 @@ input[type="checkbox"]:focus {
   .quote-card cite .author-name { font-size: 0.9rem; }
   .quote-card cite .author-title { font-size: 0.8rem; }
   .hero-copy { font-size: 0.95rem; }
-  .hero-copy .hero-subtitle { font-size: 0.5rem !important; }
-  .hero-copy .highlight-box { font-size: 0.5rem !important; padding: 0.05rem 0.2rem; }
+  .hero-copy .hero-subtitle { font-size: 0.7rem !important; }
+  .hero-copy .highlight-box { font-size: 0.7rem !important; padding: 0.05rem 0.2rem; }
   .ticks li { font-size: 0.9rem; }
   .hero-cta .btn { min-width: 140px; font-size: 0.9rem; }
 }
@@ -873,8 +873,8 @@ input[type="checkbox"]:focus {
   .quote-card cite .author-name { font-size: 0.85rem; }
   .quote-card cite .author-title { font-size: 0.75rem; }
   .hero-copy { font-size: 0.9rem; line-height: 1.5; }
-  .hero-copy .hero-subtitle { font-size: 0.5rem !important; }
-  .hero-copy .highlight-box { font-size: 0.5rem !important; padding: 0.05rem 0.2rem; }
+  .hero-copy .hero-subtitle { font-size: 0.7rem !important; }
+  .hero-copy .highlight-box { font-size: 0.7rem !important; padding: 0.05rem 0.2rem; }
   .hero-copy .notice { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
   .hero-copy .muted { font-size: 0.85rem; }
   .ticks li { font-size: 0.85rem; padding-left: 1.4rem; }
@@ -899,8 +899,8 @@ input[type="checkbox"]:focus {
   .hero-media-stack { width: 160px; gap: 0.4rem; }
   .hero-media { border-radius: var(--radius-sm); }
   .hero-copy { font-size: 0.85rem; }
-  .hero-copy .hero-subtitle { font-size: 0.5rem !important; }
-  .hero-copy .highlight-box { font-size: 0.5rem !important; padding: 0.05rem 0.2rem; }
+  .hero-copy .hero-subtitle { font-size: 0.7rem !important; }
+  .hero-copy .highlight-box { font-size: 0.7rem !important; padding: 0.05rem 0.2rem; }
   .notice { padding: 0.55rem 0.75rem; }
   .quote-card { padding: 0.6rem; border-left-width: 3px; border-radius: var(--radius-sm); }
   .quote-card blockquote { font-size: 0.8rem; line-height: 1.35; }
