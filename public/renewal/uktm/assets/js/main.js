@@ -285,6 +285,12 @@
       heroTmImg.src = trademark.image_url;
       heroTmImg.alt = trademark.word_mark || 'Trademark logo';
       heroTmImageContainer.style.display = 'block';
+
+      // Add class for side-by-side layout
+      const card = document.querySelector('.trademark-info-card');
+      if (card) {
+        card.classList.add('has-image');
+      }
     }
 
     // Get classes data
