@@ -326,6 +326,24 @@
     }
   }
 
+  function showErrorBanner(message) {
+    const errorBanner = document.getElementById('token-error-banner');
+    const errorMessage = document.getElementById('error-banner-message');
+    const mainContent = document.getElementById('main');
+
+    if (errorBanner) {
+      errorBanner.classList.remove('hidden');
+      if (errorMessage && message) {
+        errorMessage.textContent = message;
+      }
+    }
+
+    // Hide main content when error is shown
+    if (mainContent) {
+      mainContent.style.display = 'none';
+    }
+  }
+
   async function fetchPrefill() {
     const loadingOverlay = document.getElementById('page-loading');
 
@@ -340,14 +358,24 @@
         applyPrefillPayload(window.__renewalPayload);
         return;
       }
-      if (!token) return;
+
+      // Check if token is missing - show error banner
+      if (!token) {
+        showErrorBanner('To access your trademark renewal details, please use the exact link provided in your email. This ensures your information is securely loaded.');
+        return;
+      }
 
       const res = await fetch(`${prefillEndpoint}?token=${encodeURIComponent(token)}`, { credentials: 'include' });
-      if (!res.ok) throw new Error('Prefill fetch failed');
+      if (!res.ok) {
+        // Token is invalid or expired
+        showErrorBanner('This link has expired or is invalid. Please use the link from your most recent email, or contact us for assistance.');
+        return;
+      }
       const payload = await res.json();
       applyPrefillPayload(payload);
     } catch (e) {
       console.warn('Prefill fetch error', e);
+      showErrorBanner('We encountered an error loading your renewal details. Please try again or contact support@thetrademarkhelpline.com for assistance.');
     } finally {
       // Hide loading overlay
       if (loadingOverlay) {

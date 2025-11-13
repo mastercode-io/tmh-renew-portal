@@ -751,6 +751,29 @@ function base64DecodeJson(value) {
   }
 }
 
+function showErrorBanner(message) {
+  const errorBanner = document.getElementById('token-error-banner');
+  const errorMessage = document.getElementById('error-banner-message');
+  const mainContent = document.getElementById('main');
+
+  if (errorBanner) {
+    errorBanner.classList.remove('hidden');
+    if (errorMessage && message) {
+      errorMessage.textContent = message;
+    }
+  }
+
+  // Hide main content when error is shown
+  if (mainContent) {
+    mainContent.style.display = 'none';
+  }
+}
+
+function isProductionMode() {
+  // Production mode is when there's no mock data available
+  return !window.__orderPayload;
+}
+
 function loadOrderData() {
   // Try to get order data from window.__orderPayload (set by mock-data.js)
   if (window.__orderPayload) {
@@ -783,7 +806,13 @@ function loadOrderData() {
     }
   }
 
-  // Fallback to mock data for development
+  // In production mode with no valid data, return null to trigger error banner
+  if (isProductionMode()) {
+    console.log('No valid order data found in production mode');
+    return null;
+  }
+
+  // Fallback to mock data for development only
   console.log('Using MOCK_ORDER fallback');
   return MOCK_ORDER;
 }
@@ -804,6 +833,13 @@ function saveOrderData(orderData) {
  */
 function initOrderPage() {
   const orderData = loadOrderData();
+
+  // If no order data is available in production mode, show error banner
+  if (!orderData) {
+    showErrorBanner('You must complete the renewal form before accessing this page. Please start from the beginning to review your trademark renewal.');
+    return;
+  }
+
   currentOrderData = orderData;
   rememberOfferUrl();
 
