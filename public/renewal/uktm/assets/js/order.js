@@ -68,8 +68,8 @@ const PAYMENT_POLLING_CONFIG = {
   slowIntervalMs: 10000
 };
 
-const CONFIRMATION_URL = '/renewal-landing/confirmation.html';
-const OFFER_FALLBACK_URL = '/renewal-landing/index.html';
+const CONFIRMATION_URL = '/uktm/confirmation.html';
+const OFFER_FALLBACK_URL = '/uktm/index.html';
 const CONTACT_SUPPORT_EMAIL = 'support@thetrademarkhelpline.com';
 
 let currentOrderData = null;
@@ -961,5 +961,5 @@ if (document.readyState === 'loading') {
  */
 window.createOrderUrl = function(orderData) {
   const encodedData = base64EncodeJson(orderData);
-  return `/renewal-landing/order.html?order=${encodeURIComponent(encodedData)}`;
+  return `/uktm/order.html?order=${encodeURIComponent(encodedData)}`;
 };
