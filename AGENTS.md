@@ -1,23 +1,28 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-The landing page lives in `public/renewal-landing/` with `index.html`, `styles.css`, `main.js`, and `mock-data.js` for local payloads. `main.js` wraps the prefill, UTM capture, and screening logic in a self-invoking module; keep new scripts colocated. API examples in `api/lead.example.js` and `api/prefill.example.js` show the expected request/response contracts for Zoho integration—treat them as templates. Reference assets and CRM samples are stored in `docs/`.
+- `public/renewal/uktm/` contains the UK trademark landing journey. HTML entry points (`index.html`, `order.html`, `confirmation.html`) load scoped assets from `assets/` and structured content from `content/`.
+- Shared front-end assets live under `assets/css`, `assets/js`, and `assets/images`. Keep campaign-specific files inside the relevant journey folder.
+- Edge/back-end handlers reside in `api/` (Vercel Edge Functions). Any new API should follow the existing structure (`api/renewal/...`) and re-use helper modules in `api/_lib/`.
 
 ## Build, Test, and Development Commands
-- `open public/renewal-landing/index.html` – quick visual check in a browser.
-- `cd public/renewal-landing && python3 -m http.server 8000` – lightweight static server for local testing.
-- `cd public/renewal-landing && npx serve .` – Node-based static hosting that mimics production headers.
-
-No bundler or package step is required; refresh the page to see changes.
+- **Static preview:** `npx serve public` or `cd public/renewal/uktm && python3 -m http.server 8000` to inspect the landing pages locally.
+- **Edge function smoke test:** `npm run lint` (if configured later) and `npm test` for any server-side utilities. Currently no automated build is required; Vercel deploys directly from the repo.
 
 ## Coding Style & Naming Conventions
-Use 2-space indentation across HTML, CSS, and JS; keep declarations in alphabetical blocks where possible. Prefer `const`/`let`, single quotes, and terminate statements with semicolons as in `main.js`. Extend CSS with existing custom property tokens (`--brand-*`, `--radius`, `--shadow`). Data attributes follow the current `data-…` naming (`data-prefill-endpoint`, `data-payment-url`); mirror that pattern for new hooks.
+- Use 2-space indentation for HTML, CSS, and JS. Favor single quotes in JS and terminate statements with semicolons.
+- Keep assets referenced via relative paths (e.g., `./assets/js/main.js`). New JS modules should live in `assets/js` and export IIFEs similar to `main.js`.
+- Name environment variables in ALL_CAPS (see `api/_lib/env.js`). Stick to snake_case for JSON payload fields to match CRM responses.
 
 ## Testing Guidelines
-Rely on manual browser testing: load the page via the local server, ensure the summary card updates while editing the form, and confirm the renewals list sorts by expiry date. Use query-string overrides (`?request_id=test123&firstName=Alex`) or edit `mock-data.js` to emulate CRM payloads. When wiring APIs, hit the adapted handlers with curl or your platform’s test harness to validate `/api/prefill` and `/api/lead` responses before pointing the form at them.
+- The UI relies on manual browser testing. Verify both `/uktm` and `/uktm/order` flows via the mock data scripts before pointing to live APIs.
+- For API changes, add unit tests under `api/_tests/` (create if missing) or at minimum exercise the endpoint via `curl` against Vercel preview deployments.
+- When adding new polling or form logic, test edge cases: missing token, expired invoice, and CRM error responses.
 
 ## Commit & Pull Request Guidelines
-Follow the existing short, present-tense subjects (`renewal form`, `design update`); keep them under ~50 characters and skip trailing punctuation. For pull requests, include: 1) a concise summary of the user-facing change, 2) testing notes or manual steps run, and 3) screenshots or screencasts when the UI shifts. Link to the CRM ticket or issue if one exists.
+- Use short, present-tense commit subjects (e.g., `update payment polling`, `add seeu landing`). Keep commits focused.
+- Pull requests should include: a concise summary, screenshots/gifs for UI changes, test notes (manual steps or commands), and links to tickets/CRM tasks where applicable.
 
 ## Security & Configuration Tips
-Never commit Zoho credentials or request tokens—store them in your deployment platform secrets. Ensure `data-endpoint` and `data-prefill-endpoint` target HTTPS URLs and enforce one-time `request_id` validation in your serverless layer. Strip UTM and personal data from logs before persisting analytics.
+- Never commit secrets; rely on Vercel environment variables (`CRM_API_BASE_URL`, `CRM_API_KEY`, etc.).
+- Sensitive tokens should be mocked in local data files (`mock_deal_token`). Replace demo payloads before sharing externally.
