@@ -5,50 +5,6 @@
 
 // Mock order data for development
 // In production, this will come from API response payload
-const MOCK_ORDER = {
-  deal_id: 'DEAL-000001',
-  deal_token: 'eyJkZWFsX2lkIjoiREVBTC0wMDAwMDEifQ',
-  trademark: {
-    word_mark: 'EXAMPLE BRAND',
-    application_number: 'UK00003123456',
-    mark_type: 'Word Mark',
-    class_count: 2
-  },
-  line_items: [
-    {
-      description: 'IPO Renewal Fees',
-      quantity: 1,
-      unit_price: 200.00,
-      total: 200.00
-    },
-    {
-      description: 'Additional Classes',
-      quantity: 1,
-      unit_price: 50.00,
-      total: 50.00
-    },
-    {
-      description: 'Administration Fee',
-      quantity: 1,
-      unit_price: 222.00,
-      total: 222.00
-    },
-    {
-      description: 'Online Discount',
-      quantity: 1,
-      unit_price: -120.00,
-      total: -120.00,
-      is_discount: true
-    }
-  ],
-  subtotal: 352.00,
-  vat_rate: 0.20,
-  vat_amount: 70.40,
-  total: 422.40,
-  payment_url: 'https://checkout.stripe.com/...',
-  booking_url: 'https://bookings.thetrademarkhelpline.com/#/4584810000004811044'
-};
-
 const PAYMENT_STATUS = {
   PAID: 'paid',
   PENDING: 'pending',
@@ -741,7 +697,7 @@ async function handleManualRecheck() {
 }
 
 /**
- * Load order from URL parameters or localStorage
+ * Load order data from the URL or injected payload
  */
 function base64EncodeJson(value) {
   const json = JSON.stringify(value);
@@ -780,11 +736,6 @@ function showErrorBanner(message) {
   }
 }
 
-function isProductionMode() {
-  // Production mode is when there's no mock data available
-  return !window.__orderPayload;
-}
-
 function loadOrderData() {
   // Try to get order data from window.__orderPayload (set by mock-data.js)
   if (window.__orderPayload) {
@@ -806,37 +757,8 @@ function loadOrderData() {
     }
   }
 
-  // Try to get order data from localStorage
-  const storedOrder = localStorage.getItem('renewal_order');
-  if (storedOrder) {
-    try {
-      console.log('Using order data from localStorage');
-      return JSON.parse(storedOrder);
-    } catch (e) {
-      console.error('Failed to parse order data from storage:', e);
-    }
-  }
-
-  // In production mode with no valid data, return null to trigger error banner
-  if (isProductionMode()) {
-    console.log('No valid order data found in production mode');
-    return null;
-  }
-
-  // Fallback to mock data for development only
-  console.log('Using MOCK_ORDER fallback');
-  return MOCK_ORDER;
-}
-
-/**
- * Save order data to localStorage
- */
-function saveOrderData(orderData) {
-  try {
-    localStorage.setItem('renewal_order', JSON.stringify(orderData));
-  } catch (e) {
-    console.error('Failed to save order data:', e);
-  }
+  console.log('No valid order data found');
+  return null;
 }
 
 /**
@@ -845,11 +767,9 @@ function saveOrderData(orderData) {
 function initOrderPage() {
   const orderData = loadOrderData();
 
-  // If no order data is available in production mode, redirect to index page
-  // The index page will show the appropriate error banner
   if (!orderData) {
-    console.log('No order data found, redirecting to index page');
-    window.location.href = '/uktm/';
+    console.log('No order data found, showing error banner');
+    showErrorBanner();
     return;
   }
 
@@ -867,9 +787,6 @@ function initOrderPage() {
   if (orderData.deal_token || orderData.dealToken) {
     paymentState.token = orderData.deal_token || orderData.dealToken;
   }
-
-  // Save to localStorage for reference
-  saveOrderData(orderData);
 
   console.log('Order loaded:', orderData);
 }
@@ -909,8 +826,8 @@ function initTermsValidation() {
       setPayNowButtonMode('loading', 'Creating payment link...');
 
       try {
-        // Get order data from localStorage to extract deal token
-        const orderData = currentOrderData || loadOrderData();
+        // Use current order data to extract deal token
+        const orderData = currentOrderData;
         const dealToken = orderData.deal_token || orderData.dealToken;
 
         if (!dealToken) {
