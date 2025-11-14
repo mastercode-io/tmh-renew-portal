@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="order-styles.css">
+  <link rel="stylesheet" href="./assets/css/order-styles.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -15,7 +15,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
-        <img src="./tmh-logo.svg" alt="The Trademark Helpline" class="logo">
+        <img src="./assets/images/tmh-logo.svg" alt="The Trademark Helpline" class="logo">
       </div>
       <nav class="nav">
         <a href="tel:01618335400" class="contact-link">
@@ -34,6 +34,30 @@
       </nav>
     </div>
   </header>
+
+  <!-- Error Banner for Missing/Invalid Order Data -->
+  <div class="token-error-banner hidden" id="token-error-banner">
+    <div class="container">
+      <div class="error-banner-card">
+        <div class="error-banner-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          </svg>
+        </div>
+        <div class="error-banner-content">
+          <h2 class="error-banner-title">Complete the Renewal Form First</h2>
+          <p class="error-banner-message" id="error-banner-message">
+            You must complete the renewal form before accessing this page.<br>Please start from the beginning to review your trademark renewal.
+          </p>
+          <div class="error-banner-actions">
+            <a class="btn btn-primary" href="/uktm/">Return to Renewal Form</a>
+            <a class="btn btn-outline" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
+            <a class="btn btn-outline" href="https://www.thetrademarkhelpline.com" target="_blank" rel="noopener">Visit Our Website</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <main id="main">
     <section class="invoice-section">
@@ -102,7 +126,7 @@
           <div class="terms-section">
             <label class="terms-checkbox">
               <input type="checkbox" id="terms-checkbox" required>
-              <span>I agree to the <a href="#" target="_blank" rel="noopener">Terms and Conditions</a></span>
+              <span>I agree to the <a href="./terms.html" target="_blank" rel="noopener">Terms and Conditions</a></span>
             </label>
             <span class="terms-error" id="terms-error" style="display: none;">You must agree to the Terms and Conditions to proceed</span>
           </div>
@@ -113,13 +137,19 @@
             <p>Would you like to discuss how monitoring services can save you money on your trademark maintenance and renewals?</p>
 
             <div class="action-buttons">
-              <a href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" class="btn btn-ghost btn-lg">
+              <a href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" class="btn btn-ghost btn-lg" id="book-call-btn">
                 <span>Yes - Book a Call</span>
               </a>
               <a href="#" id="pay-now-btn" class="btn btn-primary btn-lg">
                 <span>No - I want to pay now</span>
               </a>
             </div>
+          </div>
+
+          <div class="payment-status-panel" id="payment-status-panel" aria-live="polite" hidden>
+            <p class="payment-status-title" id="payment-status-title"></p>
+            <p class="payment-status-message" id="payment-status-message"></p>
+            <div class="payment-status-actions" id="payment-status-actions"></div>
           </div>
 
           <!-- Security Note -->
@@ -137,7 +167,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="foot-brand">
-        <img src="./tmh-logo-dark.svg" alt="The Trademark Helpline" class="logo" />
+        <img src="./assets/images/tmh-logo-dark.svg" alt="The Trademark Helpline" class="logo" />
         <p class="copyright">© 2025, The Trademark Helpline. All Rights Reserved.</p>
       </div>
       <div class="foot-address">
@@ -153,8 +183,6 @@
     </div>
   </footer>
 
-  <!-- Load mock data first, then order logic -->
-  <script src="order-mock-data.js"></script>
-  <script src="order.js"></script>
+  <script src="./assets/js/order.js"></script>
 </body>
 </html>

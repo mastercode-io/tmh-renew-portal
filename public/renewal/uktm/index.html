@@ -8,9 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css" />
-    <script defer src="./mock-data.js"></script>
-    <script defer src="./main.js"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <script defer src="./assets/js/mock-data.js"></script>
+    <script defer src="./assets/js/main.js"></script>
   </head>
   <body>
     <!-- Loading Overlay -->
@@ -24,7 +24,7 @@
     <header class="site-header">
       <div class="container header-inner">
         <div class="brand">
-          <img src="./tmh-logo.svg" alt="The Trademark Helpline" class="logo" />
+          <img src="./assets/images/tmh-logo.svg" alt="The Trademark Helpline" class="logo" />
         </div>
         <nav aria-label="Primary" class="nav">
           <a href="#why-renew">Why Renew</a>
@@ -36,44 +36,133 @@
       </div>
     </header>
 
+    <!-- Error Banner for Missing/Invalid Token -->
+    <div class="token-error-banner hidden" id="token-error-banner">
+      <div class="container">
+        <div class="error-banner-card">
+          <div class="error-banner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+          </div>
+          <div class="error-banner-content">
+            <h2 class="error-banner-title">Please Use Your Personal Link</h2>
+            <p class="error-banner-message" id="error-banner-message">
+              To access your trademark renewal details, please use the exact link provided in your email.<br>This ensures your information is securely loaded.
+            </p>
+            <div class="error-banner-actions">
+              <a class="btn btn-primary" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
+              <a class="btn btn-outline" href="https://www.thetrademarkhelpline.com" target="_blank" rel="noopener">Visit Our Website</a>
+              <a class="btn btn-outline" href="mailto:support@thetrademarkhelpline.com?subject=Trademark%20Renewal%20-%20Support%20Request">Contact Support</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <main id="main">
       <section class="hero">
         <div class="container hero-heading">
           <p class="hero-line hero-subline hero-greeting">Hi <span data-merge="personName">there</span>,</p>
-          <p class="hero-line hero-subline">Your trademark <span class="tm-number-highlight" data-merge="primaryTrademarkNumber">—</span> is coming up for renewal</p>
+          <p class="hero-line hero-subline">Your trademark is coming up for renewal</p>
         </div>
+
+        <!-- Trademark Info Card -->
+        <div class="container">
+          <div class="trademark-info-card">
+            <!-- Left Column: Trademark Number, Registered, Expires -->
+            <div class="tm-details-left">
+              <div class="tm-number-badge" data-merge="heroTrademarkNumber">—</div>
+              <dl>
+                <div>
+                  <dt>Registered:</dt>
+                  <dd data-merge="heroRegDate">—</dd>
+                </div>
+                <div>
+                  <dt>Expires:</dt>
+                  <dd data-merge="heroExpiryDate">—</dd>
+                </div>
+              </dl>
+            </div>
+
+            <!-- Middle Column: Type, Classes, Status -->
+            <div class="tm-details-middle">
+              <dl>
+                <div>
+                  <dt>Type:</dt>
+                  <dd data-merge="heroMarkType">—</dd>
+                </div>
+                <div>
+                  <dt>Classes:</dt>
+                  <dd data-merge="heroClassCount">—</dd>
+                </div>
+                <div>
+                  <dt>Status:</dt>
+                  <dd data-merge="heroStatus">—</dd>
+                </div>
+              </dl>
+            </div>
+
+            <!-- Right Column: Word Mark or Logo -->
+            <div class="tm-brand-display">
+              <!-- Logo (if exists) -->
+              <div class="tm-image-container" id="hero-tm-image" style="display: none;">
+                <img id="hero-tm-img" src="" alt="Trademark logo" class="tm-image">
+              </div>
+              <!-- Word Mark Text -->
+              <div class="tm-wordmark" id="hero-tm-wordmark">
+                <div class="tm-wordmark-text" data-merge="heroTrademarkName">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="container hero-grid">
           <div class="hero-copy">
-            <p class="notice">Scammers target businesses during renewals. We’ll ensure your registration stays active for another 10 years and your brand remains secure.</p>
-            <p class="muted" style="margin:.5rem 0 0">Save money on your renewal and avoid scams with <strong>Active Trademark Monitoring</strong> today.</p>
+            <p class="notice">Scammers target businesses during renewals. We'll ensure your registration stays active for another 10 years and your brand remains secure.</p>
+            <h3 class="hero-subtitle">Save money on your renewal and avoid scams today with<br><span class="highlight-box">Active Trademark Monitoring</span></h3>
             <ul class="ticks">
               <li>Expert review and guidance</li>
               <li>Transparent, fixed-fee pricing</li>
               <li>Reminders and renewal confirmation</li>
             </ul>
+            <div class="hero-cta">
+              <div class="cta-row">
+                <a class="btn btn-primary btn-lg" href="#renewal-form">Start Your Renewal</a>
+                <a class="btn btn-ghost" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
+              </div>
+            </div>
           </div>
           <div class="hero-media-stack">
             <figure class="hero-media">
-              <img src="./matt-photo.jpg" alt="Matt from The Trademark Helpline" />
+              <img src="./assets/images/matt-photo.jpg" alt="Matt from The Trademark Helpline" />
             </figure>
             <div class="quote-card hero-quote">
               <blockquote>
-                <p>“Your brand is your business’s most valuable asset. Protect it before someone else exploits it.”</p>
+                <p>"Your brand is your business's most valuable asset. Protect it before someone else exploits it."</p>
               </blockquote>
               <cite><span class="author-name">Matt</span><span class="author-title">Trademark Specialist</span></cite>
             </div>
           </div>
         </div>
-        <div class="container hero-cta">
-          <div class="cta-row">
-            <a class="btn btn-primary btn-lg" href="#renewal-form">Start Your Renewal</a>
-            <a class="btn btn-ghost" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
-          </div>
-        </div>
         <div class="container hero-renewals">
           <div class="next-renewals">
             <h3>Next renewals due</h3>
-            <ul class="renewals-list" id="renewals"></ul>
+            <div class="renewals-table-wrapper">
+              <table class="renewals-table" id="renewals">
+                <thead>
+                  <tr>
+                    <th>Number</th>
+                    <th>Text</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Expiry</th>
+                    <th class="combined-status-expiry" style="display: none;">Status/<br>Expiry</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -147,7 +236,7 @@
               <cite><span class="author-name">Jonathan Paton</span><span class="author-title">Founder &amp; Managing Director</span></cite>
             </div>
             <figure class="monitor-photo">
-              <img src="./jon-photo.jpg" alt="Jonathan Paton" />
+              <img src="./assets/images/jon-photo.jpg" alt="Jonathan Paton" />
             </figure>
           </div>
           <div class="icon-card-grid monitoring-cards">
@@ -257,77 +346,36 @@
               <p>We've renewed and monitored portfolios for fast-growing startups through to established multinationals. Here's what clients say about working with us.</p>
               <div class="logo-grid" aria-label="Client logos">
                 <div class="client-logo">
-                  <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="120" height="60" fill="#f0f0f0" rx="4"/>
-                    <text x="60" y="35" text-anchor="middle" font-size="14" font-weight="600" fill="#223447">SSG</text>
-                  </svg>
+                  <img src="./assets/images/client-logo-1.png" alt="Client logo">
                 </div>
                 <div class="client-logo">
-                  <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="120" height="60" fill="#f0f0f0" rx="4"/>
-                    <text x="60" y="35" text-anchor="middle" font-size="12" font-weight="600" fill="#223447">Beechwood</text>
-                  </svg>
+                  <img src="./assets/images/client-logo-2.jpg" alt="Client logo">
                 </div>
                 <div class="client-logo">
-                  <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="120" height="60" fill="#f0f0f0" rx="4"/>
-                    <text x="60" y="35" text-anchor="middle" font-size="12" font-weight="600" fill="#223447">SmartHub</text>
-                  </svg>
+                  <img src="./assets/images/client-logo-3.png" alt="Client logo">
                 </div>
                 <div class="client-logo">
-                  <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="120" height="60" fill="#f0f0f0" rx="4"/>
-                    <text x="60" y="35" text-anchor="middle" font-size="11" font-weight="600" fill="#223447">BrightCore</text>
-                  </svg>
+                  <img src="./assets/images/client-logo-4.png" alt="Client logo">
                 </div>
                 <div class="client-logo">
-                  <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="120" height="60" fill="#f0f0f0" rx="4"/>
-                    <text x="60" y="35" text-anchor="middle" font-size="10" font-weight="600" fill="#223447">Pulse Recruit</text>
-                  </svg>
+                  <img src="./assets/images/client-logo-5.png" alt="Client logo">
                 </div>
                 <div class="client-logo">
-                  <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="120" height="60" fill="#f0f0f0" rx="4"/>
-                    <text x="60" y="35" text-anchor="middle" font-size="12" font-weight="600" fill="#223447">TechFlow</text>
-                  </svg>
+                  <img src="./assets/images/client-logo-6.png" alt="Client logo">
                 </div>
               </div>
             </div>
             <div class="testimonial-carousel">
-              <div class="testimonial-card active">
-                <div class="testimonial-content">
-                  <p class="testimonial-quote">"The Trademark Helpline made our renewal process seamless. Their expertise and proactive monitoring gave us complete peace of mind."</p>
-                  <div class="testimonial-author">
-                    <strong>Sarah Mitchell</strong>
-                    <span>Brand Director, Digital Agency</span>
-                  </div>
-                </div>
-              </div>
-              <div class="testimonial-card">
-                <div class="testimonial-content">
-                  <p class="testimonial-quote">"Professional, efficient, and straightforward pricing. They caught a potential infringement we would have missed entirely."</p>
-                  <div class="testimonial-author">
-                    <strong>James Cooper</strong>
-                    <span>CEO, Tech Startup</span>
-                  </div>
-                </div>
-              </div>
-              <div class="testimonial-card">
-                <div class="testimonial-content">
-                  <p class="testimonial-quote">"Outstanding service. They simplified our international trademark portfolio and saved us significant time and money."</p>
-                  <div class="testimonial-author">
-                    <strong>Emma Thompson</strong>
-                    <span>Legal Director, Manufacturing Group</span>
-                  </div>
-                </div>
-              </div>
+              <!-- Testimonial cards will be dynamically loaded from reviews.json -->
               <div class="carousel-controls">
                 <button class="carousel-prev" aria-label="Previous testimonial">‹</button>
                 <div class="carousel-dots">
                   <button class="dot active" data-slide="0" aria-label="Testimonial 1"></button>
                   <button class="dot" data-slide="1" aria-label="Testimonial 2"></button>
                   <button class="dot" data-slide="2" aria-label="Testimonial 3"></button>
+                  <button class="dot" data-slide="3" aria-label="Testimonial 4"></button>
+                  <button class="dot" data-slide="4" aria-label="Testimonial 5"></button>
+                  <button class="dot" data-slide="5" aria-label="Testimonial 6"></button>
                 </div>
                 <button class="carousel-next" aria-label="Next testimonial">›</button>
               </div>
@@ -375,8 +423,8 @@
                     <dd data-merge="markType">—</dd>
                   </div>
                   <div>
-                    <dt>Classes <span data-merge="classCountLabel">(—)</span></dt>
-                    <dd data-merge="classList">—</dd>
+                    <dt>Number of classes</dt>
+                    <dd data-merge="classCountLabel">—</dd>
                   </div>
                 </dl>
               </div>
@@ -484,7 +532,7 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="foot-brand">
-          <img src="./tmh-logo-dark.svg" alt="The Trademark Helpline" class="logo" />
+          <img src="./assets/images/tmh-logo-dark.svg" alt="The Trademark Helpline" class="logo" />
           <p class="copyright">© 2024, The Trademark Helpline. All Rights Reserved.</p>
         </div>
         <div class="foot-address">

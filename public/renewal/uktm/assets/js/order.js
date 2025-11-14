@@ -68,8 +68,8 @@ const PAYMENT_POLLING_CONFIG = {
   slowIntervalMs: 10000
 };
 
-const CONFIRMATION_URL = '/renewal-landing/confirmation.html';
-const OFFER_FALLBACK_URL = '/renewal-landing/index.html';
+const CONFIRMATION_URL = '/uktm/confirmation.html';
+const OFFER_FALLBACK_URL = '/uktm/index.html';
 const CONTACT_SUPPORT_EMAIL = 'support@thetrademarkhelpline.com';
 
 let currentOrderData = null;
@@ -595,7 +595,18 @@ function handlePendingStatus() {
 function handlePaidStatus() {
   stopPaymentMonitoring();
   hidePaymentStatusPanel();
-  window.location.href = CONFIRMATION_URL;
+
+  // Store token in sessionStorage for confirmation page validation
+  if (paymentState.token) {
+    sessionStorage.setItem('payment_completed', paymentState.token);
+  }
+
+  // Redirect to confirmation with token in URL
+  const confirmUrl = paymentState.token
+    ? `${CONFIRMATION_URL}?token=${encodeURIComponent(paymentState.token)}`
+    : CONFIRMATION_URL;
+
+  window.location.href = confirmUrl;
 }
 
 function handleTerminalStatus(statusKey) {
@@ -751,6 +762,29 @@ function base64DecodeJson(value) {
   }
 }
 
+function showErrorBanner(message) {
+  const errorBanner = document.getElementById('token-error-banner');
+  const errorMessage = document.getElementById('error-banner-message');
+  const mainContent = document.getElementById('main');
+
+  if (errorBanner) {
+    errorBanner.classList.remove('hidden');
+    if (errorMessage && message) {
+      errorMessage.innerHTML = message;
+    }
+  }
+
+  // Hide main content when error is shown
+  if (mainContent) {
+    mainContent.style.display = 'none';
+  }
+}
+
+function isProductionMode() {
+  // Production mode is when there's no mock data available
+  return !window.__orderPayload;
+}
+
 function loadOrderData() {
   // Try to get order data from window.__orderPayload (set by mock-data.js)
   if (window.__orderPayload) {
@@ -783,7 +817,13 @@ function loadOrderData() {
     }
   }
 
-  // Fallback to mock data for development
+  // In production mode with no valid data, return null to trigger error banner
+  if (isProductionMode()) {
+    console.log('No valid order data found in production mode');
+    return null;
+  }
+
+  // Fallback to mock data for development only
   console.log('Using MOCK_ORDER fallback');
   return MOCK_ORDER;
 }
@@ -804,6 +844,15 @@ function saveOrderData(orderData) {
  */
 function initOrderPage() {
   const orderData = loadOrderData();
+
+  // If no order data is available in production mode, redirect to index page
+  // The index page will show the appropriate error banner
+  if (!orderData) {
+    console.log('No order data found, redirecting to index page');
+    window.location.href = '/uktm/';
+    return;
+  }
+
   currentOrderData = orderData;
   rememberOfferUrl();
 
@@ -961,5 +1010,5 @@ if (document.readyState === 'loading') {
  */
 window.createOrderUrl = function(orderData) {
   const encodedData = base64EncodeJson(orderData);
-  return `/renewal-landing/order.html?order=${encodeURIComponent(encodedData)}`;
+  return `/uktm/order.html?order=${encodeURIComponent(encodedData)}`;
 };

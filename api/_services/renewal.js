@@ -145,7 +145,8 @@ function normalizeOrderSummary(response) {
     vat: data.vat ?? data.tax ?? 0,
     total: data.total || 0,
     currency: data.currency || 'GBP',
-    line_items: data.line_items || data.lineItems || []
+    line_items: data.line_items || data.lineItems || [],
+    trademark: data.trademark || {}
   };
 }
 

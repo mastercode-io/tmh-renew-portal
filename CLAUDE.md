@@ -4,154 +4,317 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a trademark renewal portal for The Trademark Helpline - a standalone landing page system that allows clients to review and renew their trademarks. The system consists of a static frontend that integrates with CRM (Zoho) via serverless API endpoints.
+This is a trademark renewal portal for The Trademark Helpline. It's a multi-page flow system hosted on Vercel that allows clients to review trademark details, submit renewal orders, and complete payment via Xero invoicing integration.
 
 ## Architecture
 
 ### Frontend Structure
 
-The project is a **static HTML landing page** with vanilla JavaScript - no build system or framework:
+Static HTML pages with vanilla JavaScript (no build system):
 
-- **`public/renewal-landing/`** - Complete self-contained landing page
-  - `index.html` - Single-page responsive HTML with accessibility features
-  - `styles.css` - CSS using custom properties (CSS variables) for theming
-  - `main.js` - Client-side prefill logic, form validation, UTM tracking, and screening flow
-  - `mock-data.js` - Mock CRM payload for local development (sets `window.__renewalPayload`)
+- **`public/renewal/uktm/`** - Main UK trademark renewal flow
+  - `index.html` - Landing page with trademark details and renewal form
+  - `order.html` - Order summary and payment initiation page
+  - `confirmation.html` - Post-payment confirmation page
+  - `assets/js/main.js` - Landing page logic (prefill, form validation, submission)
+  - `assets/js/order.js` - Order page logic (displays summary, initiates payment)
+  - `assets/css/styles.css` - Responsive styles using CSS custom properties
 
-### API Integration Pattern
+### API Layer (Vercel Edge Functions)
 
-The landing page expects two serverless endpoints:
+All API endpoints run as Edge Functions (standard Web Fetch API, no Node.js built-ins):
 
-1. **`GET /api/prefill?request_id=...`** - Fetches CRM data to prepopulate the form
-   - Validates one-time request_id tokens
-   - Returns person, organization, trademark, and renewal data
-   - Example handler: `api/prefill.example.js`
+- **`api/renewal/details.js`** - `GET /api/renewal/details?token=...`
+  - Fetches account, contact, trademark, and upcoming renewals for a token
+  - Calls CRM custom function: `renewalgetleadinfo`
 
-2. **`POST /api/lead`** - Receives form submissions
-   - Captures lead details + UTM context
-   - Stores in CRM (Zoho custom object or Lead)
-   - Example handler: `api/lead.example.js`
+- **`api/renewal/order/index.js`** - `POST /api/renewal/order`
+  - Creates or updates renewal Deal in CRM from form submission
+  - Calls CRM custom function: `renewalcreateorder`
+  - Returns order summary with deal_token for subsequent steps
+
+- **`api/renewal/order/[dealId].js`** - `GET /api/renewal/order/:dealId`
+  - Fetches latest order summary (line items, VAT, totals) for a Deal
+  - Calls CRM custom function: `renewalgetordersummary`
+
+- **`api/renewal/payment-link.js`** - `GET /api/renewal/payment-link?token=...`
+  - Requests hosted payment URL from Xero via CRM
+  - Calls CRM custom function: `dealcreatepayment`
+  - Returns `payment_url` (Xero invoice link) and `deal_token`
+
+- **`api/renewal/payment-status.js`** - `GET /api/renewal/payment-status?token=...`
+  - Polls payment status via CRM (which checks Xero)
+  - Calls CRM custom function: `renewalgetpaymentstatus`
+  - Returns `status` (pending/paid/failed) and `updated_at`
+
+### Service Layer
+
+- **`api/_services/renewal.js`** - Core business logic
+  - Wraps all CRM calls with mock data fallback
+  - Normalizes CRM responses to consistent payload format
+  - Uses `USE_MOCK_DATA` env var to switch between mock/live
+
+- **`api/_lib/crm.js`** - CRM integration helper
+  - Builds authenticated requests to Zoho CRM custom functions
+  - Appends auth parameters and API key headers
+  - Maps endpoint names to Zoho function paths
+
+- **`api/_lib/env.js`** - Environment configuration
+  - Reads env vars for CRM base URL, API key, auth type
+  - Controls mock data usage
+
+- **`api/_lib/mock-data.js`** - Mock payloads for local development
+  - Returns sample responses for all endpoints
+  - Allows frontend development without live CRM
 
 ### Data Flow
 
 ```
-CRM (Zoho) → /api/prefill?request_id=xxx → Landing Page Form → /api/lead → CRM (Zoho)
-                                              ↓
-                                      Screening Logic (client-side)
-                                              ↓
-                                   Payment URL or "Book a Call" prompt
-```
-
-### Key Frontend Features
-
-- **Prefill Logic** (`main.js:198-213`): Fetches CRM data via `/api/prefill` or uses `window.__renewalPayload` for local testing
-- **Dynamic Greeting**: Personalizes hero section with client name and trademark number
-- **Renewals List**: Displays all client trademarks sorted by expiry date
-- **Form Sync**: Live updates of summary card as user edits form fields
-- **UTM Tracking**: Automatically captures all UTM parameters + referrer + landing path in hidden fields
-- **Screening Flow** (`main.js:276-299`): Client-side decision logic that:
-  - Checks if ownership or classification changes are needed
-  - Requires authorization confirmation
-  - Routes to payment URL if straightforward renewal
-  - Prompts to book a call if changes are indicated
-
-### CRM Data Model
-
-The `/api/prefill` endpoint returns a structured payload (see `mock-data.js` for full schema):
-
-```javascript
-{
-  person: { first_name, last_name, email, mobile, full_name },
-  organisation: { name, company_number, address, website },
-  trademarks: [{
-    id, word_mark, mark_type, status, jurisdiction,
-    application_number, registration_number,
-    application_date, registration_date, expiry_date,
-    classes: [{ nice, description }], classes_count
-  }],
-  next_due: { trademark_id, expiry_date },
-  prefill: { contact, trademark, authorisations, changes_requested },
-  links: { book_call, pay_now, manage_prefs }
-}
+User visits link with token
+    ↓
+GET /api/renewal/details?token=xxx
+    ↓ (CRM: renewalgetleadinfo)
+Landing page displays account/trademark/form
+    ↓
+User submits form
+    ↓
+POST /api/renewal/order (with form data)
+    ↓ (CRM: renewalcreateorder)
+Order page displays summary (deal_token issued)
+    ↓
+User clicks "Pay Now"
+    ↓
+GET /api/renewal/payment-link?token=deal_tok_xxx
+    ↓ (CRM: dealcreatepayment → Xero)
+Open Xero invoice in new tab, poll status
+    ↓
+GET /api/renewal/payment-status?token=deal_tok_xxx (polling)
+    ↓ (CRM: renewalgetpaymentstatus → Xero)
+Detect paid status → redirect to confirmation
 ```
 
 ## Development Workflow
 
 ### Local Development
 
-1. Open `public/renewal-landing/index.html` directly in a browser, or serve with any static server:
-   ```bash
-   cd public/renewal-landing
-   python3 -m http.server 8000
-   # or
-   npx serve .
-   ```
+Serve static files directly:
 
-2. Mock data is automatically loaded from `mock-data.js` via `window.__renewalPayload`
+```bash
+cd public/renewal/uktm
+python3 -m http.server 8000
+# or
+npx serve .
+```
 
-3. To test with URL parameters:
-   ```
-   ?firstName=John&email=test@example.com&request_id=test123
-   ```
+Navigate to `http://localhost:8000/` to test the landing page.
 
-### Testing the API Integration
+### Testing with Mock Data
 
-The serverless API handlers in `api/` are example stubs. To integrate:
+Set environment variable in Vercel dashboard or `.env` file:
 
-1. Deploy to your serverless platform (Vercel, Netlify, Azure Functions, AWS Lambda)
-2. Update form attributes in `index.html`:
-   - `data-endpoint` - target for form submission (default: `/api/lead`)
-   - `data-prefill-endpoint` - prefill data source (default: `/api/prefill`)
-   - `data-payment-url` - redirect after successful screening (default: `/pay`)
-3. Replace Zoho API calls in the example handlers with actual auth + API requests
+```
+USE_MOCK_DATA=true
+```
 
-### No Build System
+Mock responses are automatically returned from `api/_lib/mock-data.js` when `USE_MOCK_DATA=true` or CRM is not configured.
 
-This project intentionally has **no package.json, no bundler, no build step**. Changes to HTML/CSS/JS are immediately reflected when you refresh the browser.
+### Testing with Live CRM
+
+Configure environment variables in Vercel:
+
+```
+CRM_API_BASE_URL=https://www.zohoapis.com
+CRM_API_KEY=your-api-key
+CRM_AUTH_TYPE=apikey
+CRM_API_KEY_HEADER=X-API-Key
+CRM_API_KEY_PARAM=zapikey
+USE_MOCK_DATA=false
+```
+
+Ensure the CRM custom functions listed in `api/_lib/crm.js` (CRM_ENDPOINTS) are deployed in Zoho CRM.
+
+### URL Routing
+
+Handled by `vercel.json`:
+
+- `/uktm/` → `public/renewal/uktm/index.html`
+- `/uktm/order` → `public/renewal/uktm/order.html`
+- `/uktm/confirmation` → `public/renewal/uktm/confirmation.html`
+
+### Deployment
+
+Deploy to Vercel:
+
+```bash
+vercel --prod
+```
+
+Or push to Git (auto-deploys if linked to Vercel project).
+
+## Key Frontend Patterns
+
+### Token Handling
+
+All pages use encrypted tokens for security:
+- **Request token** (`token`) - validates access to initial renewal details (one-time use)
+- **Deal token** (`deal_token`) - identifies order for payment and status polling
+
+Tokens are passed via URL query params and submitted with API requests.
+
+### Prefill Logic
+
+`main.js` fetches data on page load:
+
+```javascript
+const token = new URLSearchParams(window.location.search).get('token');
+const response = await fetch(`/api/renewal/details?token=${token}`);
+const payload = await response.json();
+```
+
+Payload structure (see `docs/RENEWAL-PAYLOAD-SPEC.md`):
+
+```javascript
+{
+  account: { type, name, address, company_number, vat_number },
+  contact: { first_name, last_name, email, mobile, phone, position },
+  trademark: { id, word_mark, mark_type, jurisdiction, classes, expiry_date, image_url, ... },
+  next_due: [ /* array of other trademarks */ ],
+  links: { book_call, manage_prefs, terms_conditions }
+}
+```
+
+### Form Submission Flow
+
+Form submits to `/api/renewal/order`:
+
+```javascript
+const formData = {
+  token: requestToken,
+  contact: { first_name, last_name, email, mobile },
+  account: { /* account fields */ },
+  trademark_id: selectedTrademarkId,
+  changes_requested: { ownership, classification, ... },
+  utm_params: { /* tracking data */ }
+};
+
+const response = await fetch('/api/renewal/order', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(formData)
+});
+
+const { deal_token, deal_id, line_items, total } = await response.json();
+// Redirect to /uktm/order?token=deal_token
+```
+
+### Payment Initiation (order.js)
+
+Order page requests payment link:
+
+```javascript
+const response = await fetch(`/api/renewal/payment-link?token=${dealToken}`);
+const { payment_url, deal_token } = await response.json();
+
+// Open Xero invoice in new tab
+window.open(payment_url, '_blank');
+
+// Start polling payment status
+pollPaymentStatus(deal_token);
+```
+
+### Payment Status Polling (order.js)
+
+Poll every 3 seconds for payment confirmation:
+
+```javascript
+async function pollPaymentStatus(token) {
+  const response = await fetch(`/api/renewal/payment-status?token=${token}`);
+  const { status, updated_at } = await response.json();
+
+  if (status === 'paid') {
+    // Redirect to confirmation page
+    window.location.href = '/uktm/confirmation?token=' + token;
+  } else if (status === 'failed') {
+    // Show error message
+  }
+  // Continue polling if pending
+}
+```
+
+## CRM Integration Requirements
+
+The backend expects these Zoho CRM custom functions to exist (defined in `api/_lib/crm.js`):
+
+1. **renewalgetleadinfo** - Returns account, contact, trademark, next_due for a token
+2. **renewalcreateorder** - Creates/updates Deal from form submission
+3. **renewalgetordersummary** - Returns Deal line items and totals
+4. **dealcreatepayment** - Creates Xero invoice and returns payment URL
+5. **renewalgetpaymentstatus** - Checks Xero payment status via CRM
+
+These functions must be deployed in Zoho CRM and accessible via the API key configured in environment variables.
+
+## Important Files
+
+### Configuration
+- `vercel.json` - URL routing and redirects
+- `api/_lib/env.js` - Environment variable handling
+- `api/_lib/crm.js` - CRM endpoint mapping
+
+### Documentation
+- `docs/RENEWAL-PAYLOAD-SPEC.md` - Complete API payload specification
+- `docs/IMPLEMENTATION-SUMMARY.md` - Implementation details and migration guide
+- `docs/API-PHASE-1.md` - Phased implementation roadmap
+
+### Frontend Entry Points
+- `public/renewal/uktm/index.html` - Landing page
+- `public/renewal/uktm/assets/js/main.js` - Landing page JavaScript
+- `public/renewal/uktm/assets/js/order.js` - Order page JavaScript
+
+### API Entry Points
+- `api/renewal/details.js` - Prefill endpoint
+- `api/renewal/order/index.js` - Order creation endpoint
+- `api/renewal/payment-link.js` - Payment initiation endpoint
+- `api/renewal/payment-status.js` - Payment polling endpoint
 
 ## Design System
 
-The CSS uses a custom property system defined in `:root` (see `styles.css:1-19`):
+CSS uses custom properties defined in `assets/css/styles.css`:
 
-- **Brand colors**: `--brand-pink` (primary), `--brand-navy` (headings)
+- **Colors**: `--brand-pink`, `--brand-navy`, `--brand-sage`
 - **Typography**: Poppins (headings), Nunito Sans (body)
-- **Layout**: Fluid responsive design with `clamp()` and CSS Grid
-- **Components**: Cards, buttons, icon-cards, forms all use `--radius` and `--shadow` tokens
+- **Layout tokens**: `--radius`, `--shadow`, `--gap`
+- **Responsive breakpoints**: 1100px, 768px, 480px
 
-### Responsive Breakpoints
+## Security Notes
 
-The layout adapts at:
-- 1100px - Switches hero grid from 2-column to single column
-- 768px - Stacks form layout and reduces icon-card grid
-- Additional breakpoints defined in `styles.css:150+` (media queries)
-
-## Important Patterns
-
-### Name Handling
-
-The `splitName()` function (`main.js:87-94`) handles person names that may come as:
-- Separate `first_name` and `last_name` fields
-- Combined `full_name` field
-- Contact `name` field
-
-The prefill logic prioritizes these in order and splits combined names intelligently.
-
-### Trademark Selection Priority
-
-When multiple trademarks exist, the primary trademark is selected based on (`main.js:149`):
-1. The trademark matching `next_due.trademark_id`
-2. The trademark in `prefill.trademark` if present
-3. The first trademark in the `trademarks` array
-
-### Security Notes
-
-- Request IDs should be one-time use, signed tokens (see `security` object in mock data)
+- All tokens (request_token, deal_token) are encrypted and validated server-side
+- Tokens should be one-time use where applicable
 - Never commit `.env` files (already in `.gitignore`)
-- Form submissions include UTM tracking - ensure this data is handled per privacy policy
+- CRM API keys must be stored in Vercel environment variables
+- Form submissions include UTM tracking - handle per privacy policy
 
-## File Reference
+## Common Tasks
 
-- Landing page implementation: `public/renewal-landing/`
-- API handler examples: `api/prefill.example.js`, `api/lead.example.js`
-- Mock data schema: `public/renewal-landing/mock-data.js`
-- Documentation: `public/renewal-landing/README.md`, `api/README.md`
+### Adding a new API endpoint
+
+1. Create file in `api/renewal/your-endpoint.js`
+2. Export Edge runtime config: `export const config = { runtime: 'edge' }`
+3. Import service layer: `import { yourFunction } from '../_services/renewal.js'`
+4. Add endpoint to `api/_lib/crm.js` (CRM_ENDPOINTS)
+5. Add mock response to `api/_lib/mock-data.js`
+6. Implement logic in `api/_services/renewal.js`
+
+### Updating the payload structure
+
+1. Update `docs/RENEWAL-PAYLOAD-SPEC.md` with new fields
+2. Update mock data in `api/_lib/mock-data.js`
+3. Update normalization logic in `api/_services/renewal.js`
+4. Update frontend code in `assets/js/main.js` or `assets/js/order.js`
+5. Test with mock data before wiring live CRM
+
+### Testing the full flow locally
+
+1. Set `USE_MOCK_DATA=true` in environment
+2. Run `vercel dev` (or deploy to Vercel preview)
+3. Navigate to `/uktm/?token=test123`
+4. Submit form → order page → payment flow (uses mock data)

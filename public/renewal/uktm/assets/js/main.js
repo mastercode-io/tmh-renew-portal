@@ -41,7 +41,6 @@
     trademark: document.querySelector('[data-merge="trademark"]'),
     markType: document.querySelector('[data-merge="markType"]'),
     classCountLabel: document.querySelector('[data-merge="classCountLabel"]'),
-    classList: document.querySelector('[data-merge="classList"]'),
     jurisdiction: document.querySelector('[data-merge="jurisdiction"]'),
   };
 
@@ -65,9 +64,6 @@
       if (name === 'classCount') {
         if (mergeTargets.classCountLabel) {
           mergeTargets.classCountLabel.textContent = formatClassCountLabel(val, null);
-        }
-        if (mergeTargets.classList && (!mergeTargets.classList.textContent || mergeTargets.classList.textContent === '—')) {
-          mergeTargets.classList.textContent = '—';
         }
       }
     }
@@ -95,15 +91,10 @@
       .filter(Boolean);
   };
 
-  const formatClassList = (classes) => {
-    const entries = normaliseClassEntries(classes);
-    return entries.length ? entries.join(', ') : '—';
-  };
-
   const formatClassCountLabel = (count, classes) => {
-    if (count != null && count !== '') return `(${count})`;
+    if (count != null && count !== '') return String(count);
     const fallback = normaliseClassEntries(classes).length;
-    return fallback ? `(${fallback})` : '(—)';
+    return fallback ? String(fallback) : '—';
   };
 
   fields.forEach((f) => {
@@ -139,10 +130,16 @@
 
   const renderRenewals = (items) => {
     if (!renewalsList) return;
+
+    // Get tbody element (table now instead of ul)
+    const tbody = renewalsList.querySelector('tbody');
+    if (!tbody) return;
+
     if (!items?.length) {
-      renewalsList.innerHTML = '<li class="tm-empty">No upcoming renewals listed.</li>';
+      tbody.innerHTML = '<tr><td colspan="6" class="tm-empty">No upcoming renewals listed.</td></tr>';
       return;
     }
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const sorted = items.slice().sort((a, b) => {
@@ -150,23 +147,47 @@
       const bd = b.expiry_date ? new Date(b.expiry_date) : new Date(8640000000000000);
       return ad - bd;
     });
-    renewalsList.innerHTML = sorted.map((it) => {
+
+    tbody.innerHTML = sorted.map((it) => {
       const number = it.registration_number || it.application_number || it.id || '—';
-      let expiryLabel = null;
+      const name = it.word_mark || '—';
+      const type = it.mark_type || '—';
+      const status = it.status || '—';
+
+      let expiryText = '—';
+      let expiryClass = '';
       if (it.expiry_date) {
         const expiryDate = new Date(it.expiry_date);
         expiryDate.setHours(0, 0, 0, 0);
         const isExpired = expiryDate < today;
-        expiryLabel = `${isExpired ? 'Expired' : 'Expires'} ${it.expiry_date}`;
+
+        // Format date nicely
+        const formatted = expiryDate.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+
+        expiryText = formatted;
+        expiryClass = isExpired ? 'expired' : 'active';
       }
-      const metaParts = [
-        it.word_mark,
-        it.mark_type,
-        it.status,
-        expiryLabel
-      ].filter(Boolean).join(', ');
-      const content = metaParts.length ? metaParts : '—';
-      return `<li><span class="tm-number">${number}</span><span class="tm-meta">${content}</span></li>`;
+
+      // Combined Status/Expiry for smaller screens
+      const combinedCell = `
+        <span class="status">${status}</span>
+        <span class="expiry ${expiryClass}">${expiryText}</span>
+      `;
+
+      return `
+        <tr>
+          <td class="tm-number" data-label="Number">${number}</td>
+          <td class="tm-name" data-label="Text">${name}</td>
+          <td class="tm-type" data-label="Type">${type}</td>
+          <td class="tm-status" data-label="Status">${status}</td>
+          <td class="tm-expiry ${expiryClass}" data-label="Expiry">${expiryText}</td>
+          <td class="tm-status-expiry" data-label="Status/Expiry" style="display: none;">${combinedCell}</td>
+        </tr>
+      `;
     }).join('');
   };
 
@@ -185,9 +206,9 @@
   const buildOrderUrl = (orderData) => {
     try {
       const encoded = base64EncodeJson(orderData);
-      return `/renewal-landing/order.html?order=${encodeURIComponent(encoded)}`;
+      return `/uktm/order.html?order=${encodeURIComponent(encoded)}`;
     } catch (error) {
-      return '/renewal-landing/order.html';
+      return '/uktm/order.html';
     }
   };
 
@@ -236,6 +257,74 @@
     if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
     if (mergeTargets.primaryTrademarkNumber) mergeTargets.primaryTrademarkNumber.textContent = heroTrademarkNumber;
 
+    // Update hero trademark info card
+    const heroTmName = document.querySelector('[data-merge="heroTrademarkName"]');
+    const heroTmNumber = document.querySelector('[data-merge="heroTrademarkNumber"]');
+    const heroRegDate = document.querySelector('[data-merge="heroRegDate"]');
+    const heroExpiryDate = document.querySelector('[data-merge="heroExpiryDate"]');
+    const heroMarkType = document.querySelector('[data-merge="heroMarkType"]');
+    const heroStatus = document.querySelector('[data-merge="heroStatus"]');
+    const heroClassCount = document.querySelector('[data-merge="heroClassCount"]');
+    const heroTmImageContainer = document.getElementById('hero-tm-image');
+    const heroTmImg = document.getElementById('hero-tm-img');
+
+    if (heroTmName) heroTmName.textContent = trademark.word_mark || '—';
+    if (heroTmNumber) heroTmNumber.textContent = heroTrademarkNumber;
+
+    if (heroRegDate) {
+      const regDate = trademark.registration_date;
+      if (regDate) {
+        const date = new Date(regDate);
+        const formatted = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        heroRegDate.textContent = formatted;
+      } else {
+        heroRegDate.textContent = '—';
+      }
+    }
+
+    if (heroExpiryDate) {
+      const expiryDate = trademark.expiry_date || trademark.next_renewal_date;
+      if (expiryDate) {
+        // Format date nicely (e.g., "9 June 2025")
+        const date = new Date(expiryDate);
+        const formatted = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        heroExpiryDate.textContent = formatted;
+      } else {
+        heroExpiryDate.textContent = '—';
+      }
+    }
+
+    if (heroMarkType) heroMarkType.textContent = trademark.mark_type || '—';
+    if (heroStatus) heroStatus.textContent = trademark.status || '—';
+
+    if (heroClassCount) {
+      const count = trademark.classes_count || (Array.isArray(trademark.classes) ? trademark.classes.length : null);
+      heroClassCount.textContent = count ? `${count} ${count === 1 ? 'class' : 'classes'}` : '—';
+    }
+
+    // Show trademark logo if available, otherwise show word mark
+    const heroTmWordmark = document.getElementById('hero-tm-wordmark');
+
+    if (trademark.image_url && heroTmImageContainer && heroTmImg) {
+      // Show logo, hide word mark
+      heroTmImg.src = trademark.image_url;
+      heroTmImg.alt = trademark.word_mark || 'Trademark logo';
+      heroTmImageContainer.style.display = 'block';
+      if (heroTmWordmark) heroTmWordmark.style.display = 'none';
+    } else {
+      // Show word mark, hide logo
+      if (heroTmImageContainer) heroTmImageContainer.style.display = 'none';
+      if (heroTmWordmark) heroTmWordmark.style.display = 'block';
+    }
+
     // Get classes data
     const classes = trademark.classes;
     const classesCount = trademark.classes_count || (Array.isArray(classes) ? classes.length : undefined);
@@ -262,10 +351,7 @@
       setIf(name, value);
     });
 
-    // Special handling for classes label + list
-    if (mergeTargets.classList) {
-      mergeTargets.classList.textContent = formatClassList(classes);
-    }
+    // Special handling for classes count
     if (mergeTargets.classCountLabel) {
       mergeTargets.classCountLabel.textContent = formatClassCountLabel(classesCount, classes);
     }
@@ -292,10 +378,8 @@
       trademarkImageContainer.style.display = 'none';
     }
 
-    // Render renewals list - next_due is now an array of full trademark objects
-    // We also need to include the main trademark in the display
-    const allMarks = [trademark, ...nextDue].filter(Boolean);
-    renderRenewals(allMarks);
+    // Render renewals list - show only next_due trademarks (not including the main one being renewed)
+    renderRenewals(nextDue);
 
     // Handle links
     if (payload.links?.book_call) {
@@ -326,6 +410,24 @@
     }
   }
 
+  function showErrorBanner(message) {
+    const errorBanner = document.getElementById('token-error-banner');
+    const errorMessage = document.getElementById('error-banner-message');
+    const mainContent = document.getElementById('main');
+
+    if (errorBanner) {
+      errorBanner.classList.remove('hidden');
+      if (errorMessage && message) {
+        errorMessage.innerHTML = message;
+      }
+    }
+
+    // Hide main content when error is shown
+    if (mainContent) {
+      mainContent.style.display = 'none';
+    }
+  }
+
   async function fetchPrefill() {
     const loadingOverlay = document.getElementById('page-loading');
 
@@ -340,14 +442,24 @@
         applyPrefillPayload(window.__renewalPayload);
         return;
       }
-      if (!token) return;
+
+      // Check if token is missing - show error banner
+      if (!token) {
+        showErrorBanner('To access your trademark renewal details, please use the exact link provided in your email.<br>This ensures your information is securely loaded.');
+        return;
+      }
 
       const res = await fetch(`${prefillEndpoint}?token=${encodeURIComponent(token)}`, { credentials: 'include' });
-      if (!res.ok) throw new Error('Prefill fetch failed');
+      if (!res.ok) {
+        // Token is invalid or expired
+        showErrorBanner('This link has expired or is invalid.<br>Please use the link from your most recent email, or contact us for assistance.');
+        return;
+      }
       const payload = await res.json();
       applyPrefillPayload(payload);
     } catch (e) {
       console.warn('Prefill fetch error', e);
+      showErrorBanner('We encountered an error loading your renewal details.<br>Please try again or contact support@thetrademarkhelpline.com for assistance.');
     } finally {
       // Hide loading overlay
       if (loadingOverlay) {
@@ -609,8 +721,18 @@
         throw new Error(errMsg);
       }
 
-      persistOrderData(orderSummary);
-      window.location.href = buildOrderUrl(orderSummary);
+      const enrichedOrder = {
+        ...orderSummary,
+        trademark:
+          orderSummary.trademark ||
+          prefillState.trademark ||
+          (prefillState.heroTrademarkNumber
+            ? { registration_number: prefillState.heroTrademarkNumber }
+            : null)
+      };
+
+      persistOrderData(enrichedOrder);
+      window.location.href = buildOrderUrl(enrichedOrder);
     } catch (err) {
       console.error(err);
       alert('Something went wrong sending your details. Please try again, or call us.');
@@ -625,48 +747,82 @@
   });
 })();
 
-// Testimonial Carousel
+// Testimonial Carousel - Load reviews from JSON and initialize carousel
 (function() {
   const carousel = document.querySelector('.testimonial-carousel');
   if (!carousel) return;
 
-  const cards = carousel.querySelectorAll('.testimonial-card');
-  const dots = carousel.querySelectorAll('.dot');
-  const prevBtn = carousel.querySelector('.carousel-prev');
-  const nextBtn = carousel.querySelector('.carousel-next');
+  // Load reviews from JSON file
+  fetch('./content/reviews.json')
+    .then(response => response.json())
+    .then(reviews => {
+      // Create testimonial cards from reviews
+      const carouselControls = carousel.querySelector('.carousel-controls');
 
-  let currentSlide = 0;
+      reviews.forEach((review, index) => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card' + (index === 0 ? ' active' : '');
 
-  function showSlide(index) {
-    // Remove active from all cards and dots
-    cards.forEach(card => card.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
+        card.innerHTML = `
+          <div class="testimonial-content">
+            <p class="testimonial-quote">"${review.review}"</p>
+            <div class="testimonial-author">
+              <strong>${review.reviewer}</strong>
+              <span>Verified Customer</span>
+            </div>
+          </div>
+        `;
 
-    // Add active to current
-    cards[index].classList.add('active');
-    dots[index].classList.add('active');
-    currentSlide = index;
+        // Insert card before carousel controls
+        carousel.insertBefore(card, carouselControls);
+      });
+
+      // Initialize carousel functionality
+      initCarousel();
+    })
+    .catch(error => {
+      console.error('Error loading reviews:', error);
+    });
+
+  function initCarousel() {
+    const cards = carousel.querySelectorAll('.testimonial-card');
+    const dots = carousel.querySelectorAll('.dot');
+    const prevBtn = carousel.querySelector('.carousel-prev');
+    const nextBtn = carousel.querySelector('.carousel-next');
+
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      // Remove active from all cards and dots
+      cards.forEach(card => card.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      // Add active to current
+      cards[index].classList.add('active');
+      dots[index].classList.add('active');
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      const next = (currentSlide + 1) % cards.length;
+      showSlide(next);
+    }
+
+    function prevSlide() {
+      const prev = (currentSlide - 1 + cards.length) % cards.length;
+      showSlide(prev);
+    }
+
+    // Button clicks
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+    // Dot clicks
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => showSlide(index));
+    });
+
+    // Auto-advance every 5 seconds
+    setInterval(nextSlide, 5000);
   }
-
-  function nextSlide() {
-    const next = (currentSlide + 1) % cards.length;
-    showSlide(next);
-  }
-
-  function prevSlide() {
-    const prev = (currentSlide - 1 + cards.length) % cards.length;
-    showSlide(prev);
-  }
-
-  // Button clicks
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-
-  // Dot clicks
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => showSlide(index));
-  });
-
-  // Auto-advance every 5 seconds
-  setInterval(nextSlide, 5000);
 })();
