@@ -743,7 +743,7 @@
   if (!carousel) return;
 
   // Load reviews from JSON file
-  fetch('./assets/content/reviews.json')
+  fetch('./content/reviews.json')
     .then(response => response.json())
     .then(reviews => {
       // Create testimonial cards from reviews
