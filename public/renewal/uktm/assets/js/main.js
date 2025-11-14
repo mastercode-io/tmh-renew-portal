@@ -212,14 +212,6 @@
     }
   };
 
-  const persistOrderData = (orderData) => {
-    try {
-      localStorage.setItem('renewal_order', JSON.stringify(orderData));
-    } catch (error) {
-      console.warn('Unable to persist order data', error);
-    }
-  };
-
   function applyPrefillPayload(payload) {
     if (!payload || typeof payload !== 'object') return;
 
@@ -731,7 +723,6 @@
             : null)
       };
 
-      persistOrderData(enrichedOrder);
       window.location.href = buildOrderUrl(enrichedOrder);
     } catch (err) {
       console.error(err);
