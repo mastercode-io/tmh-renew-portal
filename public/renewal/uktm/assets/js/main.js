@@ -737,48 +737,82 @@
   });
 })();
 
-// Testimonial Carousel
+// Testimonial Carousel - Load reviews from JSON and initialize carousel
 (function() {
   const carousel = document.querySelector('.testimonial-carousel');
   if (!carousel) return;
 
-  const cards = carousel.querySelectorAll('.testimonial-card');
-  const dots = carousel.querySelectorAll('.dot');
-  const prevBtn = carousel.querySelector('.carousel-prev');
-  const nextBtn = carousel.querySelector('.carousel-next');
+  // Load reviews from JSON file
+  fetch('./assets/content/reviews.json')
+    .then(response => response.json())
+    .then(reviews => {
+      // Create testimonial cards from reviews
+      const carouselControls = carousel.querySelector('.carousel-controls');
 
-  let currentSlide = 0;
+      reviews.forEach((review, index) => {
+        const card = document.createElement('div');
+        card.className = 'testimonial-card' + (index === 0 ? ' active' : '');
 
-  function showSlide(index) {
-    // Remove active from all cards and dots
-    cards.forEach(card => card.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
+        card.innerHTML = `
+          <div class="testimonial-content">
+            <p class="testimonial-quote">"${review.review}"</p>
+            <div class="testimonial-author">
+              <strong>${review.reviewer}</strong>
+              <span>Verified Customer</span>
+            </div>
+          </div>
+        `;
 
-    // Add active to current
-    cards[index].classList.add('active');
-    dots[index].classList.add('active');
-    currentSlide = index;
+        // Insert card before carousel controls
+        carousel.insertBefore(card, carouselControls);
+      });
+
+      // Initialize carousel functionality
+      initCarousel();
+    })
+    .catch(error => {
+      console.error('Error loading reviews:', error);
+    });
+
+  function initCarousel() {
+    const cards = carousel.querySelectorAll('.testimonial-card');
+    const dots = carousel.querySelectorAll('.dot');
+    const prevBtn = carousel.querySelector('.carousel-prev');
+    const nextBtn = carousel.querySelector('.carousel-next');
+
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      // Remove active from all cards and dots
+      cards.forEach(card => card.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      // Add active to current
+      cards[index].classList.add('active');
+      dots[index].classList.add('active');
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      const next = (currentSlide + 1) % cards.length;
+      showSlide(next);
+    }
+
+    function prevSlide() {
+      const prev = (currentSlide - 1 + cards.length) % cards.length;
+      showSlide(prev);
+    }
+
+    // Button clicks
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+    // Dot clicks
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => showSlide(index));
+    });
+
+    // Auto-advance every 5 seconds
+    setInterval(nextSlide, 5000);
   }
-
-  function nextSlide() {
-    const next = (currentSlide + 1) % cards.length;
-    showSlide(next);
-  }
-
-  function prevSlide() {
-    const prev = (currentSlide - 1 + cards.length) % cards.length;
-    showSlide(prev);
-  }
-
-  // Button clicks
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-
-  // Dot clicks
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => showSlide(index));
-  });
-
-  // Auto-advance every 5 seconds
-  setInterval(nextSlide, 5000);
 })();
