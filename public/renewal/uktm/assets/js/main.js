@@ -776,7 +776,7 @@
             <p class="testimonial-quote">"${review.review}"</p>
             <div class="testimonial-author">
               <strong>${review.reviewer}</strong>
-              <span>Verified Customer • ${formattedDate}</span>
+              <span>${formattedDate}</span>
             </div>
           </div>
         `;
