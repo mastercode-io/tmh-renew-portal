@@ -763,12 +763,20 @@
         const card = document.createElement('div');
         card.className = 'testimonial-card' + (index === 0 ? ' active' : '');
 
+        // Format date
+        const reviewDate = new Date(review.date);
+        const formattedDate = reviewDate.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+
         card.innerHTML = `
           <div class="testimonial-content">
             <p class="testimonial-quote">"${review.review}"</p>
             <div class="testimonial-author">
               <strong>${review.reviewer}</strong>
-              <span>Verified Customer</span>
+              <span>Verified Customer • ${formattedDate}</span>
             </div>
           </div>
         `;
