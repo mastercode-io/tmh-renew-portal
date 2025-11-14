@@ -83,7 +83,3 @@ Following payment, our renewals team will:
 - Renewal applies only to the **jurisdiction specified at checkout** (e.g. UK). Separate renewals are required for EU or international marks.
 
 - Clients are encouraged to consider **Active Trademark Monitoring** to safeguard their brand following renewal. While The Trademark Helpline will always endeavour to alert clients to potential infringements or upcoming renewal dates, automatic notifications are only available to clients with an active monitoring subscription or ongoing representation service in place.
-
----
-
-*Document generated from: Trademark_Renewal_Order_Confimation.docx*
