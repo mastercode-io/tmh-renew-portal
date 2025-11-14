@@ -721,8 +721,18 @@
         throw new Error(errMsg);
       }
 
-      persistOrderData(orderSummary);
-      window.location.href = buildOrderUrl(orderSummary);
+      const enrichedOrder = {
+        ...orderSummary,
+        trademark:
+          orderSummary.trademark ||
+          prefillState.trademark ||
+          (prefillState.heroTrademarkNumber
+            ? { registration_number: prefillState.heroTrademarkNumber }
+            : null)
+      };
+
+      persistOrderData(enrichedOrder);
+      window.location.href = buildOrderUrl(enrichedOrder);
     } catch (err) {
       console.error(err);
       alert('Something went wrong sending your details. Please try again, or call us.');
