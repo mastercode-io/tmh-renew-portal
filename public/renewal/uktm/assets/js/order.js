@@ -314,6 +314,15 @@ function getOfferUrl() {
   }
 }
 
+function clearPaymentSessionData() {
+  try {
+    sessionStorage.removeItem('renewal_order_data');
+    sessionStorage.removeItem('payment_completed');
+  } catch (error) {
+    console.warn('Unable to clear payment session data', error);
+  }
+}
+
 function navigateToOffer() {
   window.location.href = getOfferUrl();
 }
@@ -604,6 +613,7 @@ function startPaymentMonitoring(token, paymentUrl, { resetStartTime = true } = {
   paymentState.timedOut = false;
   paymentState.active = true;
   paymentState.manualRecheckInFlight = false;
+  paymentState.lastStatus = null;
   if (resetStartTime || !paymentState.startTime) {
     paymentState.startTime = Date.now();
   }
@@ -836,6 +846,9 @@ function initTermsValidation() {
 
       // Add loading spinner to Pay Now button
       setPayNowButtonMode('loading', 'Creating payment link...');
+
+      // Clear any stale payment session data from previous attempts
+      clearPaymentSessionData();
 
       try {
         // Use current order data to extract deal token
