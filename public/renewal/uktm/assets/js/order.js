@@ -697,6 +697,18 @@ async function handleManualRecheck() {
 }
 
 /**
+ * Save order data to sessionStorage for persistence
+ */
+function saveOrderData(data) {
+  try {
+    const encoded = base64EncodeJson(data);
+    sessionStorage.setItem('renewal_order_data', encoded);
+  } catch (error) {
+    console.warn('Unable to save order data', error);
+  }
+}
+
+/**
  * Load order data from the URL or injected payload
  */
 function base64EncodeJson(value) {
