@@ -80,7 +80,10 @@ export async function createOrRetrievePaymentLink(token) {
     const response = await callCrm(CRM_ENDPOINTS.xeroInvoiceLink, {
       query: { token }
     });
-    return normalizePaymentLink(response);
+    console.log('[createOrRetrievePaymentLink] CRM raw response:', JSON.stringify(response));
+    const normalized = normalizePaymentLink(response);
+    console.log('[createOrRetrievePaymentLink] Normalized result:', JSON.stringify(normalized));
+    return normalized;
   }
 
   if (!ENV.useMockData) {

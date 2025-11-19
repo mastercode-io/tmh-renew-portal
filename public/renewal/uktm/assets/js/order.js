@@ -865,19 +865,25 @@ function initTermsValidation() {
         }
 
         // Call payment link API
+        console.log('[Payment] Requesting payment link for token:', dealToken);
         const response = await fetch(`/api/renewal/payment-link?token=${encodeURIComponent(dealToken)}`, {
           method: 'GET',
           credentials: 'include'
         });
 
+        console.log('[Payment] Response status:', response.status, response.statusText);
+
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
+          console.error('[Payment] Error response:', errorData);
           throw new Error(errorData.message || 'Failed to create payment link');
         }
 
         const data = await response.json();
+        console.log('[Payment] Received data:', JSON.stringify(data, null, 2));
 
         if (!data.payment_url) {
+          console.error('[Payment] Missing payment_url in response. Available keys:', Object.keys(data));
           throw new Error('Payment link not available. Please try again.');
         }
 

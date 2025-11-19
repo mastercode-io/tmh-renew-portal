@@ -21,7 +21,9 @@ export default async function handler(request) {
       return withCors(error('token_required', 400));
     }
 
+    console.log('[payment-link] Requesting payment link for token:', token);
     const link = await createOrRetrievePaymentLink(token);
+    console.log('[payment-link] Service returned:', JSON.stringify(link));
     return withCors(json(link));
   } catch (err) {
     console.error('GET /renewal/payment-link failed', err);
