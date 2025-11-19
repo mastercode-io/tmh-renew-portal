@@ -798,6 +798,11 @@ function initOrderPage() {
   currentOrderData = orderData;
   rememberOfferUrl();
 
+  // Reset payment state and hide any stale panels on page load
+  stopPaymentMonitoring();
+  hidePaymentStatusPanel();
+  paymentState.lastStatus = null;
+
   // Populate all sections
   populateTrademarkInfo(orderData.trademark);
   populateOrderItems(orderData.line_items);
