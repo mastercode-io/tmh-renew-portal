@@ -354,6 +354,10 @@
       allTrademarks: [trademark, ...nextDue]
     };
 
+    // Make prefillState accessible for debugging
+    window.prefillState = prefillState;
+    console.log('Prefill state initialized:', prefillState);
+
     // Update hero section
     if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
     if (mergeTargets.primaryTrademarkNumber) mergeTargets.primaryTrademarkNumber.textContent = heroTrademarkNumber;
@@ -938,10 +942,16 @@
   }
 
   // Function to update trademark cards based on selected checkboxes
-  const updateTrademarkCards = () => {
+  window.updateTrademarkCards = () => {
+    console.log('updateTrademarkCards called');
+
     // Get all checked checkboxes
     const checkedBoxes = document.querySelectorAll('.renewal-checkbox:checked');
+    console.log('Checked boxes:', checkedBoxes.length);
+
     const selectedIds = Array.from(checkedBoxes).map(cb => cb.dataset.trademarkId);
+    console.log('Selected IDs:', selectedIds);
+    console.log('All trademarks:', prefillState.allTrademarks);
 
     // Start with the primary trademark
     let selectedTrademarks = [prefillState.trademark];
@@ -952,11 +962,14 @@
         const tm = prefillState.allTrademarks.find(t =>
           (t.id === id || t.registration_number === id || t.application_number === id)
         );
+        console.log('Found trademark for ID', id, ':', tm);
         if (tm && tm !== prefillState.trademark) {
           selectedTrademarks.push(tm);
         }
       });
     }
+
+    console.log('Selected trademarks for rendering:', selectedTrademarks);
 
     // Render the updated cards
     renderTrademarkCards(selectedTrademarks);
@@ -966,17 +979,19 @@
   const selectAllCheckbox = document.getElementById('select-all-renewals');
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener('change', function() {
+      console.log('Select all changed');
       const checkboxes = document.querySelectorAll('.renewal-checkbox');
       checkboxes.forEach(checkbox => {
         checkbox.checked = this.checked;
       });
       // Update cards after select all
-      updateTrademarkCards();
+      window.updateTrademarkCards();
     });
 
     // Update "select all" state when individual checkboxes change
     document.addEventListener('change', function(e) {
       if (e.target.classList.contains('renewal-checkbox')) {
+        console.log('Individual checkbox changed');
         const checkboxes = document.querySelectorAll('.renewal-checkbox');
         const allChecked = Array.from(checkboxes).every(cb => cb.checked);
         const someChecked = Array.from(checkboxes).some(cb => cb.checked);
@@ -987,7 +1002,7 @@
         }
 
         // Update trademark cards when checkbox changes
-        updateTrademarkCards();
+        window.updateTrademarkCards();
       }
     });
   }
