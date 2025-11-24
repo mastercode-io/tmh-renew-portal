@@ -30,7 +30,7 @@
     'firstName','lastName','email','phone','company','trademark','jurisdiction','regNumber','contactTime','classCount','applicationNumber','status','regDate','markType'
   ];
 
-  let prefillState = { contact: {}, trademark: {}, heroTrademarkNumber: null };
+  let prefillState = { contact: {}, trademark: {}, heroTrademarkNumber: null, allTrademarks: [] };
 
   const mergeTargets = {
     personName: document.querySelector('[data-merge="personName"]'),
@@ -147,6 +147,70 @@
     const first = parts.shift();
     const last = parts.length ? parts.join(' ') : null;
     return [first, last];
+  };
+
+  // Function to render trademark cards in renewal form
+  const renderTrademarkCards = (trademarks) => {
+    const container = document.getElementById('selected-trademarks-cards');
+    if (!container) return;
+
+    if (!trademarks || trademarks.length === 0) {
+      container.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 1rem;">No trademarks selected for renewal.</p>';
+      return;
+    }
+
+    container.innerHTML = trademarks.map((tm) => {
+      const number = tm.registration_number || tm.application_number || tm.id || '—';
+      const name = tm.word_mark || '—';
+      const type = tm.mark_type || '—';
+      const status = tm.status || '—';
+      const classesCount = tm.classes_count || (Array.isArray(tm.classes) ? tm.classes.length : '—');
+
+      const regDate = tm.registration_date ? formatDate(tm.registration_date) : '—';
+
+      let expiryText = '—';
+      let expiryClass = '';
+      const expiryDate = tm.expiry_date || tm.next_renewal_date;
+      if (expiryDate) {
+        const expiry = new Date(expiryDate);
+        const today = new Date();
+        const isExpired = expiry < today;
+
+        expiryText = formatDate(expiryDate);
+        expiryClass = isExpired ? 'expired' : '';
+      }
+
+      return `
+        <div class="trademark-renewal-card">
+          <div class="tm-card-header">
+            <h4 class="tm-card-title">${name}</h4>
+            <span class="tm-card-number">${number}</span>
+          </div>
+          <div class="tm-card-body">
+            <div class="tm-card-row">
+              <span class="tm-card-label">Status</span>
+              <span class="tm-card-value">${status}</span>
+            </div>
+            <div class="tm-card-row">
+              <span class="tm-card-label">Mark Type</span>
+              <span class="tm-card-value">${type}</span>
+            </div>
+            <div class="tm-card-row">
+              <span class="tm-card-label">Registered</span>
+              <span class="tm-card-value">${regDate}</span>
+            </div>
+            <div class="tm-card-row">
+              <span class="tm-card-label">Expiry</span>
+              <span class="tm-card-value ${expiryClass}">${expiryText}</span>
+            </div>
+            <div class="tm-card-row">
+              <span class="tm-card-label">Classes</span>
+              <span class="tm-card-value">${classesCount} ${classesCount === 1 ? 'class' : 'classes'}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
   };
 
   const renderRenewals = (items) => {
@@ -286,7 +350,8 @@
       account,
       contact,
       trademark,
-      heroTrademarkNumber
+      heroTrademarkNumber,
+      allTrademarks: [trademark, ...nextDue]
     };
 
     // Update hero section
@@ -416,6 +481,9 @@
 
     // Render renewals list - show only next_due trademarks (not including the main one being renewed)
     renderRenewals(nextDue);
+
+    // Initially render the primary trademark card in the renewal form
+    renderTrademarkCards([trademark]);
 
     // Handle links
     if (payload.links?.book_call) {
@@ -869,6 +937,31 @@
     setInterval(nextSlide, 5000);
   }
 
+  // Function to update trademark cards based on selected checkboxes
+  const updateTrademarkCards = () => {
+    // Get all checked checkboxes
+    const checkedBoxes = document.querySelectorAll('.renewal-checkbox:checked');
+    const selectedIds = Array.from(checkedBoxes).map(cb => cb.dataset.trademarkId);
+
+    // Start with the primary trademark
+    let selectedTrademarks = [prefillState.trademark];
+
+    // Add selected trademarks from nextDue
+    if (selectedIds.length > 0 && prefillState.allTrademarks) {
+      selectedIds.forEach(id => {
+        const tm = prefillState.allTrademarks.find(t =>
+          (t.id === id || t.registration_number === id || t.application_number === id)
+        );
+        if (tm && tm !== prefillState.trademark) {
+          selectedTrademarks.push(tm);
+        }
+      });
+    }
+
+    // Render the updated cards
+    renderTrademarkCards(selectedTrademarks);
+  };
+
   // Batch renewal checkbox functionality
   const selectAllCheckbox = document.getElementById('select-all-renewals');
   if (selectAllCheckbox) {
@@ -877,6 +970,8 @@
       checkboxes.forEach(checkbox => {
         checkbox.checked = this.checked;
       });
+      // Update cards after select all
+      updateTrademarkCards();
     });
 
     // Update "select all" state when individual checkboxes change
@@ -890,6 +985,9 @@
           selectAllCheckbox.checked = allChecked;
           selectAllCheckbox.indeterminate = someChecked && !allChecked;
         }
+
+        // Update trademark cards when checkbox changes
+        updateTrademarkCards();
       }
     });
   }

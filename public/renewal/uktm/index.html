@@ -445,39 +445,12 @@
           <div class="card renewal-form-card">
             <form id="lead-form" novalidate data-endpoint="/api/renewal/order" data-prefill-endpoint="/api/renewal/details" data-payment-url="/pay">
 
-              <!-- Review Information (Read-only display) -->
-              <div class="review-info-section">
-                <h3>Review your information</h3>
-                <dl class="detail-list">
-                  <div>
-                    <dt>Application number</dt>
-                    <dd data-merge="applicationNumber">—</dd>
-                  </div>
-                  <div>
-                    <dt>Current status</dt>
-                    <dd data-merge="status">—</dd>
-                  </div>
-                  <div>
-                    <dt>Registration date</dt>
-                    <dd data-merge="regDate">—</dd>
-                  </div>
-                  <div>
-                    <dt>Word mark text</dt>
-                    <dd data-merge="trademark">—</dd>
-                  </div>
-                  <div id="trademark-image-container" style="display: none;">
-                    <dt>Trademark image</dt>
-                    <dd><img id="trademark-image" src="" alt="Trademark logo" style="max-width: 200px; max-height: 100px; display: block;" /></dd>
-                  </div>
-                  <div>
-                    <dt>Mark type</dt>
-                    <dd data-merge="markType">—</dd>
-                  </div>
-                  <div>
-                    <dt>Number of classes</dt>
-                    <dd data-merge="classCountLabel">—</dd>
-                  </div>
-                </dl>
+              <!-- Selected Trademarks Cards -->
+              <div class="selected-trademarks-section">
+                <h3>Selected trademarks for renewal</h3>
+                <div id="selected-trademarks-cards" class="trademark-cards-container">
+                  <!-- Cards will be inserted here dynamically -->
+                </div>
               </div>
 
               <!-- Screening Questions -->
