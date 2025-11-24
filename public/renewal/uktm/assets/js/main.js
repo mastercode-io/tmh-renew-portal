@@ -150,7 +150,7 @@
   };
 
   // Function to render trademark cards in renewal form
-  const renderTrademarkCards = (trademarks) => {
+  window.renderTrademarkCards = (trademarks) => {
     const container = document.getElementById('selected-trademarks-cards');
     if (!container) return;
 
@@ -487,7 +487,7 @@
     renderRenewals(nextDue);
 
     // Initially render the primary trademark card in the renewal form
-    renderTrademarkCards([trademark]);
+    window.renderTrademarkCards([trademark]);
 
     // Handle links
     if (payload.links?.book_call) {
@@ -972,7 +972,7 @@
     console.log('Selected trademarks for rendering:', selectedTrademarks);
 
     // Render the updated cards
-    renderTrademarkCards(selectedTrademarks);
+    window.renderTrademarkCards(selectedTrademarks);
   };
 
   // Batch renewal checkbox functionality
