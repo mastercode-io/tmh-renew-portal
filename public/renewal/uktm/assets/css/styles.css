@@ -1209,6 +1209,13 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
   font-weight: 700;
   color: var(--brand-navy);
   margin: 0;
+  flex: 1;
+}
+
+.tm-card-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .tm-card-number {
@@ -1219,6 +1226,32 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
   font-weight: 700;
   color: var(--brand-navy);
   font-size: 0.8rem;
+}
+
+.tm-card-delete {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.tm-card-delete:hover {
+  background: #fee;
+  color: #dc2626;
+}
+
+.tm-card-delete:active {
+  transform: scale(0.95);
+}
+
+.tm-card-delete svg {
+  display: block;
 }
 
 .tm-card-body {
@@ -1334,6 +1367,9 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
   .trademark-renewal-card { padding: 0.9rem; }
   .tm-card-title { font-size: 1rem; }
   .tm-card-number { font-size: 0.75rem; }
+  .tm-card-header-right { gap: 0.5rem; }
+  .tm-card-delete { padding: 0.3rem; }
+  .tm-card-delete svg { width: 16px; height: 16px; }
   .tm-card-row { grid-template-columns: 1fr; gap: 0.25rem; }
   .tm-card-label { font-size: 0.8rem; }
   .tm-card-value { font-size: 0.9rem; }
@@ -1405,6 +1441,9 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
   .trademark-renewal-card { padding: 0.8rem; border-left-width: 3px; }
   .tm-card-title { font-size: 0.95rem; }
   .tm-card-number { font-size: 0.7rem; padding: 0.15rem 0.5rem; }
+  .tm-card-header-right { gap: 0.4rem; }
+  .tm-card-delete { padding: 0.25rem; }
+  .tm-card-delete svg { width: 15px; height: 15px; }
   .tm-card-row { font-size: 0.85rem; }
   .tm-card-label { font-size: 0.75rem; }
   .tm-card-value { font-size: 0.85rem; }
