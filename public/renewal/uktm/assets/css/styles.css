@@ -456,21 +456,21 @@ input[type="checkbox"]:focus {
 .site-footer { background: var(--brand-navy); color: #e6eef6; padding: 2rem 0; }
 .footer-inner { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: start; }
 .foot-brand { display: flex; flex-direction: column; gap: 1rem; }
-.foot-brand .logo { width: 180px; height: auto; }
+.foot-brand .logo { width: 220px; height: auto; }
 .foot-brand .copyright { margin: 0; font-size: 0.75rem; color: #a0aec0; font-weight: 400; }
 
 /* Social Media Links */
 .social-links {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   align-items: center;
 }
 .social-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   color: #e6eef6;
@@ -483,8 +483,8 @@ input[type="checkbox"]:focus {
   transform: translateY(-2px);
 }
 .social-icon svg {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   fill: currentColor;
 }
 
@@ -503,7 +503,7 @@ input[type="checkbox"]:focus {
 .footer-heading {
   margin: 0 0 0.5rem;
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
 }
 .contact-link {
@@ -1072,15 +1072,18 @@ input[type="checkbox"]:focus {
 
   /* Footer - stack social icons, smaller sizing */
   .social-links {
-    gap: 0.75rem;
+    gap: 0.6rem;
   }
   .social-icon {
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
   }
   .social-icon svg {
-    width: 16px;
-    height: 16px;
+    width: 13px;
+    height: 13px;
+  }
+  .foot-brand .logo {
+    width: 180px;
   }
 
   .hero { padding: 1.5rem 0 2rem; }
