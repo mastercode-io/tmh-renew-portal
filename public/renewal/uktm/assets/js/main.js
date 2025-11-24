@@ -44,10 +44,31 @@
     jurisdiction: document.querySelector('[data-merge="jurisdiction"]'),
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '—';
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString;
+      return date.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      });
+    } catch (e) {
+      return dateString;
+    }
+  };
+
   const reflectSummary = (name, value) => {
     const target = mergeTargets[name];
     if (!target) return;
-    const text = (value != null && String(value).trim().length) ? String(value).trim() : '—';
+    let text = (value != null && String(value).trim().length) ? String(value).trim() : '—';
+
+    // Format dates for better readability
+    if (name === 'regDate' && text !== '—') {
+      text = formatDate(text);
+    }
+
     target.textContent = text;
   };
 
@@ -269,7 +290,7 @@
         const date = new Date(regDate);
         const formatted = date.toLocaleDateString('en-GB', {
           day: 'numeric',
-          month: 'long',
+          month: 'short',
           year: 'numeric'
         });
         heroRegDate.textContent = formatted;
@@ -281,11 +302,11 @@
     if (heroExpiryDate) {
       const expiryDate = trademark.expiry_date || trademark.next_renewal_date;
       if (expiryDate) {
-        // Format date nicely (e.g., "9 June 2025")
+        // Format date nicely (e.g., "9 Jun 2025")
         const date = new Date(expiryDate);
         const formatted = date.toLocaleDateString('en-GB', {
           day: 'numeric',
-          month: 'long',
+          month: 'short',
           year: 'numeric'
         });
         heroExpiryDate.textContent = formatted;
