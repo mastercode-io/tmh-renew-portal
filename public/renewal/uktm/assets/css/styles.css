@@ -392,6 +392,14 @@ section[id] { scroll-margin-top: 1.5rem; }
 .next-renewals { margin-top: 1rem; display: grid; gap: 0.45rem; }
 .next-renewals h3 { margin: 0 0 0.5rem; }
 
+/* Batch renewal instruction */
+.batch-renewal-instruction {
+  margin: 0.75rem 0;
+  font-size: 0.95rem;
+  color: var(--brand-navy);
+  font-weight: 600;
+}
+
 .hero-media-stack { display: grid; gap: 0.9rem; width: 360px; max-width: 100%; justify-self: end; grid-template-columns: 1fr; }
 .hero-media { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); width: 100%; margin: 0; }
 .hero-media img { width: 100%; height: auto; object-fit: cover; display: block; }
@@ -842,6 +850,20 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
   letter-spacing: 0.03em;
 }
 
+/* Batch renewal checkbox column */
+.renewals-table .checkbox-column {
+  width: 40px;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+}
+
+.renewals-table .renewal-checkbox {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand-pink);
+}
+
 .renewals-table tbody td {
   padding: 0.75rem 0.75rem;
   border-bottom: 1px solid #f5f5f5;
@@ -952,6 +974,16 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
   .renewals-table .tm-type {
     font-size: 0.8rem;
   }
+
+  /* Adjust checkbox column on tablet */
+  .renewals-table .checkbox-column {
+    width: 35px;
+    padding: 0.6rem 0.4rem;
+  }
+
+  .batch-renewal-instruction {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -985,11 +1017,27 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
     font-size: 0.7rem;
   }
 
+  /* Adjust checkbox column on mobile */
+  .renewals-table .checkbox-column {
+    width: 30px;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .renewals-table .renewal-checkbox {
+    width: 16px;
+    height: 16px;
+  }
+
+  .batch-renewal-instruction {
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+  }
+
   /* Hide separate Status and Expiry columns on mobile */
   .renewals-table .tm-status,
-  .renewals-table th:nth-child(4),
+  .renewals-table th:nth-child(5),
   .renewals-table .tm-expiry,
-  .renewals-table th:nth-child(5) {
+  .renewals-table th:nth-child(6) {
     display: none;
   }
 

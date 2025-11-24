@@ -156,10 +156,21 @@
     const tbody = renewalsList.querySelector('tbody');
     if (!tbody) return;
 
+    // Get UI elements for batch renewal
+    const batchInstruction = document.getElementById('batch-instruction');
+    const checkboxHeader = document.getElementById('checkbox-header');
+
     if (!items?.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="tm-empty">No upcoming renewals listed.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" class="tm-empty">No upcoming renewals listed.</td></tr>';
+      // Hide batch renewal UI when no items
+      if (batchInstruction) batchInstruction.style.display = 'none';
+      if (checkboxHeader) checkboxHeader.style.display = 'none';
       return;
     }
+
+    // Show batch renewal UI when there are items
+    if (batchInstruction) batchInstruction.style.display = 'block';
+    if (checkboxHeader) checkboxHeader.style.display = 'table-cell';
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -199,8 +210,20 @@
         <span class="expiry ${expiryClass}">${expiryText}</span>
       `;
 
+      const trademarkId = it.id || it.registration_number || it.application_number || '';
+
       return `
         <tr>
+          <td class="checkbox-column">
+            <input
+              type="checkbox"
+              class="renewal-checkbox"
+              value="${trademarkId}"
+              data-trademark-id="${trademarkId}"
+              data-trademark-name="${name}"
+              aria-label="Select ${name}"
+            />
+          </td>
           <td class="tm-number" data-label="Number">${number}</td>
           <td class="tm-name" data-label="Text">${name}</td>
           <td class="tm-type" data-label="Type">${type}</td>
@@ -844,5 +867,30 @@
 
     // Auto-advance every 5 seconds
     setInterval(nextSlide, 5000);
+  }
+
+  // Batch renewal checkbox functionality
+  const selectAllCheckbox = document.getElementById('select-all-renewals');
+  if (selectAllCheckbox) {
+    selectAllCheckbox.addEventListener('change', function() {
+      const checkboxes = document.querySelectorAll('.renewal-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+    });
+
+    // Update "select all" state when individual checkboxes change
+    document.addEventListener('change', function(e) {
+      if (e.target.classList.contains('renewal-checkbox')) {
+        const checkboxes = document.querySelectorAll('.renewal-checkbox');
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        const someChecked = Array.from(checkboxes).some(cb => cb.checked);
+
+        if (selectAllCheckbox) {
+          selectAllCheckbox.checked = allChecked;
+          selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        }
+      }
+    });
   }
 })();

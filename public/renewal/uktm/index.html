@@ -193,10 +193,16 @@
         <div class="container hero-renewals">
           <div class="next-renewals">
             <h3>Next renewals due</h3>
+            <p class="batch-renewal-instruction" id="batch-instruction" style="display: none;">
+              Check all trademarks that you want to add to this renewal batch.
+            </p>
             <div class="renewals-table-wrapper">
               <table class="renewals-table" id="renewals">
                 <thead>
                   <tr>
+                    <th class="checkbox-column" id="checkbox-header" style="display: none;">
+                      <input type="checkbox" id="select-all-renewals" aria-label="Select all trademarks" />
+                    </th>
                     <th>Number</th>
                     <th>Text</th>
                     <th>Type</th>
