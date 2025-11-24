@@ -290,7 +290,7 @@
         const date = new Date(regDate);
         const formatted = date.toLocaleDateString('en-GB', {
           day: 'numeric',
-          month: 'long',
+          month: 'short',
           year: 'numeric'
         });
         heroRegDate.textContent = formatted;
@@ -302,11 +302,11 @@
     if (heroExpiryDate) {
       const expiryDate = trademark.expiry_date || trademark.next_renewal_date;
       if (expiryDate) {
-        // Format date nicely (e.g., "9 June 2025")
+        // Format date nicely (e.g., "9 Jun 2025")
         const date = new Date(expiryDate);
         const formatted = date.toLocaleDateString('en-GB', {
           day: 'numeric',
-          month: 'long',
+          month: 'short',
           year: 'numeric'
         });
         heroExpiryDate.textContent = formatted;
