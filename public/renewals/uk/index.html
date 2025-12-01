@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trademark Renewal – The Trademark Helpline</title>
+    <meta name="description" content="Renew your trademark with The Trademark Helpline. Fast, expert help to protect your brand and avoid lapses." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <script defer src="./assets/js/main.js"></script>
+  </head>
+  <body>
+    <!-- Loading Overlay -->
+    <div class="page-loading-overlay hidden" id="page-loading">
+      <div class="spinner spinner-pink spinner-lg"></div>
+      <div class="page-loading-text">Loading your renewal details...</div>
+    </div>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-top-row">
+        <div class="brand">
+          <a href="https://www.thetrademarkhelpline.com" aria-label="The Trademark Helpline homepage">
+            <img src="./assets/images/tmh-logo.svg" alt="The Trademark Helpline" class="logo" />
+          </a>
+        </div>
+        <div class="header-contact-group">
+          <div class="header-trustist">
+            <div ts-widget="" ts-suppress-review-link="true" ts-border-radius="15px" ts-reviews-url=""></div>
+          </div>
+          <a href="tel:01618335400" class="header-contact-link">
+            <svg class="header-contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/>
+            </svg>
+            0161 833 5400
+          </a>
+          <a href="mailto:enquiries@thetrademarkhelpline.com" class="header-contact-link">
+            <svg class="header-contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+            </svg>
+            Email us
+          </a>
+        </div>
+      </div>
+      <div class="container header-nav-row">
+        <nav aria-label="Primary" class="nav">
+          <a href="#why-renew">Why Renew</a>
+          <a href="#how-it-works">Monitoring</a>
+          <a href="#audit">Audit</a>
+          <a href="#combine">Why Combine</a>
+        </nav>
+        <a class="btn btn-primary header-cta" href="#renewal-form">Renew Now</a>
+      </div>
+
+      <!-- Mobile Row 2: Contact + CTA -->
+      <div class="container header-contact-mobile">
+        <a href="tel:01618335400" class="header-contact-link">
+          <svg class="header-contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/>
+          </svg>
+          0161 833 5400
+        </a>
+        <a href="mailto:enquiries@thetrademarkhelpline.com" class="header-contact-link">
+          <svg class="header-contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+          </svg>
+          Email us
+        </a>
+        <a class="btn btn-primary header-cta-mobile" href="#renewal-form">Renew Now</a>
+      </div>
+
+      <!-- Mobile Row 3: Navigation -->
+      <div class="container header-nav-mobile">
+        <a href="#why-renew">Why Renew</a>
+        <a href="#how-it-works">Monitoring</a>
+        <a href="#audit">Audit</a>
+        <a href="#combine">Why Combine</a>
+      </div>
+    </header>
+
+    <!-- Error Banner for Missing/Invalid Token -->
+    <div class="token-error-banner hidden" id="token-error-banner">
+      <div class="container">
+        <div class="error-banner-card">
+          <div class="error-banner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+          </div>
+          <div class="error-banner-content">
+            <h2 class="error-banner-title">Please Use Your Personal Link</h2>
+            <p class="error-banner-message" id="error-banner-message">
+              To access your trademark renewal details, please use the exact link provided in your email.<br>This ensures your information is securely loaded.
+            </p>
+            <div class="error-banner-actions">
+              <a class="btn btn-primary" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
+              <a class="btn btn-outline" href="https://www.thetrademarkhelpline.com" target="_blank" rel="noopener">Visit Our Website</a>
+              <a class="btn btn-outline" href="mailto:support@thetrademarkhelpline.com?subject=Trademark%20Renewal%20-%20Support%20Request">Contact Support</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main id="main">
+      <section class="hero">
+        <div class="container hero-heading">
+          <p class="hero-line hero-subline hero-greeting">Hi <span data-merge="personName">there</span>,</p>
+          <p class="hero-line hero-subline">Your trademark is coming up for renewal</p>
+        </div>
+
+        <!-- Trademark Info Card -->
+        <div class="container">
+          <div class="trademark-info-card">
+            <!-- Left Column: Trademark Number, Registered, Expires -->
+            <div class="tm-details-left">
+              <div class="tm-number-badge" data-merge="heroTrademarkNumber">—</div>
+              <dl>
+                <div>
+                  <dt>Registered:</dt>
+                  <dd data-merge="heroRegDate">—</dd>
+                </div>
+                <div>
+                  <dt>Expires:</dt>
+                  <dd data-merge="heroExpiryDate">—</dd>
+                </div>
+              </dl>
+            </div>
+
+            <!-- Middle Column: Type, Classes, Status -->
+            <div class="tm-details-middle">
+              <dl>
+                <div>
+                  <dt>Type:</dt>
+                  <dd data-merge="heroMarkType">—</dd>
+                </div>
+                <div>
+                  <dt>Classes:</dt>
+                  <dd data-merge="heroClassCount">—</dd>
+                </div>
+                <div>
+                  <dt>Status:</dt>
+                  <dd data-merge="heroStatus">—</dd>
+                </div>
+              </dl>
+            </div>
+
+            <!-- Right Column: Word Mark or Logo -->
+            <div class="tm-brand-display">
+              <!-- Logo (if exists) -->
+              <div class="tm-image-container" id="hero-tm-image" style="display: none;">
+                <img id="hero-tm-img" src="" alt="Trademark logo" class="tm-image">
+              </div>
+              <!-- Word Mark Text -->
+              <div class="tm-wordmark" id="hero-tm-wordmark">
+                <div class="tm-wordmark-text" data-merge="heroTrademarkName">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="notice">We'll ensure your registration stays active for another 10 years and your brand remains secure.</p>
+            <h3 class="hero-subtitle">Save money on your renewal and spot copycat branding with<br><span class="highlight-box">Active Trademark Monitoring</span></h3>
+            <ul class="ticks">
+              <li>Expert review and guidance</li>
+              <li>Transparent, fixed-fee pricing</li>
+              <li>Reminders and renewal confirmation</li>
+            </ul>
+            <div class="hero-cta">
+              <div class="cta-row">
+                <a class="btn btn-primary btn-lg" href="#renewal-form">Start Your Renewal</a>
+                <a class="btn btn-ghost" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book Your Renewal Review</a>
+              </div>
+            </div>
+          </div>
+          <div class="hero-media-stack">
+            <figure class="hero-media">
+              <img src="./assets/images/matt-photo.jpg" alt="Matt from The Trademark Helpline" />
+            </figure>
+            <div class="quote-card hero-quote">
+              <blockquote>
+                <p>"Your brand is your business's most valuable asset. Protect it before someone else exploits it."</p>
+              </blockquote>
+              <cite><span class="author-name">Matt</span><span class="author-title">Trademark Specialist</span></cite>
+            </div>
+          </div>
+        </div>
+        <div class="container hero-renewals">
+          <div class="next-renewals">
+            <h3>Next renewals due</h3>
+            <p class="batch-renewal-instruction" id="batch-instruction" style="display: none;">
+              Check all trademarks that you want to add to this renewal batch.
+            </p>
+            <div class="renewals-table-wrapper">
+              <table class="renewals-table" id="renewals">
+                <thead>
+                  <tr>
+                    <th class="checkbox-column" id="checkbox-header" style="display: none;">
+                      <input type="checkbox" id="select-all-renewals" aria-label="Select all trademarks" />
+                    </th>
+                    <th>Number</th>
+                    <th>Text</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Expiry</th>
+                    <th class="combined-status-expiry" style="display: none;">Status/<br>Expiry</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="why-renew" class="section soft">
+        <div class="container">
+          <h2 class="section-title-hero">Why Renewing Properly Matters</h2>
+          <h3>Renewal is more than a date in the diary</h3>
+          <p class="lead-paragraph">
+            Your trademark renewal is a vital opportunity to make sure your protection still fits your business. It’s also the moment when scammers are most likely to strike.
+          </p>
+          <p class="subheading">Renewal is the time to:</p>
+          <div class="icon-card-grid">
+            <div class="icon-card icon-card--confirm">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M9 16.2 4.8 12l1.4-1.4L9 13.4l8.8-8.8L19.2 6z" />
+                </svg>
+              </span>
+              <div>
+                <h4>Confirm</h4>
+                <p>Confirm your registration details are accurate.</p>
+              </div>
+            </div>
+            <div class="icon-card icon-card--review">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M11 4a7 7 0 015.33 11.67l3 3-1.41 1.41-3-3A7 7 0 1111 4zm0 2a5 5 0 100 10 5 5 0 000-10z" />
+                </svg>
+              </span>
+              <div>
+                <h4>Review</h4>
+                <p>Review your classes and terms to reflect new products or services.</p>
+              </div>
+            </div>
+            <div class="icon-card icon-card--ensure">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M12 2l7 4v6c0 5-3.8 9.4-7 10-3.2-.6-7-5-7-10V6l7-4zm0 4.15L7 7.5V12c0 3.72 2.7 7.48 5 8 2.3-.52 5-4.28 5-8V7.5l-5-1.35z" />
+                </svg>
+              </span>
+              <div>
+                <h4>Ensure</h4>
+                <p>Ensure no one is infringing on your rights.</p>
+              </div>
+            </div>
+            <div class="icon-card icon-card--reinforce">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M17 9h-1V7a4 4 0 00-8 0v2H7a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2zm-6-2a2 2 0 014 0v2h-4V7zm2 10a2 2 0 112-2 2 2 0 01-2 2z" />
+                </svg>
+              </span>
+              <div>
+                <h4>Reinforce</h4>
+                <p>Reinforce your brand’s legal protection.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+        <section class="section" id="trusted">
+            <div class="container">
+                <h2>Trusted by UK and International Businesses</h2>
+                <div class="trusted-grid">
+                    <div class="trusted-left">
+                        <p>We've renewed and monitored portfolios for fast-growing startups through to established multinationals. Here's what clients say about working with us.</p>
+                        <div class="logo-grid" aria-label="Client logos">
+                            <div class="client-logo">
+                                <img src="./assets/images/client-logo-1.png" alt="Client logo">
+                            </div>
+                            <div class="client-logo">
+                                <img src="./assets/images/client-logo-2.jpg" alt="Client logo">
+                            </div>
+                            <div class="client-logo">
+                                <img src="./assets/images/client-logo-3.png" alt="Client logo">
+                            </div>
+                            <div class="client-logo">
+                                <img src="./assets/images/client-logo-4.png" alt="Client logo">
+                            </div>
+                            <div class="client-logo">
+                                <img src="./assets/images/client-logo-5.png" alt="Client logo">
+                            </div>
+                            <div class="client-logo">
+                                <img src="./assets/images/client-logo-6.png" alt="Client logo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-carousel">
+                        <!-- Testimonial cards will be dynamically loaded from reviews.json -->
+                        <div class="carousel-controls">
+                            <button class="carousel-prev" aria-label="Previous testimonial">‹</button>
+                            <div class="carousel-dots">
+                                <button class="dot active" data-slide="0" aria-label="Testimonial 1"></button>
+                                <button class="dot" data-slide="1" aria-label="Testimonial 2"></button>
+                                <button class="dot" data-slide="2" aria-label="Testimonial 3"></button>
+                                <button class="dot" data-slide="3" aria-label="Testimonial 4"></button>
+                                <button class="dot" data-slide="4" aria-label="Testimonial 5"></button>
+                                <button class="dot" data-slide="5" aria-label="Testimonial 6"></button>
+                            </div>
+                            <button class="carousel-next" aria-label="Next testimonial">›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section soft" aria-label="Trademark impact">
+            <div class="container">
+                <div class="metric-strip">
+                    <div class="metric">
+                        <span class="metric-value" data-counter="trademarks">5,400+</span>
+                        <span class="metric-label">trademarks managed</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value">18</span>
+                        <span class="metric-label">years protecting brands</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value">2,000+</span>
+                        <span class="metric-label">businesses trust us</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section">
+        <div class="container">
+          <h2>How We Can Really Help – What is active monitoring?</h2>
+          <div class="monitoring-grid">
+            <div class="quote-card">
+              <blockquote>
+                <p>“The best jaw in boxing belongs to the person who doesn’t get hit…”</p>
+                <p>60% of new enquiries we receive are people who have trademark disputes. After 18 years of providing trademark services the one thing I can say with absolute certainty is that when it comes to trademark disputes, prevention is better than cure.”</p>
+              </blockquote>
+              <cite><span class="author-name">Jonathan Paton</span><span class="author-title">Founder &amp; Managing Director</span></cite>
+            </div>
+            <figure class="monitor-photo">
+              <img src="./assets/images/jon-photo.jpg" alt="Jonathan Paton" />
+            </figure>
+          </div>
+          <div class="icon-card-grid monitoring-cards">
+            <div class="icon-card monitor-card monitor-card--manage">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M9 16.2 4.8 12l1.4-1.4L9 13.4l8.8-8.8L19.2 6z"/>
+                </svg>
+              </span>
+              <div>
+                <h4>Manage</h4>
+                <p>Responsive UK, EU and international portfolio management.</p>
+              </div>
+            </div>
+            <div class="icon-card monitor-card monitor-card--review">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M19 3H5a2 2 0 00-2 2v12a4 4 0 004 4h10a4 4 0 004-4V5a2 2 0 00-2-2zm-8 12H7v-2h4zm6-4H7V9h10zm0-4H7V5h10z"/>
+                </svg>
+              </span>
+              <div>
+                <h4>Review</h4>
+                <p>Keep jurisdictions, ownership details, classes, goods and services up to date.</p>
+              </div>
+            </div>
+            <div class="icon-card monitor-card monitor-card--monitor">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M12 2a10 10 0 00-9.95 9H1l3 4 3-4H5.07A7.001 7.001 0 0119 11a7 7 0 01-6 6.93V21h2v2h-6v-2h2v-3.07A9.998 9.998 0 0012 2z"/>
+                </svg>
+              </span>
+              <div>
+                <h4>Monitor</h4>
+                <p>Spot infringements early and prevent problems later.</p>
+              </div>
+            </div>
+            <div class="icon-card monitor-card monitor-card--combine">
+              <span class="icon-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M19 6h-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h9l5-5V8a2 2 0 00-2-2zm-6 13H5V4h10v2H13a2 2 0 00-2 2zm2-4v3.59L18.59 15z"/>
+                </svg>
+              </span>
+              <div>
+                <h4>Combine</h4>
+                <p>Legal expertise with smart technology to save money and access proactive, affordable services.</p>
+              </div>
+            </div>
+          </div>
+          <p class="monitoring-summary">We’re not a traditional firm of solicitors; we specialise solely in trademarks, brand alerts and protection. That means efficient processes, straightforward pricing, and peace of mind.</p>
+        </div>
+      </section>
+
+      <section id="audit" class="section soft">
+        <div class="container">
+          <h2>Thinking of registering a new trademark in the UK or Internationally?</h2>
+          <p>A Trademark Audit goes beyond a basic search. It’s a full review of potential risks and conflicts that could threaten your brand, now or in the future.</p>
+          <p><strong>Our Audit can include some or all the following:</strong></p>
+          <div class="grid three-col features audit-grid" style="margin-top:1rem">
+            <div class="feature"><h3>Registers</h3><p>Worldwide trademark registers check.</p></div>
+            <div class="feature"><h3>Search engines</h3><p>Major search engines for confusingly similar uses.</p></div>
+            <div class="feature"><h3>Social & e‑commerce</h3><p>Meta, TikTok, LinkedIn, Amazon, eBay and more.</p></div>
+            <div class="feature"><h3>Domains</h3><p>Conflicting domain registrations.</p></div>
+            <div class="feature"><h3>Companies House</h3><p>Company name conflicts and risks.</p></div>
+            <div class="feature"><h3>Practical actions</h3><p>Clear steps to strengthen protection.</p></div>
+          </div>
+          <p style="margin-top:1.2rem">Using industry-standard systems, we gather and analyse this data to give you a clear picture of potential risks, plus practical steps to strengthen your protection.</p>
+        </div>
+      </section>
+
+      <section id="combine" class="section">
+        <div class="container">
+          <h2>Why combine Audit, Renewal and Monitoring?</h2>
+          <p>Your renewal is the perfect moment to check whether your trademark still reflects your business and remains fully protected. Combining all three services at renewal saves time, prevents confusion, ensures ongoing protection against infringers and impersonators, <strong>and saves money.</strong></p>
+          <p class="notice" style="margin-top:1rem">If you've received a suspicious letter or email about your trademark, contact us before responding — we'll help you verify if it's genuine.</p>
+          <div class="ready-to-learn">
+            <h3>Ready to learn more?</h3>
+            <p>Our team can walk you through how combining services at renewal strengthens your protection and simplifies portfolio management.</p>
+            <a class="btn btn-primary" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a Call</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="renewal-form" class="section soft">
+        <div class="container renewal-container">
+          <div class="section-intro">
+            <h2>Renewal form</h2>
+            <p>Review the details we already hold, answer a few questions, then confirm you're authorised to renew.</p>
+          </div>
+
+          <div class="card renewal-form-card">
+            <form id="lead-form" novalidate data-endpoint="/api/renewal/order" data-prefill-endpoint="/api/renewal/details" data-payment-url="/pay">
+
+              <!-- Selected Trademarks Cards -->
+              <div class="selected-trademarks-section">
+                <h3>Selected trademarks for renewal</h3>
+                <div id="selected-trademarks-cards" class="trademark-cards-container">
+                  <!-- Cards will be inserted here dynamically -->
+                </div>
+              </div>
+
+              <!-- Screening Questions -->
+              <div class="screening-questions">
+                <div class="screening-question">
+                  <p class="question-text">Do you wish to make any changes to the trademark ownership?</p>
+                  <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="qOwnership" value="Yes" required> Yes</label>
+                    <label class="radio-label"><input type="radio" name="qOwnership" value="No"> No</label>
+                    <label class="radio-label"><input type="radio" name="qOwnership" value="Not Sure"> Not sure</label>
+                  </div>
+                </div>
+
+                <div class="screening-question">
+                  <p class="question-text">Do you wish to make any changes to your trademark classifications, goods &amp; services?</p>
+                  <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="qClasses" value="Yes" required> Yes</label>
+                    <label class="radio-label"><input type="radio" name="qClasses" value="No"> No</label>
+                    <label class="radio-label"><input type="radio" name="qClasses" value="Not Sure"> Not sure</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contact Fields -->
+              <div class="contact-fields" id="contact-fields" style="display: none;">
+                <h3>Your contact details</h3>
+                <div class="fields-grid">
+                  <label class="field">
+                    <span>First name <span class="required-mark">*</span></span>
+                    <input name="firstName" id="firstName" autocomplete="given-name" required />
+                    <span class="field-error" id="firstName-error"></span>
+                  </label>
+                  <label class="field">
+                    <span>Last name <span class="required-mark">*</span></span>
+                    <input name="lastName" id="lastName" autocomplete="family-name" required />
+                    <span class="field-error" id="lastName-error"></span>
+                  </label>
+                  <label class="field">
+                    <span>Email <span class="required-mark">*</span></span>
+                    <input type="email" name="email" id="email" autocomplete="email" required />
+                    <span class="field-error" id="email-error"></span>
+                  </label>
+                  <label class="field">
+                    <span>Mobile <span class="required-mark">*</span></span>
+                    <input type="tel" name="phone" id="phone" autocomplete="tel" required />
+                    <span class="field-error" id="phone-error"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Authorization Checkbox (shown only when No to both questions) -->
+              <div id="auth-section" style="display: none;">
+                <label class="check auth-check">
+                  <input type="checkbox" name="authConfirm" id="authConfirm" required>
+                  <span>Please confirm you are authorised to renew this trademark</span>
+                </label>
+                <span class="field-error" id="authConfirm-error"></span>
+              </div>
+
+              <!-- Hidden Fields -->
+              <input type="hidden" name="applicationNumber" />
+              <input type="hidden" name="status" />
+              <input type="hidden" name="regDate" />
+              <input type="hidden" name="trademark" />
+              <input type="hidden" name="markType" />
+              <input type="hidden" name="classCount" />
+              <input type="hidden" name="jurisdiction" />
+              <input type="hidden" name="utm_source" />
+              <input type="hidden" name="utm_medium" />
+              <input type="hidden" name="utm_campaign" />
+              <input type="hidden" name="utm_term" />
+              <input type="hidden" name="utm_content" />
+              <input type="hidden" name="referrer" />
+              <input type="hidden" name="landing_path" />
+
+              <!-- Consent & Submit (shown if No to both questions) -->
+              <div id="submit-section" style="display: none;">
+                <div id="consent-section">
+                  <label class="check consent-check">
+                    <input type="checkbox" name="consent" id="consent" required />
+                    <span>I agree to be contacted about my renewal.</span>
+                  </label>
+                  <span class="field-error" id="consent-error"></span>
+                </div>
+                <button class="btn btn-primary btn-block btn-lg" type="submit">Submit Renewal Request</button>
+              </div>
+
+              <!-- Screening Note (shown if Yes or Not Sure to either question) -->
+              <div class="screening-note" id="screening-note" style="display: none;">
+                <p>You have indicated you may need to make some changes to your trademark therefore before we can proceed with your renewal, we would like to review your information.</p>
+                <p>Please call us on <a href="tel:01618335400"><strong>01618335400</strong></a> or email us at <a href="mailto:support@thetrademarkhelpline.com"><strong>support@thetrademarkhelpline.com</strong></a></p>
+                <p>Alternatively, you can schedule a call here</p>
+                <div style="text-align: center; margin-top: 1rem;">
+                  <a class="btn btn-primary btn-lg" data-link="bookCall" href="https://bookings.thetrademarkhelpline.com/#/4584810000004811044" target="_blank" rel="noopener">Book a Call</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="foot-brand">
+          <a href="https://www.thetrademarkhelpline.com/" aria-label="The Trademark Helpline homepage">
+            <img src="./assets/images/tmh-logo-dark.svg" alt="The Trademark Helpline" class="logo" />
+          </a>
+
+          <!-- Social Media Links -->
+          <div class="social-links">
+            <a href="https://www.facebook.com/TheTrademarkHelpline" target="_blank" rel="noopener" aria-label="Facebook" class="social-icon">
+              <svg viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/thetrademarkhelpline/" target="_blank" rel="noopener" aria-label="Instagram" class="social-icon">
+              <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+              </svg>
+            </a>
+            <a href="https://x.com/Trademark_Help" target="_blank" rel="noopener" aria-label="X (Twitter)" class="social-icon">
+              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/the-trademark-helpline/" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-icon">
+              <svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@TheTrademarkHelpline" target="_blank" rel="noopener" aria-label="YouTube" class="social-icon">
+              <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg">
+                <path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Trustist Widget -->
+          <div class="footer-trustpilot">
+            <div ts-widget="" ts-suppress-review-link="true" ts-border-radius="15px" ts-reviews-url=""></div>
+          </div>
+
+          <p class="copyright">© 2024, The Trademark Helpline. All Rights Reserved.</p>
+        </div>
+
+        <div class="foot-contact">
+          <h3 class="footer-heading">Get In Touch</h3>
+          <a href="mailto:enquiries@thetrademarkhelpline.com" class="contact-link">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+            </svg>
+            enquiries@thetrademarkhelpline.com
+          </a>
+          <a href="tel:01618335400" class="contact-link">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/>
+            </svg>
+            0161 833 5400
+          </a>
+          <div class="foot-address">
+            <svg class="location-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+            </svg>
+            <div class="address-text">
+              <p>Craven Business Centre, 4-5 Craven Court,</p>
+              <p>Craven Road, Altrincham, Greater Manchester,</p>
+              <p>WA14 5DY, UK</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Trustist Widget Script -->
+    <script src="https://widget.trustist.com/suM1Q_uDEkCr97c9VIooxw/trustistreviewer.js"></script>
+
+    <!-- Zoho SalesIQ Widget -->
+    <script>window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}</script>
+    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq2ff2511837e9259c4710382e24bf6229d5558ce1d558304328de39ae7c11deaf" defer></script>
+  </body>
+  </html>

@@ -1,15 +1,16 @@
 {
   "redirects": [
     { "source": "/", "destination": "https://www.thetrademarkhelpline.com", "permanent": false },
-    { "source": "/uktm", "destination": "/uktm/", "permanent": false }
+    { "source": "/uktm", "destination": "/uk/", "permanent": true },
+    { "source": "/uktm/(.*)", "destination": "/uk/$1", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/uktm/", "destination": "/renewal/uktm/index.html" },
-    { "source": "/uktm/index.html", "destination": "/renewal/uktm/index.html" },
-    { "source": "/uktm/order", "destination": "/renewal/uktm/order.html" },
-    { "source": "/uktm/order.html", "destination": "/renewal/uktm/order.html" },
-    { "source": "/uktm/confirmation", "destination": "/renewal/uktm/confirmation.html" },
-    { "source": "/uktm/confirmation.html", "destination": "/renewal/uktm/confirmation.html" },
-    { "source": "/uktm/(.*)", "destination": "/renewal/uktm/$1" }
+    { "source": "/uk/", "destination": "/renewals/uk/index.html" },
+    { "source": "/uk/index.html", "destination": "/renewals/uk/index.html" },
+    { "source": "/uk/order", "destination": "/renewals/uk/order.html" },
+    { "source": "/uk/order.html", "destination": "/renewals/uk/order.html" },
+    { "source": "/uk/confirmation", "destination": "/renewals/uk/confirmation.html" },
+    { "source": "/uk/confirmation.html", "destination": "/renewals/uk/confirmation.html" },
+    { "source": "/uk/(.*)", "destination": "/renewals/uk/$1" }
   ]
 }
