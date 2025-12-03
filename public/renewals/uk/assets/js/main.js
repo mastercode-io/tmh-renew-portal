@@ -343,9 +343,41 @@
       if (heroTmWordmark) heroTmWordmark.style.display = 'block';
     }
 
+    // Populate trademark review card in the form
+    const reviewTmNumber = document.getElementById('review-trademark-number');
+    const reviewTmStatus = document.getElementById('review-trademark-status');
+    const reviewRegDate = document.getElementById('review-registration-date');
+    const reviewWordMark = document.getElementById('review-word-mark');
+    const reviewMarkType = document.getElementById('review-mark-type');
+    const reviewClassesCount = document.getElementById('review-classes-count');
+
+    if (reviewTmNumber) reviewTmNumber.textContent = heroTrademarkNumber;
+    if (reviewTmStatus) reviewTmStatus.textContent = trademark.status || '—';
+    if (reviewWordMark) reviewWordMark.textContent = trademark.word_mark || '—';
+    if (reviewMarkType) reviewMarkType.textContent = trademark.mark_type || '—';
+
+    if (reviewRegDate) {
+      const regDate = trademark.registration_date;
+      if (regDate) {
+        const date = new Date(regDate);
+        const formatted = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+        reviewRegDate.textContent = formatted;
+      } else {
+        reviewRegDate.textContent = '—';
+      }
+    }
+
     // Get classes data
     const classes = trademark.classes;
     const classesCount = trademark.classes_count || (Array.isArray(classes) ? classes.length : undefined);
+
+    if (reviewClassesCount) {
+      reviewClassesCount.textContent = classesCount || '—';
+    }
 
     // Populate form fields with trademark and contact data
     const fieldValues = {

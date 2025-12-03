@@ -1291,6 +1291,14 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
 .detail-list dt { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0; text-align: left; }
 .detail-list dd { margin: 0; font-weight: 700; color: var(--brand-navy); text-align: right; }
 .muted.small { font-size: 0.8rem; }
+.trademark-review-section { margin-bottom: 2rem; }
+.trademark-review-section h3 { margin: 0 0 1.2rem; font-size: 1.3rem; color: var(--brand-navy); }
+.trademark-review-card { background: #f9fafb; border-radius: var(--radius); padding: 1.5rem; border: 1px solid #e5e7eb; }
+.review-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #e5e7eb; }
+.review-row:last-child { border-bottom: none; }
+.review-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; font-weight: 600; }
+.review-value { font-weight: 700; color: var(--brand-navy); text-align: right; }
+
 .screening-questions { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 2px solid #eef2f6; }
 .screening-question { margin-bottom: 1.5rem; }
 .question-text { font-weight: 600; color: var(--brand-navy); margin: 0 0 0.75rem; font-size: 1.05rem; }
@@ -1376,6 +1384,10 @@ section[id] { scroll-margin-top: calc(140px + 1.5rem); }
 }
 
 @media (max-width: 480px) {
+  .review-row { flex-direction: column; align-items: flex-start; gap: 0.25rem; padding: 0.5rem 0; }
+  .review-label { font-size: 0.7rem; }
+  .review-value { text-align: left; font-size: 0.95rem; }
+
   body {
     overflow-x: hidden;
     padding-top: 0;
