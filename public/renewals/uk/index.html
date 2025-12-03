@@ -193,16 +193,10 @@
         <div class="container hero-renewals">
           <div class="next-renewals">
             <h3>Next renewals due</h3>
-            <p class="batch-renewal-instruction" id="batch-instruction" style="display: none;">
-              Check all trademarks that you want to add to this renewal batch.
-            </p>
             <div class="renewals-table-wrapper">
               <table class="renewals-table" id="renewals">
                 <thead>
                   <tr>
-                    <th class="checkbox-column" id="checkbox-header" style="display: none;">
-                      <input type="checkbox" id="select-all-renewals" aria-label="Select all trademarks" />
-                    </th>
                     <th>Number</th>
                     <th>Text</th>
                     <th>Type</th>
@@ -444,14 +438,6 @@
 
           <div class="card renewal-form-card">
             <form id="lead-form" novalidate data-endpoint="/api/renewals/order" data-prefill-endpoint="/api/renewals/details" data-payment-url="/pay">
-
-              <!-- Selected Trademarks Cards -->
-              <div class="selected-trademarks-section">
-                <h3>Selected trademarks for renewal</h3>
-                <div id="selected-trademarks-cards" class="trademark-cards-container">
-                  <!-- Cards will be inserted here dynamically -->
-                </div>
-              </div>
 
               <!-- Screening Questions -->
               <div class="screening-questions">

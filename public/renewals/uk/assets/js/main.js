@@ -149,109 +149,6 @@
     return [first, last];
   };
 
-  // Function to render trademark cards in renewal form
-  window.renderTrademarkCards = (trademarks) => {
-    const container = document.getElementById('selected-trademarks-cards');
-    if (!container) return;
-
-    if (!trademarks || trademarks.length === 0) {
-      container.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 1rem;">No trademarks selected for renewal.</p>';
-      return;
-    }
-
-    container.innerHTML = trademarks.map((tm, index) => {
-      const number = tm.registration_number || tm.application_number || tm.id || '—';
-      const name = tm.word_mark || '—';
-      const type = tm.mark_type || '—';
-      const status = tm.status || '—';
-      const classesCount = tm.classes_count || (Array.isArray(tm.classes) ? tm.classes.length : '—');
-      const trademarkId = tm.id || tm.registration_number || tm.application_number || '';
-
-      const regDate = tm.registration_date ? formatDate(tm.registration_date) : '—';
-
-      let expiryText = '—';
-      let expiryClass = '';
-      const expiryDate = tm.expiry_date || tm.next_renewal_date;
-      if (expiryDate) {
-        const expiry = new Date(expiryDate);
-        const today = new Date();
-        const isExpired = expiry < today;
-
-        expiryText = formatDate(expiryDate);
-        expiryClass = isExpired ? 'expired' : '';
-      }
-
-      // Only show delete button for non-primary trademarks (index > 0)
-      const deleteButton = index > 0 ? `
-        <button type="button" class="tm-card-delete" data-trademark-id="${trademarkId}" aria-label="Remove ${name} from renewal">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-          </svg>
-        </button>
-      ` : '';
-
-      return `
-        <div class="trademark-renewal-card" data-trademark-id="${trademarkId}">
-          <div class="tm-card-header">
-            <h4 class="tm-card-title">${name}</h4>
-            <div class="tm-card-header-right">
-              <span class="tm-card-number">${number}</span>
-              ${deleteButton}
-            </div>
-          </div>
-          <div class="tm-card-body">
-            <div class="tm-card-row">
-              <span class="tm-card-label">Status</span>
-              <span class="tm-card-value">${status}</span>
-            </div>
-            <div class="tm-card-row">
-              <span class="tm-card-label">Mark Type</span>
-              <span class="tm-card-value">${type}</span>
-            </div>
-            <div class="tm-card-row">
-              <span class="tm-card-label">Registered</span>
-              <span class="tm-card-value">${regDate}</span>
-            </div>
-            <div class="tm-card-row">
-              <span class="tm-card-label">Expiry</span>
-              <span class="tm-card-value ${expiryClass}">${expiryText}</span>
-            </div>
-            <div class="tm-card-row">
-              <span class="tm-card-label">Classes</span>
-              <span class="tm-card-value">${classesCount} ${classesCount === 1 ? 'class' : 'classes'}</span>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    // Add event listeners to delete buttons
-    container.querySelectorAll('.tm-card-delete').forEach(button => {
-      button.addEventListener('click', function() {
-        const trademarkId = this.dataset.trademarkId;
-
-        // Uncheck the corresponding checkbox
-        const checkbox = document.querySelector(`.renewal-checkbox[data-trademark-id="${trademarkId}"]`);
-        if (checkbox) {
-          checkbox.checked = false;
-
-          // Update "Select All" checkbox state
-          const selectAllCheckbox = document.getElementById('select-all-renewals');
-          if (selectAllCheckbox) {
-            const allCheckboxes = document.querySelectorAll('.renewal-checkbox');
-            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
-            const someChecked = Array.from(allCheckboxes).some(cb => cb.checked);
-
-            selectAllCheckbox.checked = allChecked;
-            selectAllCheckbox.indeterminate = someChecked && !allChecked;
-          }
-        }
-
-        // Update the cards (will trigger re-render without this trademark)
-        window.updateTrademarkCards();
-      });
-    });
-  };
 
   const renderRenewals = (items) => {
     if (!renewalsList) return;
@@ -260,21 +157,10 @@
     const tbody = renewalsList.querySelector('tbody');
     if (!tbody) return;
 
-    // Get UI elements for batch renewal
-    const batchInstruction = document.getElementById('batch-instruction');
-    const checkboxHeader = document.getElementById('checkbox-header');
-
     if (!items?.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="tm-empty">No upcoming renewals listed.</td></tr>';
-      // Hide batch renewal UI when no items
-      if (batchInstruction) batchInstruction.style.display = 'none';
-      if (checkboxHeader) checkboxHeader.style.display = 'none';
+      tbody.innerHTML = '<tr><td colspan="6" class="tm-empty">No upcoming renewals listed.</td></tr>';
       return;
     }
-
-    // Show batch renewal UI when there are items
-    if (batchInstruction) batchInstruction.style.display = 'block';
-    if (checkboxHeader) checkboxHeader.style.display = 'table-cell';
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -314,20 +200,8 @@
         <span class="expiry ${expiryClass}">${expiryText}</span>
       `;
 
-      const trademarkId = it.id || it.registration_number || it.application_number || '';
-
       return `
         <tr>
-          <td class="checkbox-column">
-            <input
-              type="checkbox"
-              class="renewal-checkbox"
-              value="${trademarkId}"
-              data-trademark-id="${trademarkId}"
-              data-trademark-name="${name}"
-              aria-label="Select ${name}"
-            />
-          </td>
           <td class="tm-number" data-label="Number">${number}</td>
           <td class="tm-name" data-label="Text">${name}</td>
           <td class="tm-type" data-label="Type">${type}</td>
@@ -524,9 +398,6 @@
 
     // Render renewals list - show only next_due trademarks (not including the main one being renewed)
     renderRenewals(nextDue);
-
-    // Initially render the primary trademark card in the renewal form
-    window.renderTrademarkCards([trademark]);
 
     // Handle links
     if (payload.links?.book_call) {
@@ -829,22 +700,13 @@
       || rawFormData.regNumber
       || '';
 
-    // Collect all selected trademark numbers (primary + checked additional ones)
+    // Collect trademark number (single trademark for this order)
     const trademarkNumbers = [];
 
-    // Always include the primary trademark first
+    // Include the primary trademark
     if (trademarkPrefill) {
       trademarkNumbers.push(toTrimmedString(trademarkPrefill));
     }
-
-    // Add any checked trademarks from the renewals table
-    const checkedBoxes = document.querySelectorAll('.renewal-checkbox:checked');
-    checkedBoxes.forEach(checkbox => {
-      const tmId = checkbox.dataset.trademarkId;
-      if (tmId && !trademarkNumbers.includes(tmId)) {
-        trademarkNumbers.push(tmId);
-      }
-    });
 
     const data = {
       first_name: toTrimmedString(rawFormData.firstName) || toTrimmedString(firstNamePrefill),
@@ -997,58 +859,4 @@
     setInterval(nextSlide, 5000);
   }
 
-  // Function to update trademark cards based on selected checkboxes
-  window.updateTrademarkCards = () => {
-    // Get all checked checkboxes
-    const checkedBoxes = document.querySelectorAll('.renewal-checkbox:checked');
-    const selectedIds = Array.from(checkedBoxes).map(cb => cb.dataset.trademarkId);
-
-    // Start with the primary trademark
-    let selectedTrademarks = [prefillState.trademark];
-
-    // Add selected trademarks from nextDue
-    if (selectedIds.length > 0 && prefillState.allTrademarks) {
-      selectedIds.forEach(id => {
-        const tm = prefillState.allTrademarks.find(t =>
-          (t.id === id || t.registration_number === id || t.application_number === id)
-        );
-        if (tm && tm !== prefillState.trademark) {
-          selectedTrademarks.push(tm);
-        }
-      });
-    }
-
-    // Render the updated cards
-    window.renderTrademarkCards(selectedTrademarks);
-  };
-
-  // Batch renewal checkbox functionality
-  const selectAllCheckbox = document.getElementById('select-all-renewals');
-  if (selectAllCheckbox) {
-    selectAllCheckbox.addEventListener('change', function() {
-      const checkboxes = document.querySelectorAll('.renewal-checkbox');
-      checkboxes.forEach(checkbox => {
-        checkbox.checked = this.checked;
-      });
-      // Update cards after select all
-      window.updateTrademarkCards();
-    });
-
-    // Update "select all" state when individual checkboxes change
-    document.addEventListener('change', function(e) {
-      if (e.target.classList.contains('renewal-checkbox')) {
-        const checkboxes = document.querySelectorAll('.renewal-checkbox');
-        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-        const someChecked = Array.from(checkboxes).some(cb => cb.checked);
-
-        if (selectAllCheckbox) {
-          selectAllCheckbox.checked = allChecked;
-          selectAllCheckbox.indeterminate = someChecked && !allChecked;
-        }
-
-        // Update trademark cards when checkbox changes
-        window.updateTrademarkCards();
-      }
-    });
-  }
 })();
