@@ -1,7 +1,5 @@
 {
   "redirects": [
-    { "source": "/", "destination": "https://www.thetrademarkhelpline.com", "permanent": false },
-    { "source": "/uktm", "destination": "/renewals/uk/", "permanent": true },
-    { "source": "/uktm/(.*)", "destination": "/renewals/uk/$1", "permanent": true }
+    { "source": "/", "destination": "https://www.thetrademarkhelpline.com", "permanent": false }
   ]
 }
