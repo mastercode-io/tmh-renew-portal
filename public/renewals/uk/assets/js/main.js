@@ -354,9 +354,9 @@
   const buildOrderUrl = (orderData) => {
     try {
       const encoded = base64EncodeJson(orderData);
-      return `/uk/order.html?order=${encodeURIComponent(encoded)}`;
+      return `/renewals/uk/order.html?order=${encodeURIComponent(encoded)}`;
     } catch (error) {
-      return '/uk/order.html';
+      return '/renewals/uk/order.html';
     }
   };
 

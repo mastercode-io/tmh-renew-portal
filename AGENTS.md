@@ -15,7 +15,7 @@
 - Name environment variables in ALL_CAPS (see `api/_lib/env.js`). Stick to snake_case for JSON payload fields to match CRM responses.
 
 ## Testing Guidelines
-- The UI relies on manual browser testing. Verify both `/uk` and `/uk/order` flows via the mock data scripts before pointing to live APIs.
+- The UI relies on manual browser testing. Verify both `/renewals/uk` and `/renewals/uk/order` flows via the mock data scripts before pointing to live APIs.
 - For API changes, add unit tests under `api/_tests/` (create if missing) or at minimum exercise the endpoint via `curl` against Vercel preview deployments.
 - When adding new polling or form logic, test edge cases: missing token, expired invoice, and CRM error responses.
 

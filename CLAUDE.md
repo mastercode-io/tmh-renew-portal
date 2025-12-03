@@ -137,10 +137,10 @@ Ensure the CRM custom functions listed in `api/_lib/crm.js` (CRM_ENDPOINTS) are 
 
 Handled by `vercel.json`:
 
-- `/uk/` → `public/renewals/uk/index.html`
-- `/uk/order` → `public/renewals/uk/order.html`
-- `/uk/confirmation` → `public/renewals/uk/confirmation.html`
-- `/uktm/*` → redirects to `/uk/*` (backwards compatibility)
+- `/renewals/uk/` → `public/renewals/uk/index.html` (direct access)
+- `/renewals/uk/order` → `public/renewals/uk/order.html`
+- `/renewals/uk/confirmation` → `public/renewals/uk/confirmation.html`
+- `/uktm/*` → redirects to `/renewals/uk/*` (backwards compatibility)
 
 ### Deployment
 
@@ -205,7 +205,7 @@ const response = await fetch('/api/renewals/order', {
 });
 
 const { deal_token, deal_id, line_items, total } = await response.json();
-// Redirect to /uk/order?token=deal_token
+// Redirect to /renewals/uk/order?token=deal_token
 ```
 
 ### Payment Initiation (order.js)
@@ -234,7 +234,7 @@ async function pollPaymentStatus(token) {
 
   if (status === 'paid') {
     // Redirect to confirmation page
-    window.location.href = '/uk/confirmation?token=' + token;
+    window.location.href = '/renewals/uk/confirmation?token=' + token;
   } else if (status === 'failed') {
     // Show error message
   }
@@ -317,5 +317,5 @@ CSS uses custom properties defined in `assets/css/styles.css`:
 
 1. Set `USE_MOCK_DATA=true` in environment
 2. Run `vercel dev` (or deploy to Vercel preview)
-3. Navigate to `/uk/?token=test123`
+3. Navigate to `/renewals/uk/?token=test123`
 4. Submit form → order page → payment flow (uses mock data)
