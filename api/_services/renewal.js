@@ -119,7 +119,8 @@ function normalizeRenewalDetails(response) {
     return response;
   }
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
 
   return {
     account: data.account || data.Account || {},
@@ -137,7 +138,8 @@ function normalizeOrderSummary(response) {
     return response;
   }
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
 
   return {
     deal_id: data.deal_id || data.dealId || data.DealId || null,
@@ -149,14 +151,15 @@ function normalizeOrderSummary(response) {
     total: data.total || 0,
     currency: data.currency || 'GBP',
     line_items: data.line_items || data.lineItems || [],
-    trademark: data.trademark || response.trademark || {}
+    trademark: data.trademark || {}
   };
 }
 
 function normalizePaymentLink(response) {
   if (!response) return getMockPaymentLink();
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
   const paymentUrl = data.payment_url || data.paymentUrl || data.payment_link || data.url || null;
   const dealToken = data.deal_token || data.dealToken || data.token || null;
 
@@ -169,7 +172,8 @@ function normalizePaymentLink(response) {
 function normalizePaymentStatus(response) {
   if (!response) return getMockPaymentStatus();
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
   const invoices = data.Invoices || data.invoices || [];
   const invoice = Array.isArray(invoices) ? invoices[0] : null;
 
