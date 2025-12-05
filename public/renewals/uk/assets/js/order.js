@@ -507,19 +507,25 @@ async function performStatusCheck(options = {}) {
     }
 
     const payload = await response.json();
+    console.log('[Payment Status] API response:', JSON.stringify(payload));
+    console.log('[Payment Status] Raw status value:', payload.status);
     const status = normalizeStatus(payload.status);
+    console.log('[Payment Status] Normalized status:', status);
     maybeShowPendingBanner();
     paymentState.lastStatus = status;
 
     if (status === PAYMENT_STATUS.PAID) {
+      console.log('[Payment Status] Handling PAID status');
       handlePaidStatus();
     } else if (
       status === PAYMENT_STATUS.VOIDED ||
       status === PAYMENT_STATUS.NOT_FOUND ||
       status === PAYMENT_STATUS.FAILED
     ) {
+      console.log('[Payment Status] Handling terminal status:', status);
       handleTerminalStatus(status);
     } else {
+      console.log('[Payment Status] Handling PENDING status, scheduling next poll');
       handlePendingStatus();
       if (!options.skipSchedule && paymentState.active && !paymentState.timedOut) {
         scheduleNextPoll();
