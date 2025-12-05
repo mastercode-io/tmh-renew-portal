@@ -17,7 +17,7 @@
   if (!urlToken || !sessionToken || urlToken !== sessionToken) {
     // Invalid access - redirect to landing page
     console.log('Invalid confirmation page access - redirecting to landing page');
-    window.location.href = '/uktm/';
+    window.location.href = '/renewals/uk/';
     return;
   }
 

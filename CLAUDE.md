@@ -12,7 +12,7 @@ This is a trademark renewal portal for The Trademark Helpline. It's a multi-page
 
 Static HTML pages with vanilla JavaScript (no build system):
 
-- **`public/renewal/uktm/`** - Main UK trademark renewal flow
+- **`public/renewals/uk/`** - Main UK trademark renewal flow
   - `index.html` - Landing page with trademark details and renewal form
   - `order.html` - Order summary and payment initiation page
   - `confirmation.html` - Post-payment confirmation page
@@ -24,25 +24,25 @@ Static HTML pages with vanilla JavaScript (no build system):
 
 All API endpoints run as Edge Functions (standard Web Fetch API, no Node.js built-ins):
 
-- **`api/renewal/details.js`** - `GET /api/renewal/details?token=...`
+- **`api/renewals/details.js`** - `GET /api/renewals/details?token=...`
   - Fetches account, contact, trademark, and upcoming renewals for a token
   - Calls CRM custom function: `renewalgetleadinfo`
 
-- **`api/renewal/order/index.js`** - `POST /api/renewal/order`
+- **`api/renewals/order/index.js`** - `POST /api/renewals/order`
   - Creates or updates renewal Deal in CRM from form submission
   - Calls CRM custom function: `renewalcreateorder`
   - Returns order summary with deal_token for subsequent steps
 
-- **`api/renewal/order/[dealId].js`** - `GET /api/renewal/order/:dealId`
+- **`api/renewals/order/[dealId].js`** - `GET /api/renewals/order/:dealId`
   - Fetches latest order summary (line items, VAT, totals) for a Deal
   - Calls CRM custom function: `renewalgetordersummary`
 
-- **`api/renewal/payment-link.js`** - `GET /api/renewal/payment-link?token=...`
+- **`api/renewals/payment-link.js`** - `GET /api/renewals/payment-link?token=...`
   - Requests hosted payment URL from Xero via CRM
   - Calls CRM custom function: `dealcreatepayment`
   - Returns `payment_url` (Xero invoice link) and `deal_token`
 
-- **`api/renewal/payment-status.js`** - `GET /api/renewal/payment-status?token=...`
+- **`api/renewals/payment-status.js`** - `GET /api/renewals/payment-status?token=...`
   - Polls payment status via CRM (which checks Xero)
   - Calls CRM custom function: `renewalgetpaymentstatus`
   - Returns `status` (pending/paid/failed) and `updated_at`
@@ -72,23 +72,23 @@ All API endpoints run as Edge Functions (standard Web Fetch API, no Node.js buil
 ```
 User visits link with token
     ↓
-GET /api/renewal/details?token=xxx
+GET /api/renewals/details?token=xxx
     ↓ (CRM: renewalgetleadinfo)
 Landing page displays account/trademark/form
     ↓
 User submits form
     ↓
-POST /api/renewal/order (with form data)
+POST /api/renewals/order (with form data)
     ↓ (CRM: renewalcreateorder)
 Order page displays summary (deal_token issued)
     ↓
 User clicks "Pay Now"
     ↓
-GET /api/renewal/payment-link?token=deal_tok_xxx
+GET /api/renewals/payment-link?token=deal_tok_xxx
     ↓ (CRM: dealcreatepayment → Xero)
 Open Xero invoice in new tab, poll status
     ↓
-GET /api/renewal/payment-status?token=deal_tok_xxx (polling)
+GET /api/renewals/payment-status?token=deal_tok_xxx (polling)
     ↓ (CRM: renewalgetpaymentstatus → Xero)
 Detect paid status → redirect to confirmation
 ```
@@ -100,7 +100,7 @@ Detect paid status → redirect to confirmation
 Serve static files directly:
 
 ```bash
-cd public/renewal/uktm
+cd public/renewals/uk
 python3 -m http.server 8000
 # or
 npx serve .
@@ -137,9 +137,10 @@ Ensure the CRM custom functions listed in `api/_lib/crm.js` (CRM_ENDPOINTS) are 
 
 Handled by `vercel.json`:
 
-- `/uktm/` → `public/renewal/uktm/index.html`
-- `/uktm/order` → `public/renewal/uktm/order.html`
-- `/uktm/confirmation` → `public/renewal/uktm/confirmation.html`
+- `/renewals/uk/` → `public/renewals/uk/index.html` (direct access)
+- `/renewals/uk/order` → `public/renewals/uk/order.html`
+- `/renewals/uk/confirmation` → `public/renewals/uk/confirmation.html`
+- `/uktm/*` → redirects to `/renewals/uk/*` (backwards compatibility)
 
 ### Deployment
 
@@ -167,7 +168,7 @@ Tokens are passed via URL query params and submitted with API requests.
 
 ```javascript
 const token = new URLSearchParams(window.location.search).get('token');
-const response = await fetch(`/api/renewal/details?token=${token}`);
+const response = await fetch(`/api/renewals/details?token=${token}`);
 const payload = await response.json();
 ```
 
@@ -185,7 +186,7 @@ Payload structure (see `docs/RENEWAL-PAYLOAD-SPEC.md`):
 
 ### Form Submission Flow
 
-Form submits to `/api/renewal/order`:
+Form submits to `/api/renewals/order`:
 
 ```javascript
 const formData = {
@@ -197,14 +198,14 @@ const formData = {
   utm_params: { /* tracking data */ }
 };
 
-const response = await fetch('/api/renewal/order', {
+const response = await fetch('/api/renewals/order', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(formData)
 });
 
 const { deal_token, deal_id, line_items, total } = await response.json();
-// Redirect to /uktm/order?token=deal_token
+// Redirect to /renewals/uk/order?token=deal_token
 ```
 
 ### Payment Initiation (order.js)
@@ -212,7 +213,7 @@ const { deal_token, deal_id, line_items, total } = await response.json();
 Order page requests payment link:
 
 ```javascript
-const response = await fetch(`/api/renewal/payment-link?token=${dealToken}`);
+const response = await fetch(`/api/renewals/payment-link?token=${dealToken}`);
 const { payment_url, deal_token } = await response.json();
 
 // Open Xero invoice in new tab
@@ -228,12 +229,12 @@ Poll every 3 seconds for payment confirmation:
 
 ```javascript
 async function pollPaymentStatus(token) {
-  const response = await fetch(`/api/renewal/payment-status?token=${token}`);
+  const response = await fetch(`/api/renewals/payment-status?token=${token}`);
   const { status, updated_at } = await response.json();
 
   if (status === 'paid') {
     // Redirect to confirmation page
-    window.location.href = '/uktm/confirmation?token=' + token;
+    window.location.href = '/renewals/uk/confirmation?token=' + token;
   } else if (status === 'failed') {
     // Show error message
   }
@@ -266,15 +267,15 @@ These functions must be deployed in Zoho CRM and accessible via the API key conf
 - `docs/API-PHASE-1.md` - Phased implementation roadmap
 
 ### Frontend Entry Points
-- `public/renewal/uktm/index.html` - Landing page
-- `public/renewal/uktm/assets/js/main.js` - Landing page JavaScript
-- `public/renewal/uktm/assets/js/order.js` - Order page JavaScript
+- `public/renewals/uk/index.html` - Landing page
+- `public/renewals/uk/assets/js/main.js` - Landing page JavaScript
+- `public/renewals/uk/assets/js/order.js` - Order page JavaScript
 
 ### API Entry Points
-- `api/renewal/details.js` - Prefill endpoint
-- `api/renewal/order/index.js` - Order creation endpoint
-- `api/renewal/payment-link.js` - Payment initiation endpoint
-- `api/renewal/payment-status.js` - Payment polling endpoint
+- `api/renewals/details.js` - Prefill endpoint
+- `api/renewals/order/index.js` - Order creation endpoint
+- `api/renewals/payment-link.js` - Payment initiation endpoint
+- `api/renewals/payment-status.js` - Payment polling endpoint
 
 ## Design System
 
@@ -297,7 +298,7 @@ CSS uses custom properties defined in `assets/css/styles.css`:
 
 ### Adding a new API endpoint
 
-1. Create file in `api/renewal/your-endpoint.js`
+1. Create file in `api/renewals/your-endpoint.js`
 2. Export Edge runtime config: `export const config = { runtime: 'edge' }`
 3. Import service layer: `import { yourFunction } from '../_services/renewal.js'`
 4. Add endpoint to `api/_lib/crm.js` (CRM_ENDPOINTS)
@@ -316,5 +317,5 @@ CSS uses custom properties defined in `assets/css/styles.css`:
 
 1. Set `USE_MOCK_DATA=true` in environment
 2. Run `vercel dev` (or deploy to Vercel preview)
-3. Navigate to `/uktm/?token=test123`
+3. Navigate to `/renewals/uk/?token=test123`
 4. Submit form → order page → payment flow (uses mock data)

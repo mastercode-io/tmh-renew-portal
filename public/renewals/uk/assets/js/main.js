@@ -30,7 +30,7 @@
     'firstName','lastName','email','phone','company','trademark','jurisdiction','regNumber','contactTime','classCount','applicationNumber','status','regDate','markType'
   ];
 
-  let prefillState = { contact: {}, trademark: {}, heroTrademarkNumber: null };
+  let prefillState = { contact: {}, trademark: {}, heroTrademarkNumber: null, allTrademarks: [] };
 
   const mergeTargets = {
     personName: document.querySelector('[data-merge="personName"]'),
@@ -134,7 +134,7 @@
 
   // Personalized greeting + renewals list via payload
   const token = params.get('token');
-  const prefillEndpoint = form.dataset.prefillEndpoint || '/api/renewal/details';
+  const prefillEndpoint = form.dataset.prefillEndpoint || '/api/renewals/details';
   const summaryNames = ['applicationNumber','status','regDate','trademark','markType','jurisdiction'];
   const renewalsList = document.getElementById('renewals');
   let paymentUrl = form.dataset.paymentUrl || '/pay';
@@ -148,6 +148,7 @@
     const last = parts.length ? parts.join(' ') : null;
     return [first, last];
   };
+
 
   const renderRenewals = (items) => {
     if (!renewalsList) return;
@@ -227,9 +228,9 @@
   const buildOrderUrl = (orderData) => {
     try {
       const encoded = base64EncodeJson(orderData);
-      return `/uktm/order.html?order=${encodeURIComponent(encoded)}`;
+      return `/renewals/uk/order.html?order=${encodeURIComponent(encoded)}`;
     } catch (error) {
-      return '/uktm/order.html';
+      return '/renewals/uk/order.html';
     }
   };
 
@@ -263,8 +264,12 @@
       account,
       contact,
       trademark,
-      heroTrademarkNumber
+      heroTrademarkNumber,
+      allTrademarks: [trademark, ...nextDue]
     };
+
+    // Make prefillState accessible globally
+    window.prefillState = prefillState;
 
     // Update hero section
     if (mergeTargets.personName) mergeTargets.personName.textContent = heroName;
@@ -338,9 +343,41 @@
       if (heroTmWordmark) heroTmWordmark.style.display = 'block';
     }
 
+    // Populate trademark review card in the form
+    const reviewTmNumber = document.getElementById('review-trademark-number');
+    const reviewTmStatus = document.getElementById('review-trademark-status');
+    const reviewRegDate = document.getElementById('review-registration-date');
+    const reviewWordMark = document.getElementById('review-word-mark');
+    const reviewMarkType = document.getElementById('review-mark-type');
+    const reviewClassesCount = document.getElementById('review-classes-count');
+
+    if (reviewTmNumber) reviewTmNumber.textContent = heroTrademarkNumber;
+    if (reviewTmStatus) reviewTmStatus.textContent = trademark.status || '—';
+    if (reviewWordMark) reviewWordMark.textContent = trademark.word_mark || '—';
+    if (reviewMarkType) reviewMarkType.textContent = trademark.mark_type || '—';
+
+    if (reviewRegDate) {
+      const regDate = trademark.registration_date;
+      if (regDate) {
+        const date = new Date(regDate);
+        const formatted = date.toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+        reviewRegDate.textContent = formatted;
+      } else {
+        reviewRegDate.textContent = '—';
+      }
+    }
+
     // Get classes data
     const classes = trademark.classes;
     const classesCount = trademark.classes_count || (Array.isArray(classes) ? classes.length : undefined);
+
+    if (reviewClassesCount) {
+      reviewClassesCount.textContent = classesCount || '—';
+    }
 
     // Populate form fields with trademark and contact data
     const fieldValues = {
@@ -695,16 +732,24 @@
       || rawFormData.regNumber
       || '';
 
+    // Collect trademark number (single trademark for this order)
+    const trademarkNumbers = [];
+
+    // Include the primary trademark
+    if (trademarkPrefill) {
+      trademarkNumbers.push(toTrimmedString(trademarkPrefill));
+    }
+
     const data = {
       first_name: toTrimmedString(rawFormData.firstName) || toTrimmedString(firstNamePrefill),
       last_name: toTrimmedString(rawFormData.lastName) || toTrimmedString(lastNamePrefill),
       email: toTrimmedString(rawFormData.email) || toTrimmedString(emailPrefill),
       phone: toTrimmedString(rawFormData.phone) || toTrimmedString(phonePrefill),
-      trademark_number: toTrimmedString(trademarkPrefill)
+      trademark_numbers: trademarkNumbers
     };
 
     // Placeholder network request; replace with your endpoint URL.
-    const endpoint = form.dataset.endpoint || '/api/renewal/order';
+    const endpoint = form.dataset.endpoint || '/api/renewals/order';
     const submitBtn = form.querySelector('button[type="submit"]');
 
     // Add loading state to button
@@ -845,4 +890,5 @@
     // Auto-advance every 5 seconds
     setInterval(nextSlide, 5000);
   }
+
 })();

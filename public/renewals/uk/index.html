@@ -437,41 +437,37 @@
           </div>
 
           <div class="card renewal-form-card">
-            <form id="lead-form" novalidate data-endpoint="/api/renewal/order" data-prefill-endpoint="/api/renewal/details" data-payment-url="/pay">
+            <form id="lead-form" novalidate data-endpoint="/api/renewals/order" data-prefill-endpoint="/api/renewals/details" data-payment-url="/pay">
 
-              <!-- Review Information (Read-only display) -->
-              <div class="review-info-section">
+              <!-- Trademark Review Card -->
+              <div class="trademark-review-section">
                 <h3>Review your information</h3>
-                <dl class="detail-list">
-                  <div>
-                    <dt>Application number</dt>
-                    <dd data-merge="applicationNumber">—</dd>
+                <div class="trademark-review-card">
+                  <div class="review-row">
+                    <span class="review-label">APPLICATION NUMBER</span>
+                    <span class="review-value" id="review-trademark-number">—</span>
                   </div>
-                  <div>
-                    <dt>Current status</dt>
-                    <dd data-merge="status">—</dd>
+                  <div class="review-row">
+                    <span class="review-label">CURRENT STATUS</span>
+                    <span class="review-value" id="review-trademark-status">—</span>
                   </div>
-                  <div>
-                    <dt>Registration date</dt>
-                    <dd data-merge="regDate">—</dd>
+                  <div class="review-row">
+                    <span class="review-label">REGISTRATION DATE</span>
+                    <span class="review-value" id="review-registration-date">—</span>
                   </div>
-                  <div>
-                    <dt>Word mark text</dt>
-                    <dd data-merge="trademark">—</dd>
+                  <div class="review-row">
+                    <span class="review-label">WORD MARK TEXT</span>
+                    <span class="review-value" id="review-word-mark">—</span>
                   </div>
-                  <div id="trademark-image-container" style="display: none;">
-                    <dt>Trademark image</dt>
-                    <dd><img id="trademark-image" src="" alt="Trademark logo" style="max-width: 200px; max-height: 100px; display: block;" /></dd>
+                  <div class="review-row">
+                    <span class="review-label">MARK TYPE</span>
+                    <span class="review-value" id="review-mark-type">—</span>
                   </div>
-                  <div>
-                    <dt>Mark type</dt>
-                    <dd data-merge="markType">—</dd>
+                  <div class="review-row">
+                    <span class="review-label">NUMBER OF CLASSES</span>
+                    <span class="review-value" id="review-classes-count">—</span>
                   </div>
-                  <div>
-                    <dt>Number of classes</dt>
-                    <dd data-merge="classCountLabel">—</dd>
-                  </div>
-                </dl>
+                </div>
               </div>
 
               <!-- Screening Questions -->

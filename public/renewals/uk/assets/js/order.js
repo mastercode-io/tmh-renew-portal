@@ -24,8 +24,8 @@ const PAYMENT_POLLING_CONFIG = {
   slowIntervalMs: 10000
 };
 
-const CONFIRMATION_URL = '/uktm/confirmation.html';
-const OFFER_FALLBACK_URL = '/uktm/index.html';
+const CONFIRMATION_URL = '/renewals/uk/confirmation.html';
+const OFFER_FALLBACK_URL = '/renewals/uk/index.html';
 const CONTACT_SUPPORT_EMAIL = 'support@thetrademarkhelpline.com';
 
 let currentOrderData = null;
@@ -496,7 +496,7 @@ async function performStatusCheck(options = {}) {
   paymentState.inFlight = true;
 
   try {
-    const response = await fetch(`/api/renewal/payment-status?token=${encodeURIComponent(paymentState.token)}`, {
+    const response = await fetch(`/api/renewals/payment-status?token=${encodeURIComponent(paymentState.token)}`, {
       method: 'GET',
       credentials: 'include',
       cache: 'no-store'
@@ -866,7 +866,7 @@ function initTermsValidation() {
 
         // Call payment link API
         console.log('[Payment] Requesting payment link for token:', dealToken);
-        const response = await fetch(`/api/renewal/payment-link?token=${encodeURIComponent(dealToken)}`, {
+        const response = await fetch(`/api/renewals/payment-link?token=${encodeURIComponent(dealToken)}`, {
           method: 'GET',
           credentials: 'include'
         });
@@ -963,5 +963,5 @@ if (document.readyState === 'loading') {
  */
 window.createOrderUrl = function(orderData) {
   const encodedData = base64EncodeJson(orderData);
-  return `/uktm/order.html?order=${encodeURIComponent(encodedData)}`;
+  return `/renewals/uk/order.html?order=${encodeURIComponent(encodedData)}`;
 };

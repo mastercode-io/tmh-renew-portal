@@ -1,7 +1,7 @@
 Renewal Edge API
 ----------------
 
-The `/api/renewal/*` endpoints are implemented as Vercel Edge Functions that proxy
+The `/api/renewals/*` endpoints are implemented as Vercel Edge Functions that proxy
 the Renewal Portal to Zoho CRM custom APIs and Xero. They return the payload
 shapes defined in `docs/RENEWAL-PAYLOAD-SPEC.md`.
 
@@ -15,11 +15,11 @@ shapes defined in `docs/RENEWAL-PAYLOAD-SPEC.md`.
 
 | Method | Route | Description | CRM/Xero integration |
 |--------|-------|-------------|----------------------|
-| `GET` | `/api/renewal/details?token=tok_123` | Returns account, contact, trademark, and upcoming renewals for the token. | `CRM_REQUIRED_APIS.RenewalDetails` |
-| `POST` | `/api/renewal/order` | Converts the renewal submission into CRM entities and responds with the order summary (includes `deal_token`). | `CRM_REQUIRED_APIS.RenewalOrder` |
-| `GET` | `/api/renewal/order/:dealId` | Fetches latest order summary (line items, VAT, totals) for the Deal. | `CRM_REQUIRED_APIS.RenewalOrderSummary` |
-| `GET` | `/api/renewal/payment-link?token=deal_tok_123` | Requests a hosted payment URL using the encrypted deal token from order response; returns `payment_url` and `deal_token`. | `CRM_REQUIRED_APIS.XeroPaymentLink` |
-| `GET` | `/api/renewal/payment-status?token=deal_tok_123` | Polls for payment status via the CRM custom API (which checks Xero) using the same token as the payment link. | `CRM_REQUIRED_APIS.XeroPaymentStatus` |
+| `GET` | `/api/renewals/details?token=tok_123` | Returns account, contact, trademark, and upcoming renewals for the token. | `CRM_REQUIRED_APIS.RenewalDetails` |
+| `POST` | `/api/renewals/order` | Converts the renewal submission into CRM entities and responds with the order summary (includes `deal_token`). | `CRM_REQUIRED_APIS.RenewalOrder` |
+| `GET` | `/api/renewals/order/:dealId` | Fetches latest order summary (line items, VAT, totals) for the Deal. | `CRM_REQUIRED_APIS.RenewalOrderSummary` |
+| `GET` | `/api/renewals/payment-link?token=deal_tok_123` | Requests a hosted payment URL using the encrypted deal token from order response; returns `payment_url` and `deal_token`. | `CRM_REQUIRED_APIS.XeroPaymentLink` |
+| `GET` | `/api/renewals/payment-status?token=deal_tok_123` | Polls for payment status via the CRM custom API (which checks Xero) using the same token as the payment link. | `CRM_REQUIRED_APIS.XeroPaymentStatus` |
 
 See `api/_lib/crm.js` for the list placeholders that must be wired to the actual
 custom API endpoints.
@@ -58,6 +58,6 @@ node --input-type=module -e "import('./api/_services/renewal.js').then(async m =
 1. Configure the environment variables above in the Vercel project.
 2. Ensure the CRM custom APIs (see `CRM_REQUIRED_APIS`) are deployed and whitelisted for the API key.
 3. Update `CRM_ENDPOINTS` if your custom Zoho function names differ.
-4. Push the repository (Edge handlers live under `api/renewal`).
+4. Push the repository (Edge handlers live under `api/renewals`).
 5. Deploy via `vercel --prod` or Git integration.
-6. Test the endpoints (e.g. `GET https://<domain>/api/renewal/details?token=...`).
+6. Test the endpoints (e.g. `GET https://<domain>/api/renewals/details?token=...`).
