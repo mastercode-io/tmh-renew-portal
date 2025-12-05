@@ -157,9 +157,20 @@
     const tbody = renewalsList.querySelector('tbody');
     if (!tbody) return;
 
+    // Find the parent "next-renewals" section to hide/show
+    const renewalsSection = document.querySelector('.next-renewals');
+
     if (!items?.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="tm-empty">No upcoming renewals listed.</td></tr>';
+      // Hide the entire "Next renewals due" section if there are no other renewals
+      if (renewalsSection) {
+        renewalsSection.style.display = 'none';
+      }
       return;
+    }
+
+    // Show the section if there are renewals
+    if (renewalsSection) {
+      renewalsSection.style.display = 'block';
     }
 
     const today = new Date();
@@ -788,6 +799,15 @@
             ? { registration_number: prefillState.heroTrademarkNumber }
             : null)
       };
+
+      // Debug logging to help troubleshoot trademark data flow
+      if (!enrichedOrder.trademark || Object.keys(enrichedOrder.trademark).length === 0) {
+        console.warn('[Order] No trademark data in enrichedOrder', {
+          fromAPI: orderSummary.trademark,
+          fromPrefill: prefillState.trademark,
+          heroNumber: prefillState.heroTrademarkNumber
+        });
+      }
 
       window.location.href = buildOrderUrl(enrichedOrder);
     } catch (err) {

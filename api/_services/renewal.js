@@ -119,7 +119,8 @@ function normalizeRenewalDetails(response) {
     return response;
   }
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
 
   return {
     account: data.account || data.Account || {},
@@ -137,7 +138,8 @@ function normalizeOrderSummary(response) {
     return response;
   }
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
 
   return {
     deal_id: data.deal_id || data.dealId || data.DealId || null,
@@ -156,7 +158,8 @@ function normalizeOrderSummary(response) {
 function normalizePaymentLink(response) {
   if (!response) return getMockPaymentLink();
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
   const paymentUrl = data.payment_url || data.paymentUrl || data.payment_link || data.url || null;
   const dealToken = data.deal_token || data.dealToken || data.token || null;
 
@@ -169,11 +172,16 @@ function normalizePaymentLink(response) {
 function normalizePaymentStatus(response) {
   if (!response) return getMockPaymentStatus();
 
-  const data = response.data || response;
+  // Extract data from CRM response wrapper or legacy formats
+  const data = response.crmAPIResponse?.body || response.data || response;
   const invoices = data.Invoices || data.invoices || [];
   const invoice = Array.isArray(invoices) ? invoices[0] : null;
 
   const statusValue = data.status || invoice?.Status || invoice?.status || data.payment_status || 'pending';
+  console.log('[normalizePaymentStatus] Raw CRM response:', JSON.stringify(response));
+  console.log('[normalizePaymentStatus] Extracted data:', JSON.stringify(data));
+  console.log('[normalizePaymentStatus] Raw status value:', statusValue);
+
   const updatedAt =
     data.updated_at ||
     data.updatedAt ||
@@ -182,9 +190,38 @@ function normalizePaymentStatus(response) {
     new Date().toISOString();
   const dealToken = data.deal_token || data.dealToken || data.token || invoice?.Token || null;
 
+  // Map Xero invoice statuses to our internal statuses
+  const normalizedStatus = mapXeroStatus(statusValue);
+  console.log('[normalizePaymentStatus] Normalized status:', normalizedStatus);
+
   return {
     deal_token: dealToken,
-    status: statusValue.toLowerCase(),
+    status: normalizedStatus,
     updated_at: updatedAt
   };
+}
+
+function mapXeroStatus(xeroStatus) {
+  if (!xeroStatus || typeof xeroStatus !== 'string') {
+    return 'pending';
+  }
+
+  const status = xeroStatus.toLowerCase();
+
+  // Map Xero statuses to our internal statuses
+  switch (status) {
+    case 'paid':
+      return 'paid';
+    case 'authorised':
+    case 'authorized':
+    case 'submitted':
+    case 'draft':
+      return 'pending';
+    case 'voided':
+    case 'deleted':
+      return 'voided';
+    default:
+      console.warn('[mapXeroStatus] Unknown Xero status:', xeroStatus, '- defaulting to pending');
+      return 'pending';
+  }
 }

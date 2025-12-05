@@ -230,7 +230,8 @@ const MOCK_ORDER_SUMMARY = {
       unit_price: 110,
       total: 110
     }
-  ]
+  ],
+  trademark: ORGANIZATION_PAYLOAD.trademark
 };
 
 const MOCK_PAYMENT_LINK = {

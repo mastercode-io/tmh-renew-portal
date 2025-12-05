@@ -21,7 +21,9 @@ export default async function handler(request) {
       return withCors(error('token_required', 400));
     }
 
+    console.log('[payment-status] Fetching status for token:', token);
     const status = await fetchPaymentStatus(token);
+    console.log('[payment-status] Normalized status:', JSON.stringify(status));
     return withCors(json(status));
   } catch (err) {
     console.error('GET /renewal/payment-status failed', err);
