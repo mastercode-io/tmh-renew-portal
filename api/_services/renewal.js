@@ -149,7 +149,7 @@ function normalizeOrderSummary(response) {
     total: data.total || 0,
     currency: data.currency || 'GBP',
     line_items: data.line_items || data.lineItems || [],
-    trademark: data.trademark || {}
+    trademark: data.trademark || response.trademark || {}
   };
 }
 

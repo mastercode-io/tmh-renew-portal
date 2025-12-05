@@ -789,6 +789,15 @@
             : null)
       };
 
+      // Debug logging to help troubleshoot trademark data flow
+      if (!enrichedOrder.trademark || Object.keys(enrichedOrder.trademark).length === 0) {
+        console.warn('[Order] No trademark data in enrichedOrder', {
+          fromAPI: orderSummary.trademark,
+          fromPrefill: prefillState.trademark,
+          heroNumber: prefillState.heroTrademarkNumber
+        });
+      }
+
       window.location.href = buildOrderUrl(enrichedOrder);
     } catch (err) {
       console.error(err);
