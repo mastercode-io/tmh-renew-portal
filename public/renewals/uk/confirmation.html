@@ -121,5 +121,48 @@
   <!-- Zoho SalesIQ Widget -->
   <script>window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}</script>
   <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq2ff2511837e9259c4710382e24bf6229d5558ce1d558304328de39ae7c11deaf" defer></script>
+
+  <!-- SalesIQ Visitor Tracking -->
+  <script>
+    (function() {
+      // Helper to safely get sessionStorage
+      function getVisitorData(key, defaultValue) {
+        try {
+          var stored = sessionStorage.getItem('salesiq_visitor_' + key);
+          return stored || defaultValue || '';
+        } catch (e) {
+          return defaultValue || '';
+        }
+      }
+
+      // Initialize SalesIQ with visitor data from sessionStorage
+      (function(oldReady) {
+        $zoho.salesiq.ready = function() {
+          // Preserve any existing logic
+          if (typeof oldReady === 'function') oldReady();
+
+          // Get visitor data from sessionStorage (stored by landing/order pages)
+          var email = getVisitorData('email');
+          var name = getVisitorData('name');
+          var phone = getVisitorData('phone');
+
+          // Set visitor information
+          if (name) {
+            $zoho.salesiq.visitor.name(name);
+          }
+
+          if (email) {
+            $zoho.salesiq.visitor.email(email);
+          }
+
+          if (phone) {
+            $zoho.salesiq.visitor.contactnumber(phone);
+          }
+
+          console.log('[SalesIQ Confirmation Page] Visitor initialized:', email || 'anonymous');
+        };
+      })($zoho.salesiq.ready);
+    })();
+  </script>
 </body>
 </html>
