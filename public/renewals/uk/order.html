@@ -188,5 +188,100 @@
   <!-- Zoho SalesIQ Widget -->
   <script>window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}</script>
   <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq2ff2511837e9259c4710382e24bf6229d5558ce1d558304328de39ae7c11deaf" defer></script>
+
+  <!-- SalesIQ Visitor Tracking -->
+  <script>
+    (function() {
+      // Helper to safely get sessionStorage
+      function getVisitorData(key, defaultValue) {
+        try {
+          var stored = sessionStorage.getItem('salesiq_visitor_' + key);
+          return stored || defaultValue || '';
+        } catch (e) {
+          return defaultValue || '';
+        }
+      }
+
+      // Initialize SalesIQ with visitor data from sessionStorage or currentOrderData
+      function initializeSalesIQ() {
+        var visitorData = {
+          email: getVisitorData('email'),
+          name: getVisitorData('name'),
+          phone: getVisitorData('phone')
+        };
+
+        var dealId = '';
+        var trademarkNumber = '';
+        var trademarkName = '';
+
+        // Try to get data from currentOrderData (populated by order.js)
+        if (window.currentOrderData) {
+          dealId = window.currentOrderData.deal_id || window.currentOrderData.dealId || '';
+
+          if (window.currentOrderData.trademark) {
+            trademarkNumber = window.currentOrderData.trademark.registration_number || '';
+            trademarkName = window.currentOrderData.trademark.word_mark || '';
+          }
+        }
+
+        // Initialize SalesIQ when ready
+        (function(oldReady) {
+          $zoho.salesiq.ready = function() {
+            // Preserve any existing logic
+            if (typeof oldReady === 'function') oldReady();
+
+            // Set visitor information
+            if (visitorData.name) {
+              $zoho.salesiq.visitor.name(visitorData.name);
+            }
+
+            if (visitorData.email) {
+              $zoho.salesiq.visitor.email(visitorData.email);
+            }
+
+            if (visitorData.phone) {
+              $zoho.salesiq.visitor.contactnumber(visitorData.phone);
+            }
+
+            // Set custom visitor info including deal ID
+            var customInfo = {};
+            if (dealId) {
+              customInfo['Deal ID'] = dealId;
+            }
+            if (trademarkNumber) {
+              customInfo['Trademark Number'] = trademarkNumber;
+            }
+            if (trademarkName) {
+              customInfo['Trademark Name'] = trademarkName;
+            }
+
+            if (Object.keys(customInfo).length > 0) {
+              $zoho.salesiq.visitor.info(customInfo);
+            }
+
+            console.log('[SalesIQ Order Page] Visitor initialized:', visitorData.email || 'anonymous', dealId ? '(Deal: ' + dealId + ')' : '');
+          };
+        })($zoho.salesiq.ready);
+      }
+
+      // Wait for currentOrderData or initialize immediately
+      if (window.currentOrderData) {
+        initializeSalesIQ();
+      } else {
+        var checkInterval = setInterval(function() {
+          if (window.currentOrderData) {
+            clearInterval(checkInterval);
+            initializeSalesIQ();
+          }
+        }, 100);
+
+        // Timeout after 5 seconds and initialize anyway
+        setTimeout(function() {
+          clearInterval(checkInterval);
+          initializeSalesIQ();
+        }, 5000);
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -648,5 +648,122 @@
     <!-- Zoho SalesIQ Widget -->
     <script>window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}</script>
     <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq2ff2511837e9259c4710382e24bf6229d5558ce1d558304328de39ae7c11deaf" defer></script>
+
+    <!-- SalesIQ Visitor Tracking -->
+    <script>
+      (function() {
+        // Helper to safely get/set sessionStorage
+        function getVisitorData(key, defaultValue) {
+          try {
+            var stored = sessionStorage.getItem('salesiq_visitor_' + key);
+            return stored || defaultValue || '';
+          } catch (e) {
+            return defaultValue || '';
+          }
+        }
+
+        function setVisitorData(key, value) {
+          try {
+            if (value) sessionStorage.setItem('salesiq_visitor_' + key, value);
+          } catch (e) {
+            console.warn('Failed to store SalesIQ visitor data:', e);
+          }
+        }
+
+        // Extract visitor data from page context (landing page)
+        function extractVisitorDataFromPrefill() {
+          var data = {};
+
+          // Check if we have prefillState (landing page)
+          if (window.prefillState && window.prefillState.contact) {
+            var contact = window.prefillState.contact;
+            data.email = contact.email || '';
+            data.firstName = contact.first_name || '';
+            data.lastName = contact.last_name || '';
+            data.name = [contact.first_name, contact.last_name].filter(Boolean).join(' ');
+            data.phone = contact.mobile || contact.phone || '';
+          }
+
+          // Store for later use on other pages
+          if (data.email) setVisitorData('email', data.email);
+          if (data.name) setVisitorData('name', data.name);
+          if (data.phone) setVisitorData('phone', data.phone);
+
+          return data;
+        }
+
+        // Wait for prefillState to be populated, then initialize SalesIQ
+        function initializeSalesIQ() {
+          var visitorData = extractVisitorDataFromPrefill();
+
+          // Fallback to stored data if not found on current page
+          if (!visitorData.email) {
+            visitorData = {
+              email: getVisitorData('email'),
+              name: getVisitorData('name'),
+              phone: getVisitorData('phone')
+            };
+          }
+
+          // Initialize SalesIQ when ready
+          (function(oldReady) {
+            $zoho.salesiq.ready = function() {
+              // Preserve any existing logic
+              if (typeof oldReady === 'function') oldReady();
+
+              // Set visitor information
+              if (visitorData.name) {
+                $zoho.salesiq.visitor.name(visitorData.name);
+              }
+
+              if (visitorData.email) {
+                $zoho.salesiq.visitor.email(visitorData.email);
+              }
+
+              if (visitorData.phone) {
+                $zoho.salesiq.visitor.contactnumber(visitorData.phone);
+              }
+
+              // Set custom visitor info
+              var customInfo = {};
+              var trademark = window.prefillState && window.prefillState.trademark;
+              if (trademark) {
+                if (trademark.registration_number) {
+                  customInfo['Trademark Number'] = trademark.registration_number;
+                }
+                if (trademark.word_mark) {
+                  customInfo['Trademark Name'] = trademark.word_mark;
+                }
+              }
+
+              if (Object.keys(customInfo).length > 0) {
+                $zoho.salesiq.visitor.info(customInfo);
+              }
+
+              console.log('[SalesIQ] Visitor initialized:', visitorData.email || 'anonymous');
+            };
+          })($zoho.salesiq.ready);
+        }
+
+        // Wait for prefillState to be available or initialize immediately
+        if (window.prefillState) {
+          initializeSalesIQ();
+        } else {
+          // Wait for prefillState to be set (from main.js)
+          var checkInterval = setInterval(function() {
+            if (window.prefillState) {
+              clearInterval(checkInterval);
+              initializeSalesIQ();
+            }
+          }, 100);
+
+          // Timeout after 5 seconds and initialize anyway
+          setTimeout(function() {
+            clearInterval(checkInterval);
+            initializeSalesIQ();
+          }, 5000);
+        }
+      })();
+    </script>
   </body>
   </html>
