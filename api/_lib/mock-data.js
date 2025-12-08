@@ -268,6 +268,96 @@ export function getMockPaymentStatus(token) {
   return payload;
 }
 
+// Audit mock data functions
+
+export function getMockAuditUpdate(section, data) {
+  const orderId = 'AUD-' + Date.now();
+
+  const response = {
+    orderId: orderId,
+    success: true,
+    message: `Section ${section} saved successfully`
+  };
+
+  // For paymentOptions section, include checkoutUrl
+  if (section === 'paymentOptions') {
+    response.checkoutUrl = `/audit/confirmation/?orderId=${orderId}`;
+  }
+
+  return response;
+}
+
+export function getMockAuditOrder(orderId) {
+  return {
+    orderId: orderId || 'AUD-' + Date.now(),
+    dealId: 'D-AUD-001',
+    sections: {
+      contact: {
+        firstName: 'Sarah',
+        lastName: 'Johnson',
+        email: 'sarah@example.com',
+        phone: '+44 7700 900123'
+      },
+      preferences: {
+        methods: ['Email', 'Phone']
+      },
+      tmStatus: {
+        status: 'new'
+      },
+      temmy: {
+        skipped: true,
+        selected: null
+      },
+      tmInfo: {
+        types: ['Word'],
+        name: 'TECHIFY',
+        image: null,
+        jurisdictions: ['United Kingdom', 'Europe']
+      },
+      goods: {
+        description: 'Software development and IT consulting services',
+        website: 'https://example.com'
+      },
+      billing: {
+        type: 'Individual',
+        name: 'Sarah Johnson',
+        address: {
+          line1: '123 High Street',
+          line2: '',
+          city: 'Manchester',
+          county: 'Greater Manchester',
+          postcode: 'M1 1AA',
+          country: 'United Kingdom'
+        },
+        invoiceEmail: 'sarah@example.com',
+        invoicePhone: '+44 7700 900123'
+      },
+      appointment: {
+        scheduled: false,
+        skipped: true
+      },
+      paymentOptions: {
+        socialMediaAddon: true,
+        termsAccepted: true
+      }
+    },
+    subtotal: 69.00,
+    vat: 13.80,
+    total: 82.80,
+    currency: 'GBP',
+    created: new Date().toISOString(),
+    updated: new Date().toISOString(),
+    status: 'pending'
+  };
+}
+
+export function getMockAuditPaymentLink(orderId) {
+  return {
+    payment_url: 'https://invoices.xero.com/link/audit-' + orderId,
+    order_id: orderId || 'AUD-' + Date.now()
+  };
+}
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }

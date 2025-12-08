@@ -5,7 +5,11 @@ export const CRM_ENDPOINTS = {
   renewalOrder: '/crm/v7/functions/renewalcreateorder/actions/execute',
   renewalOrderSummary: '/crm/v7/functions/renewalgetordersummary/actions/execute',
   xeroInvoiceLink: '/crm/v7/functions/dealcreatepayment/actions/execute',
-  xeroInvoiceStatus: '/crm/v7/functions/renewalgetpaymentstatus/actions/execute'
+  xeroInvoiceStatus: '/crm/v7/functions/renewalgetpaymentstatus/actions/execute',
+  // Audit endpoints
+  auditUpdate: '/crm/v7/functions/auditupdate/actions/execute',
+  auditGetOrder: '/crm/v7/functions/auditgetorder/actions/execute',
+  auditCreatePayment: '/crm/v7/functions/auditcreatepayment/actions/execute'
 };
 
 export const CRM_REQUIRED_APIS = [
@@ -38,6 +42,25 @@ export const CRM_REQUIRED_APIS = [
     method: 'GET',
     endpoint: CRM_ENDPOINTS.xeroInvoiceStatus,
     description: 'Returns latest payment status for a Deal-linked Xero invoice via CRM custom function.'
+  },
+  // Audit endpoints
+  {
+    name: 'AuditUpdate',
+    method: 'POST',
+    endpoint: CRM_ENDPOINTS.auditUpdate,
+    description: 'Creates or updates audit order Deal with section-specific data (unified endpoint).'
+  },
+  {
+    name: 'AuditGetOrder',
+    method: 'GET',
+    endpoint: CRM_ENDPOINTS.auditGetOrder,
+    description: 'Fetches complete audit order data by orderId for summary/confirmation display.'
+  },
+  {
+    name: 'AuditCreatePayment',
+    method: 'POST',
+    endpoint: CRM_ENDPOINTS.auditCreatePayment,
+    description: 'Creates Xero invoice and payment link for audit order (with social addon if selected).'
   }
 ];
 
