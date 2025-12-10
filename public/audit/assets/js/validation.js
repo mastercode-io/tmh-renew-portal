@@ -74,14 +74,50 @@ function validatePreferences(data) {
 }
 
 /**
- * Validate TM status section (Step 3)
+ * Validate TM status section (Step 3 - Combined)
+ * Validates status selection + either search fields or application form
  */
 function validateTmStatus(data) {
   const errors = {};
 
+  // First check if status is selected
   if (!data.status || (data.status !== 'existing' && data.status !== 'new')) {
     errors.status = 'Please select trademark status';
+    return {
+      valid: false,
+      errors
+    };
   }
+
+  // If "new" application, validate the full application form
+  if (data.status === 'new') {
+    // Types validation (single radio button value)
+    if (!data.types) {
+      errors.types = 'Please select a trademark type';
+    }
+
+    // Name validation (required if Word or Both selected)
+    if (data.types && (data.types === 'Word' || data.types === 'Both')) {
+      if (!data.name || data.name.trim().length === 0) {
+        errors.name = 'Trademark name is required when Word or Both type is selected';
+      }
+    }
+
+    // Jurisdictions validation
+    if (!data.jurisdictions || data.jurisdictions.length === 0) {
+      errors.jurisdictions = 'Please select at least one jurisdiction';
+    }
+
+    // Custom jurisdiction validation (required if "Rest of Countries" is selected)
+    if (data.jurisdictions && data.jurisdictions.includes('Rest of Countries')) {
+      if (!data.otherJurisdiction || data.otherJurisdiction.trim().length === 0) {
+        errors.otherJurisdiction = 'Please specify the jurisdiction';
+      }
+    }
+  }
+
+  // If "existing", search fields are optional (no validation needed)
+  // User can choose to skip search and proceed
 
   return {
     valid: Object.keys(errors).length === 0,

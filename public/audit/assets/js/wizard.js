@@ -96,23 +96,22 @@ function renderStepContent(stepNumber, container) {
       html = renderStep3();
       break;
     case 4:
-      html = renderStep4();
+      html = renderStep6(); // Goods & Services (was step 6)
       break;
     case 5:
-      html = renderStep5();
+      html = renderStep7(); // Billing (was step 7)
       break;
     case 6:
-      html = renderStep6();
-      break;
-    case 7:
-      html = renderStep7();
-      break;
-    case 8:
-      html = renderStep8();
+      html = renderStep8(); // Payment (was step 8)
       break;
   }
 
   container.innerHTML = html;
+
+  // Add event handlers for step 3 radio toggle
+  if (stepNumber === 3) {
+    setupStep3Toggle();
+  }
 }
 
 /**
@@ -153,7 +152,7 @@ function renderStep2() {
 }
 
 /**
- * Step 3: Trademark Status
+ * Step 3: Combined Trademark Status + Search/Application Form
  */
 function renderStep3() {
   return `
@@ -164,142 +163,215 @@ function renderStep3() {
       <p class="wizard-subtitle">What is the purpose of this audit, is it for a new trademark application or to review an existing registered trademark?</p>
 
       <form id="tmStatus-form" class="wizard-form">
-        <div class="radio-grid">
-          <label class="radio-card">
-            <input type="radio" name="status" value="existing">
-            <div class="radio-content">
-              <span class="radio-label">Existing Trademark – Registered</span>
-              <span class="radio-description">I have already registered my trademark</span>
-            </div>
+        <!-- Compact Radio Buttons -->
+        <div class="tm-type-selector">
+          <label class="tm-type-option">
+            <input type="radio" name="status" value="existing" id="status-existing">
+            <span class="tm-type-label">Existing Trademark – Registered</span>
+            <span class="tm-type-desc">I have already registered my trademark</span>
           </label>
-          <label class="radio-card">
-            <input type="radio" name="status" value="new">
-            <div class="radio-content">
-              <span class="radio-label">New Application – Unregistered</span>
-              <span class="radio-description">I'm planning to apply for a new trademark</span>
-            </div>
+          <label class="tm-type-option">
+            <input type="radio" name="status" value="new" id="status-new">
+            <span class="tm-type-label">New Application – Unregistered</span>
+            <span class="tm-type-desc">I'm planning to apply for a new trademark</span>
           </label>
         </div>
         <div class="field-error" id="status-error"></div>
+
+        <!-- Search Fields (shown when "existing" selected) -->
+        <div id="existing-trademark-section" class="conditional-section" style="display: none;">
+          <p class="wizard-subtitle" style="margin-top: 2rem;">Please provide the Trademark Name and if available the Trademark Application Number</p>
+          <div class="form-group">
+            <label for="tmName">Trademark Name</label>
+            <input type="text" id="tmName" name="tmName" placeholder="e.g. TECHIFY" />
+          </div>
+          <div class="form-group">
+            <label for="tmAppNumber">Application Number</label>
+            <input type="text" id="tmAppNumber" name="tmAppNumber" placeholder="e.g. UK00003456789" />
+          </div>
+        </div>
+
+        <!-- Application Form (shown when "new" selected) -->
+        <div id="new-trademark-section" class="conditional-section" style="display: none;">
+          <div class="form-group" style="margin-top: 2rem;">
+            <label>What type of trademark application is it? <span class="required">*</span></label>
+            <div class="radio-simple-list">
+              <label class="radio-simple">
+                <input type="radio" name="types" value="Word">
+                <span class="radio-simple-label">Word Only – You want to audit the Text Only such as a company name, tagline, brand or product name</span>
+              </label>
+              <label class="radio-simple">
+                <input type="radio" name="types" value="Image">
+                <span class="radio-simple-label">Image Only – You want to audit the image only such as such as a logo or character.</span>
+              </label>
+              <label class="radio-simple">
+                <input type="radio" name="types" value="Both">
+                <span class="radio-simple-label">Both Image & Word – You want to audit both an image and a word</span>
+              </label>
+            </div>
+            <div class="field-error" id="types-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="tmNameInput">What is the trademark name? <span class="required">*</span></label>
+            <input type="text" id="tmNameInput" name="name" placeholder="e.g. TECHIFY" />
+            <div class="field-error" id="name-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Do you have an image you would like to upload now?</label>
+            <div class="radio-simple-list">
+              <label class="radio-simple">
+                <input type="radio" name="imageUpload" value="yes">
+                <span class="radio-simple-label">Yes – Upload</span>
+              </label>
+              <label class="radio-simple">
+                <input type="radio" name="imageUpload" value="later">
+                <span class="radio-simple-label">I will do this later or share via email</span>
+              </label>
+            </div>
+
+            <div class="file-upload-field hidden" id="image-upload-container">
+              <input type="file" id="tmImageFile" name="imageFile" accept="image/*" style="display: none;" />
+              <label for="tmImageFile" style="cursor: pointer; display: block;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="margin: 0 auto 0.5rem;">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p style="margin: 0; font-weight: 600; color: var(--brand-pink);">Click to upload image</p>
+                <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--muted);">PNG, JPG, SVG up to 10MB</p>
+              </label>
+              <div id="file-name-display" style="margin-top: 1rem; font-weight: 600; color: var(--brand-navy);"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Jurisdictions <span class="required">*</span></label>
+            <div class="audit-contact-options">
+              <label class="audit-contact-option">
+                <input type="checkbox" name="jurisdictions" value="Europe">
+                <span class="audit-option-text">Europe</span>
+              </label>
+              <label class="audit-contact-option">
+                <input type="checkbox" name="jurisdictions" value="Rest of Countries">
+                <span class="audit-option-text">Rest of Countries</span>
+              </label>
+              <label class="audit-contact-option">
+                <input type="checkbox" name="jurisdictions" value="United Kingdom">
+                <span class="audit-option-text">United Kingdom</span>
+              </label>
+              <label class="audit-contact-option">
+                <input type="checkbox" name="jurisdictions" value="United States of America">
+                <span class="audit-option-text">United States of America</span>
+              </label>
+            </div>
+            <div class="field-error" id="jurisdictions-error"></div>
+
+            <div id="other-jurisdiction-field" style="display: none; margin-top: 1rem;">
+              <label for="otherJurisdiction">Please specify the jurisdiction:</label>
+              <input type="text" id="otherJurisdiction" name="otherJurisdiction" placeholder="Enter jurisdiction name" style="margin-top: 0.5rem;" />
+              <div class="field-error" id="otherJurisdiction-error"></div>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
   `;
 }
 
 /**
- * Step 4: Existing TM Search (Conditional)
+ * Setup Step 3 Toggle - Shows search or form based on selection
  */
-function renderStep4() {
-  return `
-    <div class="form-card">
-      <p class="wizard-subtitle">Please provide the Trademark Name and if available the Trademark Application Number</p>
+function setupStep3Toggle() {
+  const existingRadio = document.getElementById('status-existing');
+  const newRadio = document.getElementById('status-new');
+  const existingSection = document.getElementById('existing-trademark-section');
+  const newSection = document.getElementById('new-trademark-section');
 
-      <form id="temmy-form" class="wizard-form">
-        <div class="form-group">
-          <label for="tmName">Trademark Name</label>
-          <input type="text" id="tmName" name="tmName" placeholder="e.g. TECHIFY" />
-        </div>
-        <div class="form-group">
-          <label for="tmAppNumber">Application Number</label>
-          <input type="text" id="tmAppNumber" name="tmAppNumber" placeholder="e.g. UK00003456789" />
-        </div>
-      </form>
-    </div>
-  `;
+  function toggleSections() {
+    if (existingRadio.checked) {
+      existingSection.style.display = 'block';
+      newSection.style.display = 'none';
+      updateContinueButtonText('Search on Temmy');
+    } else if (newRadio.checked) {
+      existingSection.style.display = 'none';
+      newSection.style.display = 'block';
+      updateContinueButtonText('Continue');
+
+      // Setup image upload and jurisdiction handlers for new application form
+      setupImageUploadToggle();
+      setupJurisdictionToggle();
+    }
+  }
+
+  existingRadio.addEventListener('change', toggleSections);
+  newRadio.addEventListener('change', toggleSections);
+
+  // Check if a selection was already made (from restored state)
+  if (existingRadio.checked || newRadio.checked) {
+    toggleSections();
+  }
 }
 
 /**
- * Step 5: TM Information
+ * Update Continue Button Text
  */
-function renderStep5() {
-  return `
-    <div class="form-card">
-      <form id="tmInfo-form" class="wizard-form">
-        <div class="form-group">
-          <label>What type of trademark application is it? <span class="required">*</span></label>
-          <div class="radio-simple-list">
-            <label class="radio-simple">
-              <input type="radio" name="types" value="Word">
-              <span class="radio-simple-label">Word Only – You want to audit the Text Only such as a company name, tagline, brand or product name</span>
-            </label>
-            <label class="radio-simple">
-              <input type="radio" name="types" value="Image">
-              <span class="radio-simple-label">Image Only – You want to audit the image only such as such as a logo or character.</span>
-            </label>
-            <label class="radio-simple">
-              <input type="radio" name="types" value="Both">
-              <span class="radio-simple-label">Both Image & Word – You want to audit both an image and a word</span>
-            </label>
-          </div>
-          <div class="field-error" id="types-error"></div>
-        </div>
-
-        <div class="form-group">
-          <label for="tmNameInput">What is the trademark name? <span class="required">*</span></label>
-          <input type="text" id="tmNameInput" name="name" placeholder="e.g. TECHIFY" />
-          <div class="field-error" id="name-error"></div>
-        </div>
-
-        <div class="form-group">
-          <label>Do you have an image you would like to upload now?</label>
-          <div class="radio-simple-list">
-            <label class="radio-simple">
-              <input type="radio" name="imageUpload" value="yes">
-              <span class="radio-simple-label">Yes – Upload</span>
-            </label>
-            <label class="radio-simple">
-              <input type="radio" name="imageUpload" value="later">
-              <span class="radio-simple-label">I will do this later or share via email</span>
-            </label>
-          </div>
-
-          <!-- File upload field (shown when "Yes" selected) -->
-          <div class="file-upload-field hidden" id="image-upload-container">
-            <input type="file" id="tmImageFile" name="imageFile" accept="image/*" style="display: none;" />
-            <label for="tmImageFile" style="cursor: pointer; display: block;">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="margin: 0 auto 0.5rem;">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <p style="margin: 0; font-weight: 600; color: var(--brand-pink);">Click to upload image</p>
-              <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--muted);">PNG, JPG, SVG up to 10MB</p>
-            </label>
-            <div id="file-name-display" style="margin-top: 1rem; font-weight: 600; color: var(--brand-navy);"></div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Jurisdictions <span class="required">*</span></label>
-          <div class="checkbox-grid">
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="Europe">
-              <span class="checkbox-label">Europe</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="Rest of Countries">
-              <span class="checkbox-label">Rest of Countries</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="United Kingdom">
-              <span class="checkbox-label">United Kingdom</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="United States of America">
-              <span class="checkbox-label">United States of America</span>
-            </label>
-          </div>
-          <div class="field-error" id="jurisdictions-error"></div>
-
-          <!-- Other jurisdiction input field (shown when "Rest of Countries" is selected) -->
-          <div id="other-jurisdiction-field" style="display: none; margin-top: 1rem;">
-            <label for="otherJurisdiction">Please specify the jurisdiction:</label>
-            <input type="text" id="otherJurisdiction" name="otherJurisdiction" placeholder="Enter jurisdiction name" style="margin-top: 0.5rem;" />
-            <div class="field-error" id="otherJurisdiction-error"></div>
-          </div>
-        </div>
-      </form>
-    </div>
-  `;
+function updateContinueButtonText(text) {
+  const continueBtn = document.getElementById('continue-btn');
+  if (continueBtn) {
+    continueBtn.textContent = text;
+  }
 }
+
+/**
+ * Setup image upload toggle (for new application)
+ */
+function setupImageUploadToggle() {
+  const imageUploadRadios = document.querySelectorAll('input[name="imageUpload"]');
+  const uploadContainer = document.getElementById('image-upload-container');
+  const fileInput = document.getElementById('tmImageFile');
+  const fileNameDisplay = document.getElementById('file-name-display');
+
+  imageUploadRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.value === 'yes') {
+        uploadContainer.classList.remove('hidden');
+      } else {
+        uploadContainer.classList.add('hidden');
+      }
+    });
+  });
+
+  // File input handler
+  if (fileInput) {
+    fileInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        fileNameDisplay.textContent = `Selected: ${this.files[0].name}`;
+      }
+    });
+  }
+}
+
+/**
+ * Setup jurisdiction toggle (for "Rest of Countries" option)
+ */
+function setupJurisdictionToggle() {
+  const jurisdictionCheckboxes = document.querySelectorAll('input[name="jurisdictions"]');
+  const otherField = document.getElementById('other-jurisdiction-field');
+
+  jurisdictionCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const restOfCountriesChecked = Array.from(jurisdictionCheckboxes).some(
+        cb => cb.value === 'Rest of Countries' && cb.checked
+      );
+      otherField.style.display = restOfCountriesChecked ? 'block' : 'none';
+    });
+  });
+}
+
+/**
+ * DEPRECATED: Step 4 and 5 are now combined into Step 3
+ * Keeping these functions for backward compatibility but they are no longer used
+ */
 
 /**
  * Step 6: Goods & Services
@@ -813,51 +885,48 @@ function collectStepData(stepNumber) {
 
     case 3:
       const statusRadio = document.querySelector('input[name="status"]:checked');
-      data = {
-        status: statusRadio ? statusRadio.value : null
-      };
-      break;
+      const status = statusRadio ? statusRadio.value : null;
 
-    case 4:
-      data = {
-        skipped: true,
-        selected: null
-      };
-      break;
+      data = { status };
 
-    case 5:
-      const imageUploadChoice = document.querySelector('input[name="imageUpload"]:checked');
-      const imageFile = document.getElementById('tmImageFile')?.files[0];
-      const typeRadio = document.querySelector('input[name="types"]:checked');
-      const jurisdictionsChecked = Array.from(document.querySelectorAll('input[name="jurisdictions"]:checked'))
-        .map(cb => cb.value);
+      // If "existing" trademark selected, collect search fields
+      if (status === 'existing') {
+        data.tmName = document.getElementById('tmName')?.value.trim() || '';
+        data.tmAppNumber = document.getElementById('tmAppNumber')?.value.trim() || '';
+      }
+      // If "new" application selected, collect full form
+      else if (status === 'new') {
+        const imageUploadChoice = document.querySelector('input[name="imageUpload"]:checked');
+        const imageFile = document.getElementById('tmImageFile')?.files[0];
+        const typeRadio = document.querySelector('input[name="types"]:checked');
+        const jurisdictionsChecked = Array.from(document.querySelectorAll('input[name="jurisdictions"]:checked'))
+          .map(cb => cb.value);
 
-      data = {
-        types: typeRadio ? typeRadio.value : null,
-        name: document.getElementById('tmNameInput').value.trim(),
-        imageUploadChoice: imageUploadChoice ? imageUploadChoice.value : null,
-        imageFile: imageFile ? imageFile.name : null, // Store file name (actual upload handled by backend)
-        imageFileSize: imageFile ? imageFile.size : null,
-        jurisdictions: jurisdictionsChecked
-      };
+        data.types = typeRadio ? typeRadio.value : null;
+        data.name = document.getElementById('tmNameInput')?.value.trim() || '';
+        data.imageUploadChoice = imageUploadChoice ? imageUploadChoice.value : null;
+        data.imageFile = imageFile ? imageFile.name : null;
+        data.imageFileSize = imageFile ? imageFile.size : null;
+        data.jurisdictions = jurisdictionsChecked;
 
-      // Add custom jurisdiction if "Rest of Countries" is selected
-      if (jurisdictionsChecked.includes('Rest of Countries')) {
-        const otherJurisdiction = document.getElementById('otherJurisdiction');
-        if (otherJurisdiction) {
-          data.otherJurisdiction = otherJurisdiction.value.trim();
+        // Add custom jurisdiction if "Rest of Countries" is selected
+        if (jurisdictionsChecked.includes('Rest of Countries')) {
+          const otherJurisdiction = document.getElementById('otherJurisdiction');
+          if (otherJurisdiction) {
+            data.otherJurisdiction = otherJurisdiction.value.trim();
+          }
         }
       }
       break;
 
-    case 6:
+    case 4:
       data = {
         description: document.getElementById('description').value.trim(),
         website: document.getElementById('website').value.trim()
       };
       break;
 
-    case 7:
+    case 5:
       const billingTypeRadio = document.querySelector('input[name="type"]:checked');
       const billingType = billingTypeRadio ? billingTypeRadio.value : 'Individual';
 
@@ -920,33 +989,38 @@ function convertToLeadFormat(sectionName, data) {
       break;
 
     case 'tmStatus':
-      // Step 3: Trademark status
+      // Step 3: Trademark status + search/application (combined)
       leadData.trademark_status = data.status; // 'existing' or 'new'
-      break;
 
-    case 'temmy':
-      // Step 4: Temmy search (can be skipped)
-      leadData.temmy_skipped = data.skipped;
-      if (data.selected) {
-        leadData.temmy_selected = data.selected;
+      // If existing trademark, include search fields
+      if (data.status === 'existing') {
+        if (data.tmName) {
+          leadData.trademark_name = data.tmName;
+        }
+        if (data.tmAppNumber) {
+          leadData.trademark_application_number = data.tmAppNumber;
+        }
       }
-      break;
-
-    case 'tmInfo':
-      // Step 5: Trademark information
-      leadData.trademark_types = data.types;
-      if (data.name) {
-        leadData.trademark_name = data.name;
-      }
-      leadData.trademark_jurisdictions = data.jurisdictions;
-      if (data.otherJurisdiction) {
-        leadData.trademark_other_jurisdiction = data.otherJurisdiction;
-      }
-      if (data.imageUploadChoice) {
-        leadData.trademark_image_choice = data.imageUploadChoice;
-      }
-      if (data.imageFile) {
-        leadData.trademark_image_file = data.imageFile;
+      // If new application, include full application form fields
+      else if (data.status === 'new') {
+        if (data.types) {
+          leadData.trademark_types = data.types;
+        }
+        if (data.name) {
+          leadData.trademark_name = data.name;
+        }
+        if (data.jurisdictions) {
+          leadData.trademark_jurisdictions = data.jurisdictions;
+        }
+        if (data.otherJurisdiction) {
+          leadData.trademark_other_jurisdiction = data.otherJurisdiction;
+        }
+        if (data.imageUploadChoice) {
+          leadData.trademark_image_choice = data.imageUploadChoice;
+        }
+        if (data.imageFile) {
+          leadData.trademark_image_file = data.imageFile;
+        }
       }
       break;
 
@@ -995,8 +1069,8 @@ async function submitStepData(stepNumber, data) {
   try {
     let response, result;
 
-    // Steps 1-7: Use lead endpoint (incremental updates)
-    if (stepNumber <= 7) {
+    // Steps 1-5: Use lead endpoint (incremental updates)
+    if (stepNumber <= 5) {
       const token = getToken();
       const leadData = convertToLeadFormat(sectionName, data);
 
@@ -1004,7 +1078,7 @@ async function submitStepData(stepNumber, data) {
         lead: leadData
       };
 
-      // Include token for steps 2-7 ONLY (never on step 1)
+      // Include token for steps 2-5 ONLY (never on step 1)
       if (stepNumber > 1 && token) {
         payload.token = token;
       }
@@ -1026,7 +1100,7 @@ async function submitStepData(stepNumber, data) {
         setToken(result.token);
       }
     }
-    // Step 8+: Use order/deal endpoint
+    // Step 6+: Use order/deal endpoint
     else {
       const orderId = getOrderId();
 
@@ -1069,12 +1143,10 @@ function getSectionName(stepNumber) {
   const mapping = {
     1: 'contact',
     2: 'preferences',
-    3: 'tmStatus',
-    4: 'temmy',
-    5: 'tmInfo',
-    6: 'goods',
-    7: 'billing',
-    8: 'appointment'
+    3: 'tmStatus', // Combined: status + search/application form
+    4: 'goods',
+    5: 'billing',
+    6: 'appointment'
   };
   return mapping[stepNumber];
 }

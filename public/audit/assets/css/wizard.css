@@ -838,6 +838,70 @@ label.checkbox-card:focus-visible,
   padding: 0;
 }
 
+/* Compact Trademark Type Selector (Step 3) */
+.tm-type-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.tm-type-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.tm-type-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #E51652;
+  flex-shrink: 0;
+}
+
+.tm-type-option input[type="radio"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.tm-type-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.tm-type-desc {
+  font-size: 0.875rem;
+  color: var(--muted, #6c7d8c);
+  display: block;
+}
+
+.tm-type-option:hover .tm-type-label {
+  color: #E51652;
+}
+
+/* Conditional sections */
+.conditional-section {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Remove all focus effects */
 .audit-contact-option:focus,
 .audit-contact-option:focus-visible,
