@@ -565,61 +565,95 @@ function restoreFormValues(stepNumber) {
     case 3:
       if (sectionData.status) {
         const radio = document.querySelector(`input[name="status"][value="${sectionData.status}"]`);
-        if (radio) radio.checked = true;
-      }
-      break;
+        if (radio) {
+          radio.checked = true;
 
-    case 5:
-      // Restore trademark type (radio button)
-      if (sectionData.types) {
-        const radio = document.querySelector(`input[name="types"][value="${sectionData.types}"]`);
-        if (radio) radio.checked = true;
-      }
+          // Trigger the toggle to show appropriate section
+          const existingSection = document.getElementById('existing-trademark-section');
+          const newSection = document.getElementById('new-trademark-section');
 
-      // Restore trademark name
-      if (sectionData.name) document.getElementById('tmNameInput').value = sectionData.name;
+          if (sectionData.status === 'existing') {
+            // Show search fields section
+            if (existingSection) existingSection.style.display = 'block';
+            if (newSection) newSection.style.display = 'none';
+            updateContinueButtonText('Search on TEMI');
 
-      // Restore image upload choice
-      if (sectionData.imageUploadChoice) {
-        const imageRadio = document.querySelector(`input[name="imageUpload"][value="${sectionData.imageUploadChoice}"]`);
-        if (imageRadio) {
-          imageRadio.checked = true;
-          // Show file upload field if "yes" was selected
-          if (sectionData.imageUploadChoice === 'yes') {
-            const uploadContainer = document.getElementById('image-upload-container');
-            if (uploadContainer) uploadContainer.classList.remove('hidden');
-          }
-        }
-      }
-
-      // Restore jurisdictions (checkboxes)
-      if (sectionData.jurisdictions) {
-        sectionData.jurisdictions.forEach(jurisdiction => {
-          const checkbox = document.querySelector(`input[name="jurisdictions"][value="${jurisdiction}"]`);
-          if (checkbox) checkbox.checked = true;
-        });
-
-        // Show custom jurisdiction field if "Rest of Countries" is selected
-        if (sectionData.jurisdictions.includes('Rest of Countries')) {
-          const otherField = document.getElementById('other-jurisdiction-field');
-          if (otherField) {
-            otherField.style.display = 'block';
-            // Restore custom jurisdiction value
-            if (sectionData.otherJurisdiction) {
-              const otherInput = document.getElementById('otherJurisdiction');
-              if (otherInput) otherInput.value = sectionData.otherJurisdiction;
+            // Restore search field values
+            if (sectionData.tmName) {
+              const tmNameInput = document.getElementById('tmName');
+              if (tmNameInput) tmNameInput.value = sectionData.tmName;
             }
+            if (sectionData.tmAppNumber) {
+              const tmAppNumberInput = document.getElementById('tmAppNumber');
+              if (tmAppNumberInput) tmAppNumberInput.value = sectionData.tmAppNumber;
+            }
+          } else if (sectionData.status === 'new') {
+            // Show new application form section
+            if (existingSection) existingSection.style.display = 'none';
+            if (newSection) newSection.style.display = 'block';
+            updateContinueButtonText('Continue');
+
+            // Restore application form values
+            // Trademark type
+            if (sectionData.types) {
+              const typeRadio = document.querySelector(`input[name="types"][value="${sectionData.types}"]`);
+              if (typeRadio) typeRadio.checked = true;
+            }
+
+            // Trademark name
+            if (sectionData.name) {
+              const nameInput = document.getElementById('tmNameInput');
+              if (nameInput) nameInput.value = sectionData.name;
+            }
+
+            // Image upload choice
+            if (sectionData.imageUploadChoice) {
+              const imageRadio = document.querySelector(`input[name="imageUpload"][value="${sectionData.imageUploadChoice}"]`);
+              if (imageRadio) {
+                imageRadio.checked = true;
+                if (sectionData.imageUploadChoice === 'yes') {
+                  const uploadContainer = document.getElementById('image-upload-container');
+                  if (uploadContainer) uploadContainer.classList.remove('hidden');
+                }
+              }
+            }
+
+            // Jurisdictions
+            if (sectionData.jurisdictions) {
+              sectionData.jurisdictions.forEach(jurisdiction => {
+                const checkbox = document.querySelector(`input[name="jurisdictions"][value="${jurisdiction}"]`);
+                if (checkbox) checkbox.checked = true;
+              });
+
+              // Show custom jurisdiction field if "Rest of Countries" selected
+              if (sectionData.jurisdictions.includes('Rest of Countries')) {
+                const otherField = document.getElementById('other-jurisdiction-field');
+                if (otherField) {
+                  otherField.style.display = 'block';
+                  if (sectionData.otherJurisdiction) {
+                    const otherInput = document.getElementById('otherJurisdiction');
+                    if (otherInput) otherInput.value = sectionData.otherJurisdiction;
+                  }
+                }
+              }
+            }
+
+            // Setup handlers for new application form
+            setupImageUploadToggle();
+            setupJurisdictionToggle();
           }
         }
       }
       break;
 
-    case 6:
+    case 4:
+      // Step 4: Goods & Services
       if (sectionData.description) document.getElementById('description').value = sectionData.description;
       if (sectionData.website) document.getElementById('website').value = sectionData.website;
       break;
 
-    case 7:
+    case 5:
+      // Step 5: Billing
       // Restore billing type
       if (sectionData.type) {
         const radio = document.querySelector(`input[name="type"][value="${sectionData.type}"]`);
