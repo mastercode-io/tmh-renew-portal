@@ -167,13 +167,17 @@ function renderStep3() {
         <div class="tm-type-selector">
           <label class="tm-type-option">
             <input type="radio" name="status" value="existing" id="status-existing">
-            <span class="tm-type-label">Existing Trademark – Registered</span>
-            <span class="tm-type-desc">I have already registered my trademark</span>
+            <div class="tm-type-content">
+              <span class="tm-type-label">Existing Trademark</span>
+              <span class="tm-type-desc">I have already registered my trademark</span>
+            </div>
           </label>
           <label class="tm-type-option">
             <input type="radio" name="status" value="new" id="status-new">
-            <span class="tm-type-label">New Application – Unregistered</span>
-            <span class="tm-type-desc">I'm planning to apply for a new trademark</span>
+            <div class="tm-type-content">
+              <span class="tm-type-label">New Application</span>
+              <span class="tm-type-desc">I'm planning to apply for a new trademark</span>
+            </div>
           </label>
         </div>
         <div class="field-error" id="status-error"></div>
@@ -316,7 +320,7 @@ function setupStep3Toggle() {
  * Update Continue Button Text
  */
 function updateContinueButtonText(text) {
-  const continueBtn = document.getElementById('continue-btn');
+  const continueBtn = document.getElementById('next-btn');
   if (continueBtn) {
     continueBtn.textContent = text;
   }
@@ -737,56 +741,17 @@ function updateButtonStates(stepNumber) {
     if (stepNumber === 1) {
       nextBtn.textContent = 'Begin Audit';
       nextBtn.style.display = 'inline-flex';
-    } else if (stepNumber === 4) {
-      // Step 4: Replace next button with two custom buttons
-      nextBtn.style.display = 'none';
-
-      // Create custom buttons if they don't exist
-      let customBtnContainer = document.getElementById('step-4-custom-buttons');
-      if (!customBtnContainer) {
-        customBtnContainer = document.createElement('div');
-        customBtnContainer.id = 'step-4-custom-buttons';
-        customBtnContainer.style.display = 'flex';
-        customBtnContainer.style.gap = '1rem';
-        customBtnContainer.style.marginLeft = 'auto';
-
-        customBtnContainer.innerHTML = `
-          <button type="button" class="btn btn-primary" id="search-temmy-btn">Search on Temmy</button>
-          <button type="button" class="btn btn-ghost" id="skip-to-billing-btn">Skip to Billing</button>
-        `;
-
-        if (buttonBar) {
-          buttonBar.appendChild(customBtnContainer);
-        }
-      }
-      customBtnContainer.style.display = 'flex';
-    } else if (stepNumber === 7) {
+    } else if (stepNumber === 5) {
+      // Step 5: Billing - Review order button
       nextBtn.textContent = 'Review My Order';
       nextBtn.style.display = 'inline-flex';
-
-      // Hide Step 4 custom buttons if they exist
-      const customBtnContainer = document.getElementById('step-4-custom-buttons');
-      if (customBtnContainer) {
-        customBtnContainer.style.display = 'none';
-      }
-    } else if (stepNumber === 8) {
-      // Step 8 has custom buttons (appointment scheduling)
+    } else if (stepNumber === 6) {
+      // Step 6: Appointment - has custom buttons (hide next)
       nextBtn.style.display = 'none';
-
-      // Hide Step 4 custom buttons if they exist
-      const customBtnContainer = document.getElementById('step-4-custom-buttons');
-      if (customBtnContainer) {
-        customBtnContainer.style.display = 'none';
-      }
     } else {
+      // Default for all other steps (including Step 3 - will be updated by toggle if needed)
       nextBtn.textContent = 'Continue';
       nextBtn.style.display = 'inline-flex';
-
-      // Hide Step 4 custom buttons if they exist
-      const customBtnContainer = document.getElementById('step-4-custom-buttons');
-      if (customBtnContainer) {
-        customBtnContainer.style.display = 'none';
-      }
     }
   }
 }

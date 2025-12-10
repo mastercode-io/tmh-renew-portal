@@ -877,18 +877,24 @@ label.checkbox-card:focus-visible,
   box-shadow: none;
 }
 
+.tm-type-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .tm-type-label {
   font-size: 1rem;
   font-weight: 600;
   color: #000000;
   display: block;
-  margin-bottom: 0.25rem;
 }
 
 .tm-type-desc {
   font-size: 0.875rem;
   color: var(--muted, #6c7d8c);
   display: block;
+  line-height: 1.4;
 }
 
 .tm-type-option:hover .tm-type-label {
