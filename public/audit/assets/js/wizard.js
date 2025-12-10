@@ -295,7 +295,7 @@ function setupStep3Toggle() {
     if (existingRadio.checked) {
       existingSection.style.display = 'block';
       newSection.style.display = 'none';
-      updateContinueButtonText('Search on TEMI');
+      updateContinueButtonText('Search on Temmy');
     } else if (newRadio.checked) {
       existingSection.style.display = 'none';
       newSection.style.display = 'block';
