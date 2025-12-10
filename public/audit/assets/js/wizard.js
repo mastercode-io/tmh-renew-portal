@@ -124,26 +124,26 @@ function renderStep2() {
       <p class="wizard-subtitle">If we need to contact you about your trademark audit, what are your preferred methods of contact?</p>
 
       <form id="preferences-form" class="wizard-form">
-        <div class="checkbox-grid">
-          <label class="checkbox-card">
+        <div class="audit-contact-options">
+          <label class="audit-contact-option">
             <input type="checkbox" name="methods" value="Phone" checked>
-            <span class="checkbox-label">Phone</span>
+            <span class="audit-option-text">Phone</span>
           </label>
-          <label class="checkbox-card">
+          <label class="audit-contact-option">
             <input type="checkbox" name="methods" value="SMS" checked>
-            <span class="checkbox-label">SMS</span>
+            <span class="audit-option-text">SMS</span>
           </label>
-          <label class="checkbox-card">
+          <label class="audit-contact-option">
             <input type="checkbox" name="methods" value="WhatsApp" checked>
-            <span class="checkbox-label">WhatsApp</span>
+            <span class="audit-option-text">WhatsApp</span>
           </label>
-          <label class="checkbox-card">
+          <label class="audit-contact-option">
             <input type="checkbox" name="methods" value="Email" checked>
-            <span class="checkbox-label">Email</span>
+            <span class="audit-option-text">Email</span>
           </label>
-          <label class="checkbox-card">
+          <label class="audit-contact-option">
             <input type="checkbox" name="methods" value="Video Call" checked>
-            <span class="checkbox-label">Video Call (Teams)</span>
+            <span class="audit-option-text">Video Call (Teams)</span>
           </label>
         </div>
         <div class="field-error" id="methods-error"></div>

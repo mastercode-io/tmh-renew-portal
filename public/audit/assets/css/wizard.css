@@ -248,13 +248,22 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0;
-  border: none;
+  border: none !important;
   cursor: pointer;
   background: transparent;
+  outline: none !important;
 }
 
 .checkbox-card:hover .checkbox-label {
-  color: var(--brand-pink);
+  color: #000000 !important;
+}
+
+.checkbox-card:focus,
+.checkbox-card:focus-visible,
+.checkbox-card:focus-within {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .checkbox-card input[type="checkbox"] {
@@ -263,17 +272,26 @@
   cursor: pointer;
   accent-color: var(--brand-pink);
   flex-shrink: 0;
+  outline: none !important;
+  border: none !important;
+}
+
+.checkbox-card input[type="checkbox"]:focus,
+.checkbox-card input[type="checkbox"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 .checkbox-card input[type="checkbox"]:checked + .checkbox-label {
-  font-weight: 600;
-  color: var(--brand-pink);
+  color: #000000 !important;
+  font-weight: 400 !important;
 }
 
 .checkbox-label {
   flex: 1;
   font-size: 0.9375rem;
-  color: var(--ink);
+  color: #000000 !important;
   cursor: pointer;
   user-select: none;
 }
@@ -632,11 +650,12 @@
   top: 0;
 }
 
-/* Focus states for keyboard navigation */
+/* Focus states for keyboard navigation - DISABLED */
 .checkbox-card:focus-within,
 .radio-card:focus-within {
-  outline: 2px solid var(--brand-pink);
-  outline-offset: 2px;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 input:focus-visible,
@@ -749,4 +768,91 @@ button:focus-visible {
   .full-intro-block h3 {
     font-size: 1rem;
   }
+}
+
+/* OVERRIDE ALL CHECKBOX LABEL STYLES - ALWAYS BLACK */
+label.checkbox-card span.checkbox-label,
+.checkbox-card .checkbox-label,
+input[type="checkbox"] + .checkbox-label,
+input[type="checkbox"]:checked + .checkbox-label,
+.checkbox-card:hover .checkbox-label,
+.checkbox-card:focus .checkbox-label,
+.checkbox-card:focus-within .checkbox-label {
+  color: #000000 !important;
+  font-weight: 400 !important;
+}
+
+/* REMOVE ALL FOCUS BORDERS FROM CHECKBOXES */
+label.checkbox-card,
+label.checkbox-card:focus,
+label.checkbox-card:focus-within,
+label.checkbox-card:focus-visible,
+.checkbox-card input[type="checkbox"],
+.checkbox-card input[type="checkbox"]:focus,
+.checkbox-card input[type="checkbox"]:focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ============================================
+   AUDIT CONTACT OPTIONS - REBUILT FROM SCRATCH
+   ============================================ */
+
+.audit-contact-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.audit-contact-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.audit-contact-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #E51652;
+  flex-shrink: 0;
+  outline: none;
+  border: none;
+}
+
+.audit-option-text {
+  font-size: 0.9375rem;
+  color: #000000;
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove all focus effects */
+.audit-contact-option:focus,
+.audit-contact-option:focus-visible,
+.audit-contact-option:focus-within,
+.audit-contact-option input[type="checkbox"]:focus,
+.audit-contact-option input[type="checkbox"]:focus-visible {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* Keep text black always - no hover, no checked states */
+.audit-contact-option:hover .audit-option-text,
+.audit-contact-option input[type="checkbox"]:checked ~ .audit-option-text,
+.audit-contact-option input[type="checkbox"]:checked + .audit-option-text {
+  color: #000000;
+  font-weight: 400;
 }
