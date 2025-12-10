@@ -853,8 +853,8 @@ function collectStepData(stepNumber) {
       break;
 
     case 7:
-      const typeRadio = document.querySelector('input[name="type"]:checked');
-      const billingType = typeRadio ? typeRadio.value : 'Individual';
+      const billingTypeRadio = document.querySelector('input[name="type"]:checked');
+      const billingType = billingTypeRadio ? billingTypeRadio.value : 'Individual';
 
       data = {
         type: billingType,
@@ -1004,7 +1004,7 @@ async function submitStepData(stepNumber, data) {
         payload.token = token;
       }
 
-      response = await fetch('/api/audit/lead', {
+      response = await fetch('/api/audit/lead/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
