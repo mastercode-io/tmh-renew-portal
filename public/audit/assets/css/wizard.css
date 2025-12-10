@@ -841,9 +841,17 @@ label.checkbox-card:focus-visible,
 /* Compact Trademark Type Selector (Step 3) */
 .tm-type-selector {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  flex-direction: row;
+  gap: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+/* Stack vertically on mobile */
+@media (max-width: 768px) {
+  .tm-type-selector {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }
 
 .tm-type-option {
@@ -852,6 +860,7 @@ label.checkbox-card:focus-visible,
   gap: 0.75rem;
   padding: 0;
   cursor: pointer;
+  flex: 1;
 }
 
 .tm-type-option input[type="radio"] {
