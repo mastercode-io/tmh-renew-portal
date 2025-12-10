@@ -146,7 +146,7 @@
 
 .wizard-subtitle {
   font-size: 0.95rem;
-  color: var(--muted, #6c7d8c);
+  color: #000000;
   margin: 0 0 1.5rem 0;
   line-height: 1.5;
 }

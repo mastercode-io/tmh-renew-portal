@@ -121,23 +121,23 @@ function renderStep2() {
       <form id="preferences-form" class="wizard-form">
         <div class="checkbox-grid">
           <label class="checkbox-card">
-            <input type="checkbox" name="methods" value="Phone">
+            <input type="checkbox" name="methods" value="Phone" checked>
             <span class="checkbox-label">Phone</span>
           </label>
           <label class="checkbox-card">
-            <input type="checkbox" name="methods" value="SMS">
+            <input type="checkbox" name="methods" value="SMS" checked>
             <span class="checkbox-label">SMS</span>
           </label>
           <label class="checkbox-card">
-            <input type="checkbox" name="methods" value="WhatsApp">
+            <input type="checkbox" name="methods" value="WhatsApp" checked>
             <span class="checkbox-label">WhatsApp</span>
           </label>
           <label class="checkbox-card">
-            <input type="checkbox" name="methods" value="Email">
+            <input type="checkbox" name="methods" value="Email" checked>
             <span class="checkbox-label">Email</span>
           </label>
           <label class="checkbox-card">
-            <input type="checkbox" name="methods" value="Video Call">
+            <input type="checkbox" name="methods" value="Video Call" checked>
             <span class="checkbox-label">Video Call (Teams)</span>
           </label>
         </div>
@@ -911,7 +911,7 @@ function convertToLeadFormat(sectionName, data) {
 
     case 'preferences':
       // Step 2: Contact preferences
-      leadData.preferred_contact_methods = data.methods;
+      leadData.preferred_methods_of_contact = data.methods;
       break;
 
     case 'tmStatus':
