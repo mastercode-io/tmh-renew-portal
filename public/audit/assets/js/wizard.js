@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initWizard();
 });
 
+/**
+ * Get persistent service description HTML (no longer needed - now in HTML)
+ * Keeping function for backward compatibility but returning empty string
+ */
+function getServiceDescriptionHTML() {
+  return ''; // Service description is now outside the card in HTML
+}
+
 function initWizard() {
   // Initialize or restore state
   const state = initState();
@@ -32,8 +40,11 @@ function goToStep(stepNumber) {
   // Render the step
   renderStep(stepNumber);
 
-  // Update progress bar
-  updateProgressBar(stepNumber);
+  // Update page indicators
+  updatePageIndicators(stepNumber);
+
+  // Show/hide service description and page indicators based on step
+  toggleStepUIElements(stepNumber);
 
   // Update button states
   updateButtonStates(stepNumber);
@@ -104,8 +115,7 @@ function renderStepContent(stepNumber, container) {
  */
 function renderStep2() {
   return `
-    <div class="card wizard-card">
-      <h2 class="wizard-title">Applicant Information</h2>
+    <div class="form-card">
       <p class="wizard-subtitle">If we need to contact you about your trademark audit, what are your preferred methods of contact?</p>
 
       <form id="preferences-form" class="wizard-form">
@@ -142,12 +152,11 @@ function renderStep2() {
  */
 function renderStep3() {
   return `
-    <div class="card wizard-card">
-      <h2 class="wizard-title">Trademark Information</h2>
+    <div class="form-card">
       <div class="info-box">
-        <p><strong>Did you know?</strong> Over 60% of DIY trademark applications face objections or rejections. Our audit service helps you avoid costly mistakes.</p>
+        <p>Did you know that 50% of trademark applications which are done without a representative fail? Our Trademark Audit is about helping you to avoid losing money on failed applications.</p>
       </div>
-      <p class="wizard-subtitle">What is the status of your trademark?</p>
+      <p class="wizard-subtitle">What is the purpose of this audit, is it for a new trademark application or to review an existing registered trademark?</p>
 
       <form id="tmStatus-form" class="wizard-form">
         <div class="radio-grid">
@@ -173,13 +182,12 @@ function renderStep3() {
 }
 
 /**
- * Step 4: Existing TM Search (Conditional - Placeholder for MVP)
+ * Step 4: Existing TM Search (Conditional)
  */
 function renderStep4() {
   return `
-    <div class="card wizard-card">
-      <h2 class="wizard-title">Existing Trademark Information</h2>
-      <p class="wizard-subtitle">Please provide the Trademark Name and/or Application Number</p>
+    <div class="form-card">
+      <p class="wizard-subtitle">Please provide the Trademark Name and if available the Trademark Application Number</p>
 
       <form id="temmy-form" class="wizard-form">
         <div class="form-group">
@@ -189,9 +197,6 @@ function renderStep4() {
         <div class="form-group">
           <label for="tmAppNumber">Application Number</label>
           <input type="text" id="tmAppNumber" name="tmAppNumber" placeholder="e.g. UK00003456789" />
-        </div>
-        <div class="info-box">
-          <p><strong>Note:</strong> Trademark search integration coming soon. You can skip this step or enter details manually.</p>
         </div>
       </form>
     </div>
@@ -203,39 +208,57 @@ function renderStep4() {
  */
 function renderStep5() {
   return `
-    <div class="card wizard-card">
-      <h2 class="wizard-title">Please provide information about the trademark we are auditing</h2>
-
+    <div class="form-card">
       <form id="tmInfo-form" class="wizard-form">
         <div class="form-group">
-          <label>Trademark Type <span class="required">*</span></label>
-          <div class="checkbox-grid">
-            <label class="checkbox-card">
-              <input type="checkbox" name="types" value="Word">
-              <span class="checkbox-label">Word Only</span>
+          <label>What type of trademark application is it? <span class="required">*</span></label>
+          <div class="radio-simple-list">
+            <label class="radio-simple">
+              <input type="radio" name="types" value="Word">
+              <span class="radio-simple-label">Word Only – You want to audit the Text Only such as a company name, tagline, brand or product name</span>
             </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="types" value="Image">
-              <span class="checkbox-label">Image Only</span>
+            <label class="radio-simple">
+              <input type="radio" name="types" value="Image">
+              <span class="radio-simple-label">Image Only – You want to audit the image only such as such as a logo or character.</span>
             </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="types" value="Both">
-              <span class="checkbox-label">Both Image & Word</span>
+            <label class="radio-simple">
+              <input type="radio" name="types" value="Both">
+              <span class="radio-simple-label">Both Image & Word – You want to audit both an image and a word</span>
             </label>
           </div>
           <div class="field-error" id="types-error"></div>
         </div>
 
         <div class="form-group">
-          <label for="tmNameInput">Trademark Name <span class="required">*</span></label>
+          <label for="tmNameInput">What is the trademark name? <span class="required">*</span></label>
           <input type="text" id="tmNameInput" name="name" placeholder="e.g. TECHIFY" />
           <div class="field-error" id="name-error"></div>
         </div>
 
         <div class="form-group">
-          <label>Trademark Image</label>
-          <div class="info-box">
-            <p>Image upload coming soon. You can provide this via email after completing the order.</p>
+          <label>Do you have an image you would like to upload now?</label>
+          <div class="radio-simple-list">
+            <label class="radio-simple">
+              <input type="radio" name="imageUpload" value="yes">
+              <span class="radio-simple-label">Yes – Upload</span>
+            </label>
+            <label class="radio-simple">
+              <input type="radio" name="imageUpload" value="later">
+              <span class="radio-simple-label">I will do this later or share via email</span>
+            </label>
+          </div>
+
+          <!-- File upload field (shown when "Yes" selected) -->
+          <div class="file-upload-field hidden" id="image-upload-container">
+            <input type="file" id="tmImageFile" name="imageFile" accept="image/*" style="display: none;" />
+            <label for="tmImageFile" style="cursor: pointer; display: block;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="margin: 0 auto 0.5rem;">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p style="margin: 0; font-weight: 600; color: var(--brand-pink);">Click to upload image</p>
+              <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--muted);">PNG, JPG, SVG up to 10MB</p>
+            </label>
+            <div id="file-name-display" style="margin-top: 1rem; font-weight: 600; color: var(--brand-navy);"></div>
           </div>
         </div>
 
@@ -243,47 +266,30 @@ function renderStep5() {
           <label>Jurisdictions <span class="required">*</span></label>
           <div class="checkbox-grid">
             <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="United Kingdom">
-              <span class="checkbox-label">United Kingdom</span>
-            </label>
-            <label class="checkbox-card">
               <input type="checkbox" name="jurisdictions" value="Europe">
               <span class="checkbox-label">Europe</span>
             </label>
             <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="United States">
+              <input type="checkbox" name="jurisdictions" value="Rest of Countries">
+              <span class="checkbox-label">Rest of Countries</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="jurisdictions" value="United Kingdom">
+              <span class="checkbox-label">United Kingdom</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="jurisdictions" value="United States of America">
               <span class="checkbox-label">United States of America</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="Canada">
-              <span class="checkbox-label">Canada</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="China">
-              <span class="checkbox-label">China</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="Australia">
-              <span class="checkbox-label">Australia</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="New Zealand">
-              <span class="checkbox-label">New Zealand</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="United Arab Emirates">
-              <span class="checkbox-label">United Arab Emirates</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="Saudi Arabia">
-              <span class="checkbox-label">Saudi Arabia</span>
-            </label>
-            <label class="checkbox-card">
-              <input type="checkbox" name="jurisdictions" value="Other">
-              <span class="checkbox-label">Other</span>
             </label>
           </div>
           <div class="field-error" id="jurisdictions-error"></div>
+
+          <!-- Other jurisdiction input field (shown when "Rest of Countries" is selected) -->
+          <div id="other-jurisdiction-field" style="display: none; margin-top: 1rem;">
+            <label for="otherJurisdiction">Please specify the jurisdiction:</label>
+            <input type="text" id="otherJurisdiction" name="otherJurisdiction" placeholder="Enter jurisdiction name" style="margin-top: 0.5rem;" />
+            <div class="field-error" id="otherJurisdiction-error"></div>
+          </div>
         </div>
       </form>
     </div>
@@ -295,18 +301,15 @@ function renderStep5() {
  */
 function renderStep6() {
   return `
-    <div class="card wizard-card">
-      <h2 class="wizard-title">Goods & Services</h2>
-      <p class="wizard-subtitle">Tell us about your business and what your trademark will be used for</p>
-
+    <div class="form-card">
       <form id="goods-form" class="wizard-form">
         <div class="form-group">
-          <label for="description">Business Description</label>
+          <label for="description">To give ensure your application covers all the goods and services you provide, please provide a brief description of what your company does, the more detail the better as this will ensure we do not miss any essential classes and terms for your application. (optional)</label>
           <textarea id="description" name="description" rows="4" placeholder="Describe your business and what goods/services your trademark covers..."></textarea>
         </div>
 
         <div class="form-group">
-          <label for="website">Website URL</label>
+          <label for="website">If you have a website please provide a link… (optional)</label>
           <input type="url" id="website" name="website" placeholder="https://www.example.com" />
           <div class="field-error" id="website-error"></div>
         </div>
@@ -320,33 +323,47 @@ function renderStep6() {
  */
 function renderStep7() {
   return `
-    <div class="card wizard-card">
-      <h2 class="wizard-title">Please confirm the correct billing information</h2>
+    <div class="form-card">
+      <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 1.5rem;"><em>If we have applicant information from Temmy this can pre-populate – all can be amended.</em></p>
 
       <form id="billing-form" class="wizard-form">
         <div class="form-group">
           <label>Billing Type <span class="required">*</span></label>
-          <div class="radio-grid">
-            <label class="radio-card">
-              <input type="radio" name="type" value="Individual">
-              <div class="radio-content">
-                <span class="radio-label">Individual</span>
-              </div>
+          <div class="radio-simple-list">
+            <label class="radio-simple">
+              <input type="radio" name="type" value="Individual" checked>
+              <span class="radio-simple-label">Individual</span>
             </label>
-            <label class="radio-card">
+            <label class="radio-simple">
               <input type="radio" name="type" value="Organisation">
-              <div class="radio-content">
-                <span class="radio-label">Organisation</span>
-              </div>
+              <span class="radio-simple-label">Organisation</span>
             </label>
           </div>
           <div class="field-error" id="type-error"></div>
         </div>
 
-        <div class="form-group">
-          <label for="billingName">Name <span class="required">*</span></label>
-          <input type="text" id="billingName" name="name" required />
-          <div class="field-error" id="name-error"></div>
+        <!-- Name fields (dynamic based on billing type) -->
+        <div id="individual-name-fields">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="billingFirstName">First Name <span class="required">*</span></label>
+              <input type="text" id="billingFirstName" name="firstName" required />
+              <div class="field-error" id="firstName-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="billingLastName">Last Name <span class="required">*</span></label>
+              <input type="text" id="billingLastName" name="lastName" required />
+              <div class="field-error" id="lastName-error"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="organisation-name-fields" style="display: none;">
+          <div class="form-group">
+            <label for="billingCompanyName">Company Name <span class="required">*</span></label>
+            <input type="text" id="billingCompanyName" name="companyName" />
+            <div class="field-error" id="companyName-error"></div>
+          </div>
         </div>
 
         <div class="form-group">
@@ -406,29 +423,28 @@ function renderStep7() {
  */
 function renderStep8() {
   return `
-    <div class="card wizard-card">
-      <h2 class="wizard-title">Trademark Audit – What Happens Next</h2>
-      <p class="wizard-subtitle">Here's what to expect after placing your order:</p>
+    <div class="form-card">
+      <h3 style="font-size: 1.3rem; font-weight: 600; color: var(--brand-navy); margin-bottom: 1.5rem;">What Happens Next</h3>
 
       <div style="margin-bottom: 2rem;">
         <div style="margin-bottom: 1.5rem;">
-          <h3 style="color: var(--brand-navy); font-size: 1.1rem; margin-bottom: 0.5rem;">Step 1 – Research</h3>
-          <p style="color: var(--muted); line-height: 1.6;">Our team will conduct comprehensive searches across trademark databases in your selected jurisdictions.</p>
+          <h4 style="color: var(--brand-navy); font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">Step 1 – Research</h4>
+          <p style="color: var(--muted); line-height: 1.6;">Our team will carry out comprehensive searches across trademark databases in your selected jurisdictions to identify any existing marks that could conflict with yours.</p>
         </div>
         <div style="margin-bottom: 1.5rem;">
-          <h3 style="color: var(--brand-navy); font-size: 1.1rem; margin-bottom: 0.5rem;">Step 2 – Risk Analysis</h3>
-          <p style="color: var(--muted); line-height: 1.6;">We'll analyze potential conflicts and assess the registrability of your trademark.</p>
+          <h4 style="color: var(--brand-navy); font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">Step 2 – Risk Analysis</h4>
+          <p style="color: var(--muted); line-height: 1.6;">We'll analyze potential conflicts, assess the strength and registrability of your trademark, and identify any legal or procedural obstacles.</p>
         </div>
         <div style="margin-bottom: 1.5rem;">
-          <h3 style="color: var(--brand-navy); font-size: 1.1rem; margin-bottom: 0.5rem;">Step 3 – Client Consultation</h3>
-          <p style="color: var(--muted); line-height: 1.6;">We'll discuss our findings and recommendations in a consultation call.</p>
+          <h4 style="color: var(--brand-navy); font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 700;">Step 3 – Client Consultation</h4>
+          <p style="color: var(--muted); line-height: 1.6;">We'll discuss our findings and recommendations with you in a detailed consultation, answering your questions and outlining your options.</p>
         </div>
         <div class="info-box">
-          <p><strong>Please note:</strong> This is a one-time audit service with no ongoing obligation. You can choose to proceed with our recommendations or take a different path.</p>
+          <p><strong>Please Note:</strong> Instructing our Trademark Audit Service does not commit you to proceeding with a trademark application. You remain free to make your own decision based on our recommendations.</p>
         </div>
       </div>
 
-      <p style="font-weight: 600; margin-bottom: 1rem; color: var(--brand-navy);">Would you like to schedule your consultation appointment now?</p>
+      <p style="font-weight: 600; margin-bottom: 1rem; color: var(--brand-navy);">Would you like to schedule your appointment now?</p>
       <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
         <button type="button" class="btn btn-primary" id="schedule-appointment-btn">Yes – Schedule Now</button>
         <button type="button" class="btn btn-ghost" id="skip-appointment-btn">No – I'll schedule later</button>
@@ -473,18 +489,47 @@ function restoreFormValues(stepNumber) {
       break;
 
     case 5:
+      // Restore trademark type (radio button)
       if (sectionData.types) {
-        sectionData.types.forEach(type => {
-          const checkbox = document.querySelector(`input[name="types"][value="${type}"]`);
-          if (checkbox) checkbox.checked = true;
-        });
+        const radio = document.querySelector(`input[name="types"][value="${sectionData.types}"]`);
+        if (radio) radio.checked = true;
       }
+
+      // Restore trademark name
       if (sectionData.name) document.getElementById('tmNameInput').value = sectionData.name;
+
+      // Restore image upload choice
+      if (sectionData.imageUploadChoice) {
+        const imageRadio = document.querySelector(`input[name="imageUpload"][value="${sectionData.imageUploadChoice}"]`);
+        if (imageRadio) {
+          imageRadio.checked = true;
+          // Show file upload field if "yes" was selected
+          if (sectionData.imageUploadChoice === 'yes') {
+            const uploadContainer = document.getElementById('image-upload-container');
+            if (uploadContainer) uploadContainer.classList.remove('hidden');
+          }
+        }
+      }
+
+      // Restore jurisdictions (checkboxes)
       if (sectionData.jurisdictions) {
         sectionData.jurisdictions.forEach(jurisdiction => {
           const checkbox = document.querySelector(`input[name="jurisdictions"][value="${jurisdiction}"]`);
           if (checkbox) checkbox.checked = true;
         });
+
+        // Show custom jurisdiction field if "Rest of Countries" is selected
+        if (sectionData.jurisdictions.includes('Rest of Countries')) {
+          const otherField = document.getElementById('other-jurisdiction-field');
+          if (otherField) {
+            otherField.style.display = 'block';
+            // Restore custom jurisdiction value
+            if (sectionData.otherJurisdiction) {
+              const otherInput = document.getElementById('otherJurisdiction');
+              if (otherInput) otherInput.value = sectionData.otherJurisdiction;
+            }
+          }
+        }
       }
       break;
 
@@ -494,11 +539,48 @@ function restoreFormValues(stepNumber) {
       break;
 
     case 7:
+      // Restore billing type
       if (sectionData.type) {
         const radio = document.querySelector(`input[name="type"][value="${sectionData.type}"]`);
-        if (radio) radio.checked = true;
+        if (radio) {
+          radio.checked = true;
+          // Trigger the field visibility logic
+          const individualFields = document.getElementById('individual-name-fields');
+          const organisationFields = document.getElementById('organisation-name-fields');
+          if (sectionData.type === 'Individual') {
+            if (individualFields) individualFields.style.display = 'block';
+            if (organisationFields) organisationFields.style.display = 'none';
+          } else {
+            if (individualFields) individualFields.style.display = 'none';
+            if (organisationFields) organisationFields.style.display = 'block';
+          }
+        }
       }
-      if (sectionData.name) document.getElementById('billingName').value = sectionData.name;
+
+      // Pre-fill name fields from contact data (Step 1)
+      const contactData = state.sections.contact;
+
+      // For Individual: pre-fill first name and last name from Step 1
+      const billingFirstName = document.getElementById('billingFirstName');
+      const billingLastName = document.getElementById('billingLastName');
+      if (billingFirstName && !sectionData.firstName && contactData?.firstName) {
+        billingFirstName.value = contactData.firstName;
+      } else if (billingFirstName && sectionData.firstName) {
+        billingFirstName.value = sectionData.firstName;
+      }
+      if (billingLastName && !sectionData.lastName && contactData?.lastName) {
+        billingLastName.value = contactData.lastName;
+      } else if (billingLastName && sectionData.lastName) {
+        billingLastName.value = sectionData.lastName;
+      }
+
+      // For Organisation: restore company name if saved
+      const billingCompanyName = document.getElementById('billingCompanyName');
+      if (billingCompanyName && sectionData.companyName) {
+        billingCompanyName.value = sectionData.companyName;
+      }
+
+      // Restore address fields
       if (sectionData.address) {
         if (sectionData.address.line1) document.getElementById('addressLine1').value = sectionData.address.line1;
         if (sectionData.address.line2) document.getElementById('addressLine2').value = sectionData.address.line2;
@@ -509,7 +591,6 @@ function restoreFormValues(stepNumber) {
       }
 
       // Pre-fill invoice email/phone from contact data
-      const contactData = state.sections.contact;
       if (document.getElementById('invoiceEmail').value === '' && contactData?.email) {
         document.getElementById('invoiceEmail').value = contactData.email;
       }
@@ -524,13 +605,35 @@ function restoreFormValues(stepNumber) {
 }
 
 /**
- * Update progress bar
+ * Update page number indicators
  */
-function updateProgressBar(stepNumber) {
-  document.documentElement.style.setProperty('--current-step', stepNumber);
-  const label = document.getElementById('step-label');
-  if (label) {
-    label.textContent = `Step ${stepNumber} of 8`;
+function updatePageIndicators(stepNumber) {
+  const pageNumbers = document.querySelectorAll('.page-number');
+
+  pageNumbers.forEach((pageNum, index) => {
+    const pageIndex = index + 1;
+    pageNum.classList.remove('active', 'completed');
+
+    if (pageIndex === stepNumber) {
+      pageNum.classList.add('active');
+    } else if (pageIndex < stepNumber) {
+      pageNum.classList.add('completed');
+    }
+  });
+}
+
+/**
+ * Show/hide page indicators based on current step
+ */
+function toggleStepUIElements(stepNumber) {
+  const progressSection = document.getElementById('wizard-progress-section');
+
+  if (stepNumber === 1) {
+    // Hide on Step 1
+    if (progressSection) progressSection.classList.add('hidden');
+  } else {
+    // Show on Steps 2-8
+    if (progressSection) progressSection.classList.remove('hidden');
   }
 }
 
@@ -540,21 +643,73 @@ function updateProgressBar(stepNumber) {
 function updateButtonStates(stepNumber) {
   const backBtn = document.getElementById('back-btn');
   const nextBtn = document.getElementById('next-btn');
+  const buttonBar = document.querySelector('.wizard-button-bar');
 
   // Back button visibility
   if (backBtn) {
-    backBtn.style.display = stepNumber === 1 ? 'none' : 'inline-flex';
+    if (stepNumber === 1) {
+      backBtn.style.display = 'none';
+    } else {
+      backBtn.style.display = 'inline-flex';
+      backBtn.textContent = 'Go Back';
+    }
   }
 
-  // Next button text
+  // Next button text and visibility
   if (nextBtn) {
-    if (stepNumber === 7) {
+    if (stepNumber === 1) {
+      nextBtn.textContent = 'Begin Audit';
+      nextBtn.style.display = 'inline-flex';
+    } else if (stepNumber === 4) {
+      // Step 4: Replace next button with two custom buttons
+      nextBtn.style.display = 'none';
+
+      // Create custom buttons if they don't exist
+      let customBtnContainer = document.getElementById('step-4-custom-buttons');
+      if (!customBtnContainer) {
+        customBtnContainer = document.createElement('div');
+        customBtnContainer.id = 'step-4-custom-buttons';
+        customBtnContainer.style.display = 'flex';
+        customBtnContainer.style.gap = '1rem';
+        customBtnContainer.style.marginLeft = 'auto';
+
+        customBtnContainer.innerHTML = `
+          <button type="button" class="btn btn-primary" id="search-temmy-btn">Search on Temmy</button>
+          <button type="button" class="btn btn-ghost" id="skip-to-billing-btn">Skip to Billing</button>
+        `;
+
+        if (buttonBar) {
+          buttonBar.appendChild(customBtnContainer);
+        }
+      }
+      customBtnContainer.style.display = 'flex';
+    } else if (stepNumber === 7) {
       nextBtn.textContent = 'Review My Order';
+      nextBtn.style.display = 'inline-flex';
+
+      // Hide Step 4 custom buttons if they exist
+      const customBtnContainer = document.getElementById('step-4-custom-buttons');
+      if (customBtnContainer) {
+        customBtnContainer.style.display = 'none';
+      }
     } else if (stepNumber === 8) {
-      nextBtn.style.display = 'none'; // Step 8 has custom buttons
+      // Step 8 has custom buttons (appointment scheduling)
+      nextBtn.style.display = 'none';
+
+      // Hide Step 4 custom buttons if they exist
+      const customBtnContainer = document.getElementById('step-4-custom-buttons');
+      if (customBtnContainer) {
+        customBtnContainer.style.display = 'none';
+      }
     } else {
       nextBtn.textContent = 'Continue';
       nextBtn.style.display = 'inline-flex';
+
+      // Hide Step 4 custom buttons if they exist
+      const customBtnContainer = document.getElementById('step-4-custom-buttons');
+      if (customBtnContainer) {
+        customBtnContainer.style.display = 'none';
+      }
     }
   }
 }
@@ -666,14 +821,28 @@ function collectStepData(stepNumber) {
       break;
 
     case 5:
+      const imageUploadChoice = document.querySelector('input[name="imageUpload"]:checked');
+      const imageFile = document.getElementById('tmImageFile')?.files[0];
+      const typeRadio = document.querySelector('input[name="types"]:checked');
+      const jurisdictionsChecked = Array.from(document.querySelectorAll('input[name="jurisdictions"]:checked'))
+        .map(cb => cb.value);
+
       data = {
-        types: Array.from(document.querySelectorAll('input[name="types"]:checked'))
-          .map(cb => cb.value),
+        types: typeRadio ? typeRadio.value : null,
         name: document.getElementById('tmNameInput').value.trim(),
-        image: null,
-        jurisdictions: Array.from(document.querySelectorAll('input[name="jurisdictions"]:checked'))
-          .map(cb => cb.value)
+        imageUploadChoice: imageUploadChoice ? imageUploadChoice.value : null,
+        imageFile: imageFile ? imageFile.name : null, // Store file name (actual upload handled by backend)
+        imageFileSize: imageFile ? imageFile.size : null,
+        jurisdictions: jurisdictionsChecked
       };
+
+      // Add custom jurisdiction if "Rest of Countries" is selected
+      if (jurisdictionsChecked.includes('Rest of Countries')) {
+        const otherJurisdiction = document.getElementById('otherJurisdiction');
+        if (otherJurisdiction) {
+          data.otherJurisdiction = otherJurisdiction.value.trim();
+        }
+      }
       break;
 
     case 6:
@@ -685,9 +854,10 @@ function collectStepData(stepNumber) {
 
     case 7:
       const typeRadio = document.querySelector('input[name="type"]:checked');
+      const billingType = typeRadio ? typeRadio.value : 'Individual';
+
       data = {
-        type: typeRadio ? typeRadio.value : null,
-        name: document.getElementById('billingName').value.trim(),
+        type: billingType,
         address: {
           line1: document.getElementById('addressLine1').value.trim(),
           line2: document.getElementById('addressLine2').value.trim(),
@@ -699,6 +869,14 @@ function collectStepData(stepNumber) {
         invoiceEmail: document.getElementById('invoiceEmail').value.trim(),
         invoicePhone: document.getElementById('invoicePhone').value.trim()
       };
+
+      // Add name fields based on billing type
+      if (billingType === 'Individual') {
+        data.firstName = document.getElementById('billingFirstName').value.trim();
+        data.lastName = document.getElementById('billingLastName').value.trim();
+      } else {
+        data.companyName = document.getElementById('billingCompanyName').value.trim();
+      }
       break;
 
     default:
@@ -716,34 +894,157 @@ function collectStepData(stepNumber) {
 }
 
 /**
+ * Convert section data to lead format for API
+ * Each step only sends its new/changed fields
+ */
+function convertToLeadFormat(sectionName, data) {
+  const leadData = {};
+
+  switch (sectionName) {
+    case 'contact':
+      // Step 1: Basic contact info
+      leadData.first_name = data.firstName;
+      leadData.last_name = data.lastName;
+      leadData.email = data.email;
+      leadData.phone = data.phone;
+      break;
+
+    case 'preferences':
+      // Step 2: Contact preferences
+      leadData.preferred_contact_methods = data.methods;
+      break;
+
+    case 'tmStatus':
+      // Step 3: Trademark status
+      leadData.trademark_status = data.status; // 'existing' or 'new'
+      break;
+
+    case 'temmy':
+      // Step 4: Temmy search (can be skipped)
+      leadData.temmy_skipped = data.skipped;
+      if (data.selected) {
+        leadData.temmy_selected = data.selected;
+      }
+      break;
+
+    case 'tmInfo':
+      // Step 5: Trademark information
+      leadData.trademark_types = data.types;
+      if (data.name) {
+        leadData.trademark_name = data.name;
+      }
+      leadData.trademark_jurisdictions = data.jurisdictions;
+      if (data.otherJurisdiction) {
+        leadData.trademark_other_jurisdiction = data.otherJurisdiction;
+      }
+      if (data.imageUploadChoice) {
+        leadData.trademark_image_choice = data.imageUploadChoice;
+      }
+      if (data.imageFile) {
+        leadData.trademark_image_file = data.imageFile;
+      }
+      break;
+
+    case 'goods':
+      // Step 6: Goods and services
+      if (data.description) {
+        leadData.goods_description = data.description;
+      }
+      if (data.website) {
+        leadData.website = data.website;
+      }
+      break;
+
+    case 'billing':
+      // Step 7: Billing information
+      leadData.billing_type = data.type;
+
+      if (data.type === 'Individual') {
+        leadData.billing_first_name = data.firstName;
+        leadData.billing_last_name = data.lastName;
+      } else {
+        leadData.billing_company_name = data.companyName;
+      }
+
+      leadData.billing_address = data.address;
+      leadData.billing_invoice_email = data.invoiceEmail;
+      leadData.billing_invoice_phone = data.invoicePhone;
+      break;
+
+    default:
+      // For any other section, return data as-is
+      return data;
+  }
+
+  return leadData;
+}
+
+/**
  * Submit step data to backend
  */
 async function submitStepData(stepNumber, data) {
   const sectionName = getSectionName(stepNumber);
-  const orderId = getOrderId();
 
   showLoading();
 
   try {
-    const response = await fetch('/api/audit/update', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        orderId,
-        section: sectionName,
-        data
-      })
-    });
+    let response, result;
 
-    if (!response.ok) {
-      throw new Error(`Failed to save ${sectionName}`);
+    // Steps 1-7: Use lead endpoint (incremental updates)
+    if (stepNumber <= 7) {
+      const token = getToken();
+      const leadData = convertToLeadFormat(sectionName, data);
+
+      const payload = {
+        lead: leadData
+      };
+
+      // Include token for steps 2-7
+      if (token) {
+        payload.token = token;
+      }
+
+      response = await fetch('/api/audit/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to save ${sectionName}`);
+      }
+
+      result = await response.json();
+
+      // Store token from response (especially important for Step 1)
+      if (result.token) {
+        setToken(result.token);
+      }
     }
+    // Step 8+: Use order/deal endpoint
+    else {
+      const orderId = getOrderId();
 
-    const result = await response.json();
+      response = await fetch('/api/audit/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          section: sectionName,
+          data
+        })
+      });
 
-    // Store orderId if this is Step 1
-    if (stepNumber === 1 && result.orderId) {
-      setOrderId(result.orderId);
+      if (!response.ok) {
+        throw new Error(`Failed to save ${sectionName}`);
+      }
+
+      result = await response.json();
+
+      // Store orderId if this is Step 8
+      if (stepNumber === 8 && result.orderId) {
+        setOrderId(result.orderId);
+      }
     }
 
     hideLoading();
@@ -801,14 +1102,38 @@ function hideLoading() {
   }
 }
 
-// Handle Step 8 appointment buttons
+// Handle Step 4 buttons, Step 8 appointment buttons, and other click events
 document.addEventListener('click', (e) => {
-  if (e.target.id === 'schedule-appointment-btn') {
+  // Step 4 buttons
+  if (e.target.id === 'search-temmy-btn') {
+    handleTemmySearch();
+  } else if (e.target.id === 'skip-to-billing-btn') {
+    handleSkipToBilling();
+  }
+  // Step 8 appointment buttons
+  else if (e.target.id === 'schedule-appointment-btn') {
     handleScheduleAppointment();
   } else if (e.target.id === 'skip-appointment-btn') {
     handleSkipAppointment();
   }
 });
+
+// Step 4: Temmy Search handler
+async function handleTemmySearch() {
+  // Placeholder for Temmy search API integration
+  alert('Temmy search integration coming soon. Proceeding to next step.');
+  // For now, just proceed to Step 5
+  goToStep(5);
+}
+
+// Step 4: Skip to Billing handler
+async function handleSkipToBilling() {
+  // Save Step 4 as skipped
+  updateSection('temmy', { skipped: true, selected: null });
+  await submitStepData(4, { skipped: true, selected: null });
+  // Jump directly to Step 7 (Billing)
+  goToStep(7);
+}
 
 async function handleScheduleAppointment() {
   // Open booking link
@@ -834,6 +1159,58 @@ async function handleSkipAppointment() {
   // Redirect to summary
   redirectToSummary();
 }
+
+// Step 5: File upload handlers
+document.addEventListener('change', (e) => {
+  // Toggle file upload visibility based on radio selection
+  if (e.target.name === 'imageUpload') {
+    const container = document.getElementById('image-upload-container');
+    if (container) {
+      if (e.target.value === 'yes') {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    }
+  }
+
+  // Display selected file name
+  if (e.target.id === 'tmImageFile') {
+    const file = e.target.files[0];
+    if (file) {
+      const display = document.getElementById('file-name-display');
+      if (display) {
+        display.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+      }
+      const container = document.getElementById('image-upload-container');
+      if (container) {
+        container.classList.add('has-file');
+      }
+    }
+  }
+
+  // Step 7: Toggle between Individual and Organisation name fields
+  if (e.target.name === 'type' && e.target.closest('#billing-form')) {
+    const individualFields = document.getElementById('individual-name-fields');
+    const organisationFields = document.getElementById('organisation-name-fields');
+
+    if (e.target.value === 'Individual') {
+      if (individualFields) individualFields.style.display = 'block';
+      if (organisationFields) organisationFields.style.display = 'none';
+    } else if (e.target.value === 'Organisation') {
+      if (individualFields) individualFields.style.display = 'none';
+      if (organisationFields) organisationFields.style.display = 'block';
+    }
+  }
+
+  // Step 5: Toggle "Rest of Countries" jurisdiction field
+  if (e.target.name === 'jurisdictions' && e.target.value === 'Rest of Countries') {
+    const otherField = document.getElementById('other-jurisdiction-field');
+    if (otherField) {
+      otherField.style.display = e.target.checked ? 'block' : 'none';
+    }
+  }
+});
 
 /**
  * Initialize SalesIQ with visitor information from Step 1

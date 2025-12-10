@@ -10,7 +10,8 @@ const STORAGE_KEY = 'audit_order_state';
  */
 function getInitialState() {
   return {
-    orderId: null,
+    token: null, // Lead token for steps 1-7
+    orderId: null, // Order ID for step 8+
     currentStep: 1,
     sections: {
       contact: {
@@ -30,18 +31,21 @@ function getInitialState() {
         selected: null
       },
       tmInfo: {
-        types: [],
+        types: null, // Single radio button value: 'Word' | 'Image' | 'Both'
         name: '',
         image: null,
-        jurisdictions: []
+        jurisdictions: [],
+        otherJurisdiction: '' // Custom jurisdiction when "Rest of Countries" is selected
       },
       goods: {
         description: '',
         website: ''
       },
       billing: {
-        type: null, // 'Individual' | 'Organisation'
-        name: '',
+        type: 'Individual', // 'Individual' | 'Organisation'
+        firstName: '',
+        lastName: '',
+        companyName: '',
         address: {
           line1: '',
           line2: '',
@@ -210,7 +214,22 @@ function getSection(sectionName) {
 }
 
 /**
- * Set the order ID (received from backend after Step 1)
+ * Set the lead token (received from backend after Step 1)
+ */
+function setToken(token) {
+  return updateState({ token });
+}
+
+/**
+ * Get the lead token
+ */
+function getToken() {
+  const state = getState();
+  return state.token;
+}
+
+/**
+ * Set the order ID (received from backend after Step 8)
  */
 function setOrderId(orderId) {
   return updateState({ orderId });
@@ -258,6 +277,9 @@ function getNextStep(currentStep) {
     }
   }
 
+  // Step 4: Default progression is to Step 5
+  // (Skip to Step 7 is handled by the skip button directly, not by next button)
+
   // Default: next step
   return currentStep + 1;
 }
@@ -274,6 +296,21 @@ function getPreviousStep(currentStep) {
     if (tmStatus === 'new') {
       return 3;
     }
+    // Otherwise, go back to Step 4 (if they selected "existing")
+    return 4;
+  }
+
+  // If we're on Step 7, check if we came from Step 4 (skipped to billing) or Step 6
+  if (currentStep === 7) {
+    const temmySkipped = state.sections.temmy?.skipped;
+    const tmStatus = state.sections.tmStatus?.status;
+
+    // If user skipped from Step 4 to Step 7, go back to Step 4
+    if (temmySkipped && tmStatus === 'existing') {
+      return 4;
+    }
+    // Otherwise, normal flow: go back to Step 6
+    return 6;
   }
 
   // Default: previous step
@@ -301,15 +338,18 @@ function isSectionComplete(sectionName) {
       return true;
 
     case 'tmInfo':
-      return section.types && section.types.length > 0 &&
-             section.jurisdictions && section.jurisdictions.length > 0;
+      return !!(section.types &&
+                section.jurisdictions && section.jurisdictions.length > 0);
 
     case 'goods':
       // Goods is optional
       return true;
 
     case 'billing':
-      return !!(section.type && section.name && section.address?.postcode);
+      const hasName = section.type === 'Individual'
+        ? !!(section.firstName && section.lastName)
+        : !!(section.companyName);
+      return !!(section.type && hasName && section.address?.postcode);
 
     case 'appointment':
       return true; // Appointment is always optional

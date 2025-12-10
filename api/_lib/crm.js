@@ -7,6 +7,7 @@ export const CRM_ENDPOINTS = {
   xeroInvoiceLink: '/crm/v7/functions/dealcreatepayment/actions/execute',
   xeroInvoiceStatus: '/crm/v7/functions/renewalgetpaymentstatus/actions/execute',
   // Audit endpoints
+  auditCreateLead: '/crm/v7/functions/auditcreatelead/actions/execute',
   auditUpdate: '/crm/v7/functions/auditupdate/actions/execute',
   auditGetOrder: '/crm/v7/functions/auditgetorder/actions/execute',
   auditCreatePayment: '/crm/v7/functions/auditcreatepayment/actions/execute'
@@ -44,6 +45,12 @@ export const CRM_REQUIRED_APIS = [
     description: 'Returns latest payment status for a Deal-linked Xero invoice via CRM custom function.'
   },
   // Audit endpoints
+  {
+    name: 'AuditCreateLead',
+    method: 'POST',
+    endpoint: CRM_ENDPOINTS.auditCreateLead,
+    description: 'Creates or updates audit lead with incremental field updates (steps 1-7).'
+  },
   {
     name: 'AuditUpdate',
     method: 'POST',

@@ -9,43 +9,84 @@
 }
 
 /* ============================================
-   PROGRESS BAR
+   UTILITY CLASSES
    ============================================ */
 
-.wizard-progress-section {
-  background: linear-gradient(135deg, rgba(229, 22, 82, 0.05) 0%, rgba(237, 51, 101, 0.05) 100%);
-  padding: 2rem 0 1.5rem;
-  border-bottom: 1px solid rgba(229, 22, 82, 0.1);
+.hidden {
+  display: none !important;
 }
 
-.wizard-progress-container {
-  max-width: 800px;
+/* ============================================
+   PAGE TITLE (visible on all steps)
+   ============================================ */
+
+.page-title-section {
+  background: #fff;
+  padding: 2rem 0 1rem;
+}
+
+.page-title-section .container {
+  max-width: 900px;
   margin: 0 auto;
 }
 
-.wizard-progress-bar {
-  height: 10px;
-  background: rgba(229, 22, 82, 0.1);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-bottom: 0.75rem;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--brand-pink) 0%, var(--brand-pink-500) 100%);
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  width: calc((var(--current-step) / 8) * 100%);
-  box-shadow: 0 0 10px rgba(229, 22, 82, 0.3);
-}
-
-.wizard-step-label {
-  text-align: center;
-  font-size: 0.9rem;
-  font-weight: 600;
+.page-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: var(--brand-navy);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  margin: 0;
+  text-align: left;
+}
+
+/* ============================================
+   PAGE NUMBER INDICATORS
+   ============================================ */
+
+.wizard-progress-section {
+  background: transparent;
+  padding: 1.5rem 0;
+}
+
+.wizard-progress-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-indicators {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c7d8c;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.page-number.active {
+  background: var(--brand-pink);
+  color: #fff;
+  border-color: var(--brand-pink);
+  box-shadow: 0 2px 8px rgba(229, 22, 82, 0.2);
+}
+
+.page-number.completed {
+  background: #f0f9ff;
+  border-color: var(--brand-pink);
+  color: var(--brand-pink);
 }
 
 /* ============================================
@@ -53,12 +94,12 @@
    ============================================ */
 
 .wizard-section {
-  padding: 3rem 0 5rem;
+  padding: 2rem 0 4rem;
   min-height: calc(100vh - 400px);
 }
 
 .wizard-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -88,25 +129,25 @@
 
 .wizard-card {
   background: #fff;
-  border-radius: var(--radius, 14px);
-  box-shadow: var(--shadow, 0 12px 24px rgba(25, 35, 45, 0.12));
-  padding: 2.5rem;
-  border-left: 6px solid var(--brand-pink);
-  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25, 35, 45, 0.08);
+  padding: 2rem;
+  border-left: 4px solid var(--brand-pink);
+  margin-bottom: 1.5rem;
 }
 
 .wizard-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--brand-navy);
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.75rem 0;
 }
 
 .wizard-subtitle {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: var(--muted, #6c7d8c);
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.5rem 0;
   line-height: 1.5;
 }
 
@@ -117,27 +158,28 @@
 .wizard-form .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 768px) {
   .wizard-form .form-row {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .form-group label {
   font-weight: 600;
   color: var(--brand-navy);
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.875rem;
 }
 
 .form-group label .required {
@@ -149,10 +191,10 @@
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 2px solid #e5e7eb;
-  border-radius: var(--radius-sm, 10px);
-  font-size: 1rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9375rem;
   font-family: 'Nunito Sans', sans-serif;
   transition: all 0.2s ease;
 }
@@ -195,9 +237,9 @@
    ============================================ */
 
 .checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
@@ -205,24 +247,22 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem;
-  border: 2px solid #e5e7eb;
-  border-radius: var(--radius-sm, 10px);
+  padding: 0;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  background: #fff;
+  background: transparent;
 }
 
-.checkbox-card:hover {
-  border-color: var(--brand-pink);
-  background: var(--soft, #FCE7ED);
+.checkbox-card:hover .checkbox-label {
+  color: var(--brand-pink);
 }
 
 .checkbox-card input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
   accent-color: var(--brand-pink);
+  flex-shrink: 0;
 }
 
 .checkbox-card input[type="checkbox"]:checked + .checkbox-label {
@@ -232,14 +272,53 @@
 
 .checkbox-label {
   flex: 1;
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   color: var(--ink);
   cursor: pointer;
   user-select: none;
 }
 
 /* ============================================
-   RADIO GROUPS
+   RADIO GROUPS (Simple flat style for billing type)
+   ============================================ */
+
+.radio-simple-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.radio-simple {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.radio-simple input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--brand-pink);
+  flex-shrink: 0;
+}
+
+.radio-simple-label {
+  font-size: 0.9375rem;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-simple input[type="radio"]:checked + .radio-simple-label {
+  font-weight: 600;
+  color: var(--brand-pink);
+}
+
+/* ============================================
+   RADIO GROUPS (Card style for other steps)
    ============================================ */
 
 .radio-grid {
@@ -307,11 +386,6 @@
   gap: 1rem;
   padding-top: 1.5rem;
   margin-top: 1rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.wizard-button-bar .btn {
-  min-width: 150px;
 }
 
 .wizard-button-bar #back-btn {
@@ -327,9 +401,61 @@
     flex-direction: column-reverse;
   }
 
-  .wizard-button-bar .btn {
+  .wizard-button-bar .btn,
+  .form-card .btn {
     width: 100%;
   }
+
+  /* Maintain consistent button sizing on mobile */
+  .wizard-section .btn,
+  .wizard-button-bar .btn,
+  .form-card .btn {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.9375rem !important;
+  }
+}
+
+/* ============================================
+   BUTTON CONSISTENCY (All wizard buttons)
+   ============================================ */
+
+/* Override all button styles to ensure consistency across all pages */
+.wizard-section .btn,
+.wizard-button-bar .btn,
+.form-card .btn {
+  /* Fixed height through consistent padding */
+  padding: 0.75rem 1.5rem !important;
+  /* Fixed font size */
+  font-size: 0.9375rem !important;
+  /* Ensure consistent line height */
+  line-height: 1.2 !important;
+  /* Consistent font weight */
+  font-weight: 600 !important;
+  /* Prevent text wrapping */
+  white-space: nowrap;
+}
+
+/* Specific width constraints for common buttons */
+.wizard-button-bar #back-btn {
+  min-width: 120px;
+}
+
+.wizard-button-bar #next-btn {
+  min-width: 160px;
+}
+
+/* Step 4 custom buttons */
+#step-4-custom-buttons .btn {
+  min-width: 160px;
+}
+
+/* Step 8 appointment buttons */
+#schedule-appointment-btn {
+  min-width: 180px;
+}
+
+#skip-appointment-btn {
+  min-width: 180px;
 }
 
 /* ============================================
@@ -374,8 +500,8 @@
    ============================================ */
 
 .info-box {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
-  border-left: 4px solid #0ea5e9;
+  background: linear-gradient(135deg, rgba(229, 22, 82, 0.05) 0%, rgba(229, 22, 82, 0.08) 100%);
+  border-left: 4px solid var(--brand-pink);
   padding: 1.25rem;
   border-radius: var(--radius-sm);
   margin-bottom: 1.5rem;
@@ -519,4 +645,108 @@ textarea:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--brand-pink);
   outline-offset: 2px;
+}
+
+/* ============================================
+   INTRO CARD (Step 1 only)
+   ============================================ */
+
+.intro-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25, 35, 45, 0.08);
+  padding: 2rem;
+  border-left: 4px solid var(--brand-pink);
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   FORM CARD (Flat design for Step 1 form)
+   ============================================ */
+
+.form-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   FULL INTRO BLOCK (Step 1 only)
+   ============================================ */
+
+.full-intro-block {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0;
+}
+
+.full-intro-block h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0 0 1rem 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.full-intro-block h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  margin: 1rem 0 0.4rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.full-intro-block p {
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0 0 0.75rem 0;
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   FILE UPLOAD FIELD (Step 5)
+   ============================================ */
+
+.file-upload-field {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border: 2px dashed var(--border, #e5e7eb);
+  border-radius: var(--radius-sm, 10px);
+  text-align: center;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.file-upload-field:hover {
+  border-color: var(--brand-pink);
+  background: rgba(229, 22, 82, 0.02);
+}
+
+.file-upload-field.has-file {
+  border-color: var(--brand-pink);
+  background: rgba(229, 22, 82, 0.05);
+  border-style: solid;
+}
+
+.file-upload-field.hidden {
+  display: none;
+}
+
+.file-upload-field input[type="file"] {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .full-intro-block {
+    padding-bottom: 1.5rem;
+  }
+
+  .full-intro-block h2 {
+    font-size: 1.25rem;
+  }
+
+  .full-intro-block h3 {
+    font-size: 1rem;
+  }
 }

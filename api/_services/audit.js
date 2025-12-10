@@ -9,7 +9,8 @@ import { CRM_ENDPOINTS, callCrm, isCrmConfigured } from '../_lib/crm.js';
 import {
   getMockAuditUpdate,
   getMockAuditOrder,
-  getMockAuditPaymentLink
+  getMockAuditPaymentLink,
+  getMockAuditLead
 } from '../_lib/mock-data.js';
 
 /**
@@ -77,6 +78,39 @@ export async function fetchAuditOrder(orderId) {
 }
 
 /**
+ * Create or update audit lead
+ * Handles incremental lead updates for steps 1-7
+ * @param {string|null} token - Lead token (null/omitted for first request)
+ * @param {object} lead - Lead data (only new/changed fields)
+ * @returns {Promise<{token: string, lead: object}>}
+ */
+export async function createOrUpdateLead(token, lead) {
+  if (!lead) {
+    throw new Error('LEAD_REQUIRED');
+  }
+
+  const payload = {
+    ...(token && { token }), // Only include token if present
+    lead
+  };
+
+  if (isCrmConfigured()) {
+    const response = await callCrm(CRM_ENDPOINTS.auditCreateLead, {
+      method: 'POST',
+      body: payload
+    });
+
+    return normalizeLead(response);
+  }
+
+  if (!ENV.useMockData) {
+    throw new Error('CRM_NOT_CONFIGURED');
+  }
+
+  return getMockAuditLead(token, lead);
+}
+
+/**
  * Create payment link for audit order
  * Follows renewal pattern with Xero integration via CRM
  */
@@ -112,6 +146,26 @@ export async function createAuditPaymentLink(orderId, paymentOptions) {
   }
 
   return getMockAuditPaymentLink(orderId);
+}
+
+/**
+ * Normalize lead response from CRM
+ */
+function normalizeLead(response) {
+  if (!response) return getMockAuditLead(null, {});
+
+  // If response already has token and lead, return as-is
+  if (response.token && response.lead) {
+    return response;
+  }
+
+  // Extract data from CRM response wrapper
+  const data = response.crmAPIResponse?.body || response.data || response;
+
+  return {
+    token: data.token || data.Token || null,
+    lead: data.lead || data.Lead || {}
+  };
 }
 
 /**

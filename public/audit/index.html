@@ -67,14 +67,27 @@
     </header>
 
     <main id="main">
-      <!-- Progress Bar Container -->
-      <section class="wizard-progress-section">
+      <!-- Page Title (visible on all steps) -->
+      <section class="page-title-section">
+        <div class="container">
+          <h1 class="page-title">Trademark Audit</h1>
+        </div>
+      </section>
+
+      <!-- Page Number Indicators (shown on steps 2-8 only, hidden on step 1) -->
+      <section class="wizard-progress-section hidden" id="wizard-progress-section">
         <div class="container">
           <div class="wizard-progress-container">
-            <div class="wizard-progress-bar">
-              <div class="progress-fill" id="progress-fill"></div>
+            <div class="page-indicators" id="page-indicators">
+              <div class="page-number active" data-page="1">1</div>
+              <div class="page-number" data-page="2">2</div>
+              <div class="page-number" data-page="3">3</div>
+              <div class="page-number" data-page="4">4</div>
+              <div class="page-number" data-page="5">5</div>
+              <div class="page-number" data-page="6">6</div>
+              <div class="page-number" data-page="7">7</div>
+              <div class="page-number" data-page="8">8</div>
             </div>
-            <div class="wizard-step-label" id="step-label">Step 1 of 8</div>
           </div>
         </div>
       </section>
@@ -85,9 +98,22 @@
 
           <!-- Step 1: Contact Information -->
           <div class="wizard-step active" id="step-1" data-step="1">
-            <div class="card wizard-card">
-              <h1 class="wizard-title">Trademark Audit</h1>
-              <p class="wizard-subtitle">Let's start with your contact information</p>
+            <!-- Intro Block Card -->
+            <div class="intro-card">
+              <div class="full-intro-block">
+                <h2>About our Trademark Audit Service</h2>
+
+                <h3>When do you need a trademark audit?</h3>
+                <p>Trademark Audits are most commonly used before making a trademark application, as a Trademark Healthcheck, when looking to make changes to an existing trademark for example; adding or removing goods and services your trademark is registered for (Classes & Terms), expanding into other territories & jurisdictions or when your trademark is coming up for renewal</p>
+
+                <h3>How does it help you?</h3>
+                <p>The purpose of a Trademark Audit is to avoid wasting money on failed application fees by giving you all the information you need to make educated choices about your trademark before committing to paying any official fees to trademark registers such as the UK Intellectual Property Office, as those fees are non-refundable.</p>
+              </div>
+            </div>
+
+            <!-- Form Card (flat design) -->
+            <div class="form-card">
+              <p class="wizard-subtitle">Firstly, who will be the person we will be dealing with for the trademark audit?</p>
 
               <form id="contact-form" class="wizard-form">
                 <div class="form-row">

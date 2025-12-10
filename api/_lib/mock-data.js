@@ -358,6 +358,31 @@ export function getMockAuditPaymentLink(orderId) {
   };
 }
 
+const MOCK_AUDIT_LEAD = {
+  token: 'mock_lead_token_' + Date.now(),
+  lead: {
+    first_name: 'Sarah',
+    last_name: 'Johnson',
+    email: 'sarah@example.com',
+    phone: '+44 7700 900123'
+  }
+};
+
+export function getMockAuditLead(token, leadData) {
+  const mockToken = token || 'mock_lead_token_' + Date.now();
+
+  // Merge new data with base mock lead
+  const mergedLead = {
+    ...MOCK_AUDIT_LEAD.lead,
+    ...leadData
+  };
+
+  return {
+    token: mockToken,
+    lead: mergedLead
+  };
+}
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }

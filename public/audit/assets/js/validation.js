@@ -106,13 +106,13 @@ function validateTemmy(data) {
 function validateTmInfo(data) {
   const errors = {};
 
-  // Types validation
-  if (!data.types || data.types.length === 0) {
-    errors.types = 'Please select at least one trademark type';
+  // Types validation (single radio button value)
+  if (!data.types) {
+    errors.types = 'Please select a trademark type';
   }
 
   // Name validation (required if Word or Both selected)
-  if (data.types && (data.types.includes('Word') || data.types.includes('Both'))) {
+  if (data.types && (data.types === 'Word' || data.types === 'Both')) {
     if (!data.name || data.name.trim().length === 0) {
       errors.name = 'Trademark name is required when Word or Both type is selected';
     }
@@ -121,6 +121,13 @@ function validateTmInfo(data) {
   // Jurisdictions validation
   if (!data.jurisdictions || data.jurisdictions.length === 0) {
     errors.jurisdictions = 'Please select at least one jurisdiction';
+  }
+
+  // Custom jurisdiction validation (required if "Rest of Countries" is selected)
+  if (data.jurisdictions && data.jurisdictions.includes('Rest of Countries')) {
+    if (!data.otherJurisdiction || data.otherJurisdiction.trim().length === 0) {
+      errors.otherJurisdiction = 'Please specify the jurisdiction';
+    }
   }
 
   return {
@@ -159,8 +166,18 @@ function validateBilling(data) {
     errors.type = 'Please select billing type';
   }
 
-  if (!data.name || data.name.trim().length === 0) {
-    errors.name = 'Billing name is required';
+  // Name validation based on billing type
+  if (data.type === 'Individual') {
+    if (!data.firstName || data.firstName.trim().length === 0) {
+      errors.firstName = 'First name is required';
+    }
+    if (!data.lastName || data.lastName.trim().length === 0) {
+      errors.lastName = 'Last name is required';
+    }
+  } else if (data.type === 'Organisation') {
+    if (!data.companyName || data.companyName.trim().length === 0) {
+      errors.companyName = 'Company name is required';
+    }
   }
 
   // Address validation
