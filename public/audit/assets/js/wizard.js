@@ -23,6 +23,11 @@ function initWizard() {
   // Determine starting step
   const startStep = state.currentStep || 1;
 
+  // Clear stale token if starting from step 1 (new audit flow)
+  if (startStep === 1) {
+    setToken(null);
+  }
+
   // Show the appropriate step
   goToStep(startStep);
 
@@ -999,8 +1004,8 @@ async function submitStepData(stepNumber, data) {
         lead: leadData
       };
 
-      // Include token for steps 2-7
-      if (token) {
+      // Include token for steps 2-7 ONLY (never on step 1)
+      if (stepNumber > 1 && token) {
         payload.token = token;
       }
 
