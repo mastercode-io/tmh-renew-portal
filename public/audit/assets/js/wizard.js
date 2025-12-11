@@ -1267,6 +1267,12 @@ document.addEventListener('click', (e) => {
       e.stopPropagation();
       handleTemmyExpand(appNumber);
     }
+  } else if (e.target.id === 'temmy-expand-all') {
+    e.preventDefault();
+    handleTemmyExpandCollapseAll(true);
+  } else if (e.target.id === 'temmy-collapse-all') {
+    e.preventDefault();
+    handleTemmyExpandCollapseAll(false);
   }
 });
 
@@ -1360,11 +1366,16 @@ function renderTemmyResultsTable(items, detailsMap) {
   if (!items || items.length === 0) {
     return `
       <div class="temmy-results">
-        <h4>Search Results</h4>
+        <div class="temmy-results-header">
+          <h4>Search Results</h4>
+        </div>
         <p class="muted">No results found.</p>
       </div>
     `;
   }
+
+  const temmy = getSection('temmy') || {};
+  const expandedState = temmy.expanded || {};
 
   const rows = items
     .map(item => {
@@ -1375,12 +1386,13 @@ function renderTemmyResultsTable(items, detailsMap) {
         : 'N/A';
       const status = item.status || 'N/A';
       const detail = detailsMap[appNumber];
+      const isExpanded = expandedState[appNumber] || false;
 
       return `
         <tr data-app-number="${appNumber}">
           <td>
             <button type="button" class="temmy-expand-btn" data-app-number="${appNumber}">
-              <span class="expand-icon">${detail ? '&#8722;' : '&#43;'}</span>
+              <span class="expand-icon">${isExpanded ? '&#8722;' : '&#43;'}</span>
               ${appNumber}
             </button>
           </td>
@@ -1388,7 +1400,7 @@ function renderTemmyResultsTable(items, detailsMap) {
           <td>${applicant}</td>
           <td>${status}</td>
         </tr>
-        <tr class="temmy-detail-row" data-app-number="${appNumber}" style="${detail ? '' : 'display: none;'}">
+        <tr class="temmy-detail-row" data-app-number="${appNumber}" style="${isExpanded ? '' : 'display: none;'}">
           <td colspan="4">
             ${detail ? renderTemmyDetailCard(detail) : ''}
           </td>
@@ -1399,7 +1411,13 @@ function renderTemmyResultsTable(items, detailsMap) {
 
   return `
     <div class="temmy-results">
-      <h4>Search Results</h4>
+      <div class="temmy-results-header">
+        <h4>Search Results</h4>
+        <div class="temmy-results-actions">
+          <button type="button" class="btn btn-ghost btn-sm" id="temmy-expand-all">Expand all</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="temmy-collapse-all">Collapse all</button>
+        </div>
+      </div>
       <table class="temmy-table">
         <thead>
           <tr>
@@ -1596,12 +1614,20 @@ async function handleTemmyExpand(appNumber) {
     const detailRow = document.querySelector(`.temmy-detail-row[data-app-number="${appNumber}"]`);
     const icon = document.querySelector(`.temmy-expand-btn[data-app-number="${appNumber}"] .expand-icon`);
     const isVisible = detailRow && detailRow.style.display !== 'none';
+
+    const newExpanded = { ...(temmy.expanded || {}) };
+    newExpanded[appNumber] = !isVisible;
+
     if (detailRow) {
       detailRow.style.display = isVisible ? 'none' : '';
     }
     if (icon) {
       icon.innerHTML = isVisible ? '&#43;' : '&#8722;';
     }
+    updateSection('temmy', {
+      ...temmy,
+      expanded: newExpanded
+    });
     return;
   }
 
@@ -1627,7 +1653,8 @@ async function handleTemmyExpand(appNumber) {
 
     updateSection('temmy', {
       ...temmy,
-      details: newDetails
+      details: newDetails,
+      expanded: { ...(temmy.expanded || {}), [appNumber]: true }
     });
 
     renderTemmyResultsFromState();
@@ -1636,5 +1663,36 @@ async function handleTemmyExpand(appNumber) {
     alert('Unable to load trademark details. Please try again.');
   } finally {
     hideLoading();
+  }
+}
+
+function handleTemmyExpandCollapseAll(expand) {
+  const temmy = getSection('temmy') || {};
+  const items = temmy.results?.items || [];
+
+  const expandedState = {};
+  items.forEach(item => {
+    const appNumber = item.application_number;
+    if (!appNumber) return;
+    expandedState[appNumber] = expand;
+  });
+
+  updateSection('temmy', {
+    ...temmy,
+    expanded: expandedState
+  });
+
+  // If expanding, ensure details are fetched as needed
+  if (expand) {
+    items.forEach(item => {
+      const appNumber = item.application_number;
+      if (!appNumber) return;
+      if (!(temmy.details && temmy.details[appNumber])) {
+        handleTemmyExpand(appNumber);
+      }
+    });
+  } else {
+    // Collapse UI immediately
+    renderTemmyResultsFromState();
   }
 }

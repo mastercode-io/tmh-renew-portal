@@ -32,7 +32,8 @@ function getInitialState() {
         results: null,
         query: null,
         lastSearchedAt: null,
-        details: {}
+        details: {},
+        expanded: {}
       },
       tmInfo: {
         types: null, // Single radio button value: 'Word' | 'Image' | 'Both'

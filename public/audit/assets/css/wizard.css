@@ -483,8 +483,16 @@
   margin-top: 1.5rem;
 }
 
+.temmy-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
 .temmy-results h4 {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 1rem;
   color: var(--brand-navy);
 }
@@ -534,6 +542,16 @@
 .tm-detail-card {
   border-left: 3px solid var(--brand-pink);
   padding: 0.5rem 0.75rem;
+}
+
+.temmy-results-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn.btn-sm {
+  padding: 0.35rem 0.6rem !important;
+  font-size: 0.85rem !important;
 }
 
 .tm-detail-card .detail-grid {
@@ -647,17 +665,18 @@
 
 .page-loading-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 1.5rem;
+  right: 1.5rem;
   background: rgba(255, 255, 255, 0.95);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(34, 52, 71, 0.15);
 }
 
 .page-loading-overlay.hidden {
@@ -665,25 +684,26 @@
 }
 
 .page-loading-text {
-  margin-top: 1.5rem;
-  font-size: 1.1rem;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--brand-navy);
+  text-align: center;
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(229, 22, 82, 0.1);
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(229, 22, 82, 0.15);
   border-top-color: var(--brand-pink);
   border-radius: 50%;
   animation: spinner 0.8s linear infinite;
 }
 
 .spinner-lg {
-  width: 60px;
-  height: 60px;
-  border-width: 5px;
+  width: 36px;
+  height: 36px;
+  border-width: 4px;
 }
 
 /* ============================================
