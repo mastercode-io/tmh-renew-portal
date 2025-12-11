@@ -1320,17 +1320,19 @@ async function handleTemmySearch() {
       : resultsData
         ? [resultsData]
         : [];
-    const detailSeed = payload.application_number && items.length === 1 ? { [payload.application_number]: items[0] } : {};
+    const sortedItems = sortTemmyItems(items);
+    const detailSeed = payload.application_number && sortedItems.length === 1 ? { [payload.application_number]: sortedItems[0] } : {};
 
     updateSection('temmy', {
       skipped: false,
       selected: null,
       query: payload,
-      results: { items },
+      results: { items: sortedItems },
       details: detailSeed,
       source: result.source || 'live',
       lastSearchedAt: new Date().toISOString(),
-      searchType: payload.application_number ? 'application_number' : 'text'
+      searchType: payload.application_number ? 'application_number' : 'text',
+      expanded: {}
     });
     updateButtonStates(getCurrentStep());
     renderTemmyResultsFromState();
@@ -1352,7 +1354,9 @@ function renderTemmyResultsFromState() {
     return;
   }
 
-  container.innerHTML = renderTemmyResultsTable(temmy.results.items, temmy.details || {});
+  const items = sortTemmyItems(temmy.results.items);
+
+  container.innerHTML = renderTemmyResultsTable(items, temmy.details || {});
 }
 
 function clearTemmyResultsUI() {
@@ -1360,6 +1364,34 @@ function clearTemmyResultsUI() {
   if (container) {
     container.innerHTML = '';
   }
+}
+
+function getApplicantName(item) {
+  if (!item) return '';
+  if (Array.isArray(item.applicants) && item.applicants.length > 0) {
+    return item.applicants[0].name || '';
+  }
+  return '';
+}
+
+function sortTemmyItems(items) {
+  if (!Array.isArray(items)) return [];
+  return [...items].sort((a, b) => {
+    const nameA = getApplicantName(a).toLowerCase();
+    const nameB = getApplicantName(b).toLowerCase();
+    if (nameA && nameB && nameA !== nameB) {
+      return nameA.localeCompare(nameB);
+    }
+
+    const dateA = new Date(a.expiry_date || a.expiryDate || '').getTime();
+    const dateB = new Date(b.expiry_date || b.expiryDate || '').getTime();
+    if (!isNaN(dateA) && !isNaN(dateB)) {
+      return dateA - dateB;
+    }
+    if (!isNaN(dateA)) return -1;
+    if (!isNaN(dateB)) return 1;
+    return 0;
+  });
 }
 
 function renderTemmyResultsTable(items, detailsMap) {
@@ -1381,12 +1413,13 @@ function renderTemmyResultsTable(items, detailsMap) {
     .map(item => {
       const appNumber = item.application_number || 'N/A';
       const name = item.verbal_element_text || 'N/A';
-      const applicant = Array.isArray(item.applicants) && item.applicants.length > 0
-        ? item.applicants[0].name || 'N/A'
-        : 'N/A';
+      const applicantName = getApplicantName(item) || 'N/A';
       const status = item.status || 'N/A';
       const detail = detailsMap[appNumber];
       const isExpanded = expandedState[appNumber] || false;
+      const detailContent = detail
+        ? renderTemmyDetailCard(detail)
+        : '<div class="tm-detail-card"><div class="detail-label">Loading details...</div></div>';
 
       return `
         <tr data-app-number="${appNumber}">
@@ -1397,12 +1430,12 @@ function renderTemmyResultsTable(items, detailsMap) {
             </button>
           </td>
           <td>${name}</td>
-          <td>${applicant}</td>
+          <td>${applicantName}</td>
           <td>${status}</td>
         </tr>
         <tr class="temmy-detail-row" data-app-number="${appNumber}" style="${isExpanded ? '' : 'display: none;'}">
           <td colspan="4">
-            ${detail ? renderTemmyDetailCard(detail) : ''}
+            ${detailContent}
           </td>
         </tr>
       `;
@@ -1681,6 +1714,8 @@ function handleTemmyExpandCollapseAll(expand) {
     ...temmy,
     expanded: expandedState
   });
+
+  renderTemmyResultsFromState();
 
   // If expanding, ensure details are fetched as needed
   if (expand) {

@@ -489,6 +489,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .temmy-results h4 {
@@ -547,6 +548,7 @@
 .temmy-results-actions {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .btn.btn-sm {
@@ -667,16 +669,21 @@
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  display: flex;
+  left: auto;
+  bottom: auto;
+  background: #ffffff;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(2px);
-  padding: 1rem 1.25rem;
+  backdrop-filter: none;
+  padding: 0.75rem 1rem;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(34, 52, 71, 0.15);
+  pointer-events: none;
+  border: 1px solid #e5e7eb;
+  min-width: 150px;
 }
 
 .page-loading-overlay.hidden {
