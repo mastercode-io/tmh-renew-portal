@@ -1263,6 +1263,8 @@ document.addEventListener('click', (e) => {
     const btn = e.target.closest('.temmy-expand-btn');
     const appNumber = btn?.dataset?.appNumber;
     if (appNumber) {
+      e.preventDefault();
+      e.stopPropagation();
       handleTemmyExpand(appNumber);
     }
   }
@@ -1377,7 +1379,7 @@ function renderTemmyResultsTable(items, detailsMap) {
       return `
         <tr data-app-number="${appNumber}">
           <td>
-            <button class="temmy-expand-btn" data-app-number="${appNumber}">
+            <button type="button" class="temmy-expand-btn" data-app-number="${appNumber}">
               <span class="expand-icon">${detail ? '&#8722;' : '&#43;'}</span>
               ${appNumber}
             </button>
