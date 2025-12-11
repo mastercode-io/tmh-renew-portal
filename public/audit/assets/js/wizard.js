@@ -300,21 +300,21 @@ function setupStep3Toggle() {
   const newSection = document.getElementById('new-trademark-section');
 
   function toggleSections() {
-    if (existingRadio.checked) {
-      existingSection.style.display = 'block';
-      newSection.style.display = 'none';
-      updateContinueButtonText('Continue');
-      setTemmySearchButtonVisibility(true);
-    } else if (newRadio.checked) {
-      existingSection.style.display = 'none';
-      newSection.style.display = 'block';
-      updateContinueButtonText('Continue');
-      setTemmySearchButtonVisibility(false);
+  if (existingRadio.checked) {
+    existingSection.style.display = 'block';
+    newSection.style.display = 'none';
+    updateContinueButtonText('Continue');
+    updateButtonStates(3);
+  } else if (newRadio.checked) {
+    existingSection.style.display = 'none';
+    newSection.style.display = 'block';
+    updateContinueButtonText('Continue');
+    updateButtonStates(3);
 
-      // Setup image upload and jurisdiction handlers for new application form
-      setupImageUploadToggle();
-      setupJurisdictionToggle();
-    }
+    // Setup image upload and jurisdiction handlers for new application form
+    setupImageUploadToggle();
+    setupJurisdictionToggle();
+  }
   }
 
   existingRadio.addEventListener('change', toggleSections);
@@ -336,13 +336,6 @@ function updateContinueButtonText(text) {
   }
 }
 
-function setTemmySearchButtonVisibility(show) {
-  const searchBtn = document.getElementById('search-temmy-btn');
-  if (!searchBtn) return;
-  searchBtn.style.display = show ? 'inline-flex' : 'none';
-  searchBtn.textContent = 'Search Again';
-}
-
 /**
  * Restore Step 3 button text based on current selection
  * Called after updateButtonStates() to override default "Continue" text
@@ -353,10 +346,10 @@ function restoreStep3ButtonText() {
 
   if (existingRadio?.checked) {
     updateContinueButtonText('Continue');
-    setTemmySearchButtonVisibility(true);
+    updateButtonStates(3);
   } else if (newRadio?.checked) {
     updateContinueButtonText('Continue');
-    setTemmySearchButtonVisibility(false);
+    updateButtonStates(3);
   }
   // If neither is checked, keep default "Continue" from updateButtonStates()
 }
@@ -826,14 +819,38 @@ function updateButtonStates(stepNumber) {
     }
   }
 
-  if (searchBtn) {
-    const existingSelected = document.getElementById('status-existing')?.checked;
-    const stateStatus = getSection('tmStatus')?.status;
-    const shouldShow = stepNumber === 3 && (existingSelected || stateStatus === 'existing');
-    searchBtn.style.display = shouldShow ? 'inline-flex' : 'none';
-    if (shouldShow) {
-      searchBtn.textContent = 'Search Again';
-    }
+  updateTemmyButtons(stepNumber, nextBtn, searchBtn);
+}
+
+function updateTemmyButtons(stepNumber, nextBtn, searchBtn) {
+  if (!searchBtn || !nextBtn) return;
+
+  if (stepNumber !== 3) {
+    searchBtn.style.display = 'none';
+    return;
+  }
+
+  const existingSelected = document.getElementById('status-existing')?.checked;
+  const stateStatus = getSection('tmStatus')?.status;
+  const isExisting = existingSelected || stateStatus === 'existing';
+
+  if (!isExisting) {
+    searchBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-flex';
+    return;
+  }
+
+  const temmy = getSection('temmy') || {};
+  const hasResults = !!temmy.results;
+
+  searchBtn.style.display = 'inline-flex';
+  searchBtn.textContent = hasResults ? 'Search Again' : 'Search on Temmy';
+
+  if (hasResults) {
+    nextBtn.style.display = 'inline-flex';
+    nextBtn.textContent = 'Continue';
+  } else {
+    nextBtn.style.display = 'none';
   }
 }
 
@@ -1288,6 +1305,7 @@ async function handleTemmySearch() {
       lastSearchedAt: new Date().toISOString(),
       searchType: payload.application_number ? 'application_number' : 'text'
     });
+    updateButtonStates(getCurrentStep());
   } catch (err) {
     console.error('Temmy search failed', err);
     alert('Unable to search Temmy right now. Please try again.');
