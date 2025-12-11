@@ -171,27 +171,14 @@
 
 .tm-search-row {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  column-gap: 1rem;
-  align-items: flex-end;
-}
-
-.tm-search-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: var(--brand-navy);
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 @media (max-width: 1024px) {
   .tm-search-row {
     grid-template-columns: 1fr;
     row-gap: 0.75rem;
-  }
-
-  .tm-search-divider {
-    justify-content: flex-start;
   }
 }
 

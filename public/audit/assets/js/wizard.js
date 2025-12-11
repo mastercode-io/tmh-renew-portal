@@ -195,7 +195,6 @@ function renderStep3() {
               <label for="tmName">Trademark Name</label>
               <input type="text" id="tmName" name="tmName" placeholder="e.g. TECHIFY" />
             </div>
-            <div class="tm-search-divider">OR</div>
             <div class="form-group">
               <label for="tmAppNumber">Application Number</label>
               <input type="text" id="tmAppNumber" name="tmAppNumber" placeholder="e.g. UK00003456789" />
