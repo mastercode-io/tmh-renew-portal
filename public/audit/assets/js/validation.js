@@ -89,6 +89,14 @@ function validateTmStatus(data) {
     };
   }
 
+  if (data.status === 'existing') {
+    if (!data.tmName || data.tmName.trim().length === 0) {
+      if (!data.tmAppNumber || data.tmAppNumber.trim().length === 0) {
+        errors.tmSearch = 'Please enter a trademark name or application number';
+      }
+    }
+  }
+
   // If "new" application, validate the full application form
   if (data.status === 'new') {
     // Types validation (single radio button value)
@@ -116,8 +124,7 @@ function validateTmStatus(data) {
     }
   }
 
-  // If "existing", search fields are optional (no validation needed)
-  // User can choose to skip search and proceed
+  // If "existing", at least one search field is required
 
   return {
     valid: Object.keys(errors).length === 0,
@@ -353,6 +360,15 @@ function displayErrors(errors, formId = null) {
 
     if (inputEl) {
       inputEl.classList.add('error');
+    }
+
+    if (fieldName === 'tmSearch') {
+      ['tmName', 'tmAppNumber'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) {
+          field.classList.add('error');
+        }
+      });
     }
   });
 

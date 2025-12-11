@@ -189,15 +189,19 @@ function renderStep3() {
 
         <!-- Search Fields (shown when "existing" selected) -->
         <div id="existing-trademark-section" class="conditional-section" style="display: none;">
-          <p class="wizard-subtitle" style="margin-top: 2rem;">Please provide the Trademark Name and if available the Trademark Application Number</p>
-          <div class="form-group">
-            <label for="tmName">Trademark Name</label>
-            <input type="text" id="tmName" name="tmName" placeholder="e.g. TECHIFY" />
+          <p class="wizard-subtitle" style="margin-top: 2rem;">Please provide the Trademark Name or the Trademark Application Number</p>
+          <div class="tm-search-row">
+            <div class="form-group">
+              <label for="tmName">Trademark Name</label>
+              <input type="text" id="tmName" name="tmName" placeholder="e.g. TECHIFY" />
+            </div>
+            <div class="tm-search-divider">OR</div>
+            <div class="form-group">
+              <label for="tmAppNumber">Application Number</label>
+              <input type="text" id="tmAppNumber" name="tmAppNumber" placeholder="e.g. UK00003456789" />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="tmAppNumber">Application Number</label>
-            <input type="text" id="tmAppNumber" name="tmAppNumber" placeholder="e.g. UK00003456789" />
-          </div>
+          <div class="field-error" id="tmSearch-error"></div>
         </div>
 
         <!-- Application Form (shown when "new" selected) -->
