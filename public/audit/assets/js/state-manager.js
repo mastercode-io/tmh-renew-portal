@@ -28,7 +28,10 @@ function getInitialState() {
       },
       temmy: {
         skipped: false,
-        selected: null
+        selected: null,
+        results: null,
+        query: null,
+        lastSearchedAt: null
       },
       tmInfo: {
         types: null, // Single radio button value: 'Word' | 'Image' | 'Both'

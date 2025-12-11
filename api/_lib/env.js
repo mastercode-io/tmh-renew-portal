@@ -4,6 +4,8 @@ const ENV = {
   crmAuthType: process.env.CRM_AUTH_TYPE || 'apikey',
   crmApiKeyHeader: process.env.CRM_API_KEY_HEADER || 'X-API-Key',
   crmApiKeyParam: process.env.CRM_API_KEY_PARAM || 'zapikey',
+  temmyApiKeyHeader: process.env.TEMMY_API_KEY_HEADER || '',
+  temmyApiKey: process.env.TEMMY_API_KEY || '',
   useMockData: process.env.USE_MOCK_DATA !== 'false'
 };
 

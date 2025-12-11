@@ -303,11 +303,13 @@ function setupStep3Toggle() {
     if (existingRadio.checked) {
       existingSection.style.display = 'block';
       newSection.style.display = 'none';
-      updateContinueButtonText('Search on Temmy');
+      updateContinueButtonText('Continue');
+      setTemmySearchButtonVisibility(true);
     } else if (newRadio.checked) {
       existingSection.style.display = 'none';
       newSection.style.display = 'block';
       updateContinueButtonText('Continue');
+      setTemmySearchButtonVisibility(false);
 
       // Setup image upload and jurisdiction handlers for new application form
       setupImageUploadToggle();
@@ -334,6 +336,13 @@ function updateContinueButtonText(text) {
   }
 }
 
+function setTemmySearchButtonVisibility(show) {
+  const searchBtn = document.getElementById('search-temmy-btn');
+  if (!searchBtn) return;
+  searchBtn.style.display = show ? 'inline-flex' : 'none';
+  searchBtn.textContent = 'Search Again';
+}
+
 /**
  * Restore Step 3 button text based on current selection
  * Called after updateButtonStates() to override default "Continue" text
@@ -343,9 +352,11 @@ function restoreStep3ButtonText() {
   const newRadio = document.getElementById('status-new');
 
   if (existingRadio?.checked) {
-    updateContinueButtonText('Search on Temmy');
+    updateContinueButtonText('Continue');
+    setTemmySearchButtonVisibility(true);
   } else if (newRadio?.checked) {
     updateContinueButtonText('Continue');
+    setTemmySearchButtonVisibility(false);
   }
   // If neither is checked, keep default "Continue" from updateButtonStates()
 }
@@ -600,7 +611,8 @@ function restoreFormValues(stepNumber) {
             // Show search fields section
             if (existingSection) existingSection.style.display = 'block';
             if (newSection) newSection.style.display = 'none';
-            updateContinueButtonText('Search on Temmy');
+            updateContinueButtonText('Continue');
+            setTemmySearchButtonVisibility(true);
 
             // Restore search field values
             if (sectionData.tmName) {
@@ -616,6 +628,7 @@ function restoreFormValues(stepNumber) {
             if (existingSection) existingSection.style.display = 'none';
             if (newSection) newSection.style.display = 'block';
             updateContinueButtonText('Continue');
+            setTemmySearchButtonVisibility(false);
 
             // Restore application form values
             // Trademark type
@@ -782,7 +795,7 @@ function toggleStepUIElements(stepNumber) {
 function updateButtonStates(stepNumber) {
   const backBtn = document.getElementById('back-btn');
   const nextBtn = document.getElementById('next-btn');
-  const buttonBar = document.querySelector('.wizard-button-bar');
+  const searchBtn = document.getElementById('search-temmy-btn');
 
   // Back button visibility
   if (backBtn) {
@@ -810,6 +823,16 @@ function updateButtonStates(stepNumber) {
       // Default for all other steps (including Step 3 - will be updated by toggle if needed)
       nextBtn.textContent = 'Continue';
       nextBtn.style.display = 'inline-flex';
+    }
+  }
+
+  if (searchBtn) {
+    const existingSelected = document.getElementById('status-existing')?.checked;
+    const stateStatus = getSection('tmStatus')?.status;
+    const shouldShow = stepNumber === 3 && (existingSelected || stateStatus === 'existing');
+    searchBtn.style.display = shouldShow ? 'inline-flex' : 'none';
+    if (shouldShow) {
+      searchBtn.textContent = 'Search Again';
     }
   }
 }
@@ -1220,10 +1243,57 @@ document.addEventListener('click', (e) => {
 
 // Step 4: Temmy Search handler
 async function handleTemmySearch() {
-  // Placeholder for Temmy search API integration
-  alert('Temmy search integration coming soon. Proceeding to next step.');
-  // For now, just proceed to Step 5
-  goToStep(5);
+  const currentStep = getCurrentStep();
+  if (currentStep !== 3) return;
+
+  const { valid, data, errors } = collectStepData(3);
+
+  if (!valid) {
+    displayErrors(errors);
+    return;
+  }
+
+  clearErrors();
+
+  const payload = {};
+  if (data.tmAppNumber) {
+    payload.application_number = data.tmAppNumber;
+  } else if (data.tmName) {
+    payload.text = data.tmName;
+  }
+
+  showLoading();
+
+  try {
+    const response = await fetch('/api/temmy/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || result.error) {
+      const message = result?.error || 'Temmy search failed';
+      throw new Error(message);
+    }
+
+    updateSection('tmStatus', data);
+    updateSection('temmy', {
+      skipped: false,
+      selected: null,
+      query: payload,
+      results: result.data,
+      source: result.source || 'live',
+      lastSearchedAt: new Date().toISOString(),
+      searchType: payload.application_number ? 'application_number' : 'text'
+    });
+  } catch (err) {
+    console.error('Temmy search failed', err);
+    alert('Unable to search Temmy right now. Please try again.');
+  } finally {
+    hideLoading();
+  }
 }
 
 // Step 4: Skip to Billing handler

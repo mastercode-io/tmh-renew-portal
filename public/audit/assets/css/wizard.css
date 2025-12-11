@@ -413,7 +413,7 @@
 
 .wizard-button-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
   padding-top: 1.5rem;
   margin-top: 1rem;
@@ -424,7 +424,7 @@
 }
 
 .wizard-button-bar #next-btn {
-  margin-left: auto;
+  margin-left: 0;
 }
 
 @media (max-width: 480px) {
@@ -472,6 +472,10 @@
 }
 
 .wizard-button-bar #next-btn {
+  min-width: 160px;
+}
+
+#search-temmy-btn {
   min-width: 160px;
 }
 
