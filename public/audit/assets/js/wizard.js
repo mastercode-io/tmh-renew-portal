@@ -1276,6 +1276,10 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Temmy details fetch queue (sequential)
+let temmyDetailQueue = [];
+let temmyDetailProcessing = false;
+
 // Step 4: Temmy Search handler
 async function handleTemmySearch() {
   const currentStep = getCurrentStep();
@@ -1469,6 +1473,14 @@ function renderTemmyResultsTable(items, detailsMap) {
 }
 
 function renderTemmyDetailCard(detail) {
+  if (detail && detail.error) {
+    return `
+      <div class="tm-detail-card">
+        <div class="detail-value" style="color: #dc2626;">${detail.error}</div>
+      </div>
+    `;
+  }
+
   const mark = detail.mark || {};
   const classes = Array.isArray(detail.classes) ? detail.classes : [];
   const classCount = classes.length;
@@ -1664,39 +1676,74 @@ async function handleTemmyExpand(appNumber) {
     return;
   }
 
+  // Mark expanded, render placeholder, queue fetch
+  updateSection('temmy', {
+    ...temmy,
+    expanded: { ...(temmy.expanded || {}), [appNumber]: true }
+  });
+  renderTemmyResultsFromState();
+  enqueueTemmyDetail(appNumber);
+}
+
+function enqueueTemmyDetail(appNumber) {
+  if (!appNumber) return;
+  if (!temmyDetailQueue.includes(appNumber)) {
+    temmyDetailQueue.push(appNumber);
+  }
+  processTemmyDetailQueue();
+}
+
+async function processTemmyDetailQueue() {
+  if (temmyDetailProcessing) return;
+  if (temmyDetailQueue.length === 0) return;
+
+  temmyDetailProcessing = true;
   showLoading();
 
-  try {
-    const response = await fetch('/api/temmy/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ application_number: appNumber })
-    });
+  while (temmyDetailQueue.length > 0) {
+    const current = temmyDetailQueue.shift();
+    try {
+      const response = await fetch('/api/temmy/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ application_number: current })
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    if (!response.ok || result.error) {
-      throw new Error(result?.error || 'Temmy details failed');
+      if (!response.ok || result.error) {
+        throw new Error(result?.error || 'Temmy details failed');
+      }
+
+      const temmy = getSection('temmy') || {};
+      const newDetails = {
+        ...(temmy.details || {}),
+        [current]: result.data || {}
+      };
+
+      updateSection('temmy', {
+        ...temmy,
+        details: newDetails,
+        expanded: { ...(temmy.expanded || {}), [current]: true }
+      });
+
+      renderTemmyResultsFromState();
+    } catch (err) {
+      console.error('Failed to load Temmy details', err);
+      const temmy = getSection('temmy') || {};
+      updateSection('temmy', {
+        ...temmy,
+        details: {
+          ...(temmy.details || {}),
+          [current]: { error: 'Unable to load trademark details. Please try again.' }
+        }
+      });
+      renderTemmyResultsFromState();
     }
-
-    const newDetails = {
-      ...(temmy.details || {}),
-      [appNumber]: result.data || {}
-    };
-
-    updateSection('temmy', {
-      ...temmy,
-      details: newDetails,
-      expanded: { ...(temmy.expanded || {}), [appNumber]: true }
-    });
-
-    renderTemmyResultsFromState();
-  } catch (err) {
-    console.error('Failed to load Temmy details', err);
-    alert('Unable to load trademark details. Please try again.');
-  } finally {
-    hideLoading();
   }
+
+  hideLoading();
+  temmyDetailProcessing = false;
 }
 
 function handleTemmyExpandCollapseAll(expand) {
