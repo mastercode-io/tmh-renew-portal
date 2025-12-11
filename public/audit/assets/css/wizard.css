@@ -479,6 +479,81 @@
   min-width: 160px;
 }
 
+.temmy-results {
+  margin-top: 1.5rem;
+}
+
+.temmy-results h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--brand-navy);
+}
+
+.temmy-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.temmy-table th,
+.temmy-table td {
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f2f4;
+  font-size: 0.9rem;
+}
+
+.temmy-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--brand-navy);
+}
+
+.temmy-table tbody tr:hover {
+  background: #fdf2f7;
+}
+
+.temmy-expand-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--brand-navy);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.temmy-detail-row td {
+  background: #f9fafb;
+}
+
+.tm-detail-card {
+  border-left: 3px solid var(--brand-pink);
+  padding: 0.5rem 0.75rem;
+}
+
+.tm-detail-card .detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.35rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.tm-detail-card .detail-label {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.tm-detail-card .detail-value {
+  color: var(--brand-navy);
+  font-weight: 700;
+}
+
 /* Step 4 custom buttons */
 #step-4-custom-buttons .btn {
   min-width: 160px;

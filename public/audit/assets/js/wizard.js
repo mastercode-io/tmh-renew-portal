@@ -202,6 +202,7 @@ function renderStep3() {
           </div>
           <div class="field-error" id="tmSearch-error"></div>
         </div>
+        <div id="temmy-results-container"></div>
 
         <!-- Application Form (shown when "new" selected) -->
         <div id="new-trademark-section" class="conditional-section" style="display: none;">
@@ -347,9 +348,11 @@ function restoreStep3ButtonText() {
   if (existingRadio?.checked) {
     updateContinueButtonText('Continue');
     updateButtonStates(3);
+    renderTemmyResultsFromState();
   } else if (newRadio?.checked) {
     updateContinueButtonText('Continue');
     updateButtonStates(3);
+    clearTemmyResultsUI();
   }
   // If neither is checked, keep default "Continue" from updateButtonStates()
 }
@@ -616,6 +619,7 @@ function restoreFormValues(stepNumber) {
               const tmAppNumberInput = document.getElementById('tmAppNumber');
               if (tmAppNumberInput) tmAppNumberInput.value = sectionData.tmAppNumber;
             }
+            renderTemmyResultsFromState();
           } else if (sectionData.status === 'new') {
             // Show new application form section
             if (existingSection) existingSection.style.display = 'none';
@@ -841,7 +845,7 @@ function updateTemmyButtons(stepNumber, nextBtn, searchBtn) {
   }
 
   const temmy = getSection('temmy') || {};
-  const hasResults = !!temmy.results;
+  const hasResults = Array.isArray(temmy.results?.items) && temmy.results.items.length > 0;
 
   searchBtn.style.display = 'inline-flex';
   searchBtn.textContent = hasResults ? 'Search Again' : 'Search on Temmy';
@@ -1255,6 +1259,12 @@ document.addEventListener('click', (e) => {
     handleScheduleAppointment();
   } else if (e.target.id === 'skip-appointment-btn') {
     handleSkipAppointment();
+  } else if (e.target.closest('.temmy-expand-btn')) {
+    const btn = e.target.closest('.temmy-expand-btn');
+    const appNumber = btn?.dataset?.appNumber;
+    if (appNumber) {
+      handleTemmyExpand(appNumber);
+    }
   }
 });
 
@@ -1296,22 +1306,150 @@ async function handleTemmySearch() {
     }
 
     updateSection('tmStatus', data);
+    const resultsData = result.data;
+    const items = Array.isArray(resultsData?.items)
+      ? resultsData.items
+      : resultsData
+        ? [resultsData]
+        : [];
+    const detailSeed = payload.application_number && items.length === 1 ? { [payload.application_number]: items[0] } : {};
+
     updateSection('temmy', {
       skipped: false,
       selected: null,
       query: payload,
-      results: result.data,
+      results: { items },
+      details: detailSeed,
       source: result.source || 'live',
       lastSearchedAt: new Date().toISOString(),
       searchType: payload.application_number ? 'application_number' : 'text'
     });
     updateButtonStates(getCurrentStep());
+    renderTemmyResultsFromState();
   } catch (err) {
     console.error('Temmy search failed', err);
     alert('Unable to search Temmy right now. Please try again.');
   } finally {
     hideLoading();
   }
+}
+
+function renderTemmyResultsFromState() {
+  const container = document.getElementById('temmy-results-container');
+  if (!container) return;
+
+  const temmy = getSection('temmy');
+  if (!temmy || !temmy.results || !Array.isArray(temmy.results.items)) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = renderTemmyResultsTable(temmy.results.items, temmy.details || {});
+}
+
+function clearTemmyResultsUI() {
+  const container = document.getElementById('temmy-results-container');
+  if (container) {
+    container.innerHTML = '';
+  }
+}
+
+function renderTemmyResultsTable(items, detailsMap) {
+  if (!items || items.length === 0) {
+    return `
+      <div class="temmy-results">
+        <h4>Search Results</h4>
+        <p class="muted">No results found.</p>
+      </div>
+    `;
+  }
+
+  const rows = items
+    .map(item => {
+      const appNumber = item.application_number || 'N/A';
+      const name = item.verbal_element_text || 'N/A';
+      const applicant = Array.isArray(item.applicants) && item.applicants.length > 0
+        ? item.applicants[0].name || 'N/A'
+        : 'N/A';
+      const status = item.status || 'N/A';
+      const detail = detailsMap[appNumber];
+
+      return `
+        <tr data-app-number="${appNumber}">
+          <td>
+            <button class="temmy-expand-btn" data-app-number="${appNumber}">
+              <span class="expand-icon">${detail ? '&#8722;' : '&#43;'}</span>
+              ${appNumber}
+            </button>
+          </td>
+          <td>${name}</td>
+          <td>${applicant}</td>
+          <td>${status}</td>
+        </tr>
+        <tr class="temmy-detail-row" data-app-number="${appNumber}" style="${detail ? '' : 'display: none;'}">
+          <td colspan="4">
+            ${detail ? renderTemmyDetailCard(detail) : ''}
+          </td>
+        </tr>
+      `;
+    })
+    .join('');
+
+  return `
+    <div class="temmy-results">
+      <h4>Search Results</h4>
+      <table class="temmy-table">
+        <thead>
+          <tr>
+            <th>Application Number</th>
+            <th>Trademark</th>
+            <th>Applicant</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderTemmyDetailCard(detail) {
+  const mark = detail.mark || {};
+  const classes = Array.isArray(detail.classes) ? detail.classes : [];
+  const classCount = classes.length;
+  const classList = classCount > 0 ? classes.join(', ') : 'N/A';
+
+  return `
+    <div class="tm-detail-card">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-label">Application Date</div>
+          <div class="detail-value">${formatDate(detail.application_date_time)}</div>
+        </div>
+        <div>
+          <div class="detail-label">Expiry Date</div>
+          <div class="detail-value">${formatDate(detail.expiry_date)}</div>
+        </div>
+        <div>
+          <div class="detail-label">Classes</div>
+          <div class="detail-value">${classList} (${classCount} ${classCount === 1 ? 'class' : 'classes'})</div>
+        </div>
+        <div>
+          <div class="detail-label">Mark Type</div>
+          <div class="detail-value">${mark.feature || detail.mark_type || 'N/A'}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function formatDate(value) {
+  if (!value) return 'N/A';
+  const date = new Date(value);
+  if (isNaN(date.getTime())) return value;
+  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 // Step 4: Skip to Billing handler
@@ -1445,5 +1583,56 @@ function initializeSalesIQ(contactData) {
     }
   } catch (error) {
     console.error('[SalesIQ] Failed to initialize:', error);
+  }
+}
+async function handleTemmyExpand(appNumber) {
+  const temmy = getSection('temmy') || {};
+  const detailsMap = temmy.details || {};
+
+  // Toggle if already loaded
+  if (detailsMap[appNumber]) {
+    const detailRow = document.querySelector(`.temmy-detail-row[data-app-number="${appNumber}"]`);
+    const icon = document.querySelector(`.temmy-expand-btn[data-app-number="${appNumber}"] .expand-icon`);
+    const isVisible = detailRow && detailRow.style.display !== 'none';
+    if (detailRow) {
+      detailRow.style.display = isVisible ? 'none' : '';
+    }
+    if (icon) {
+      icon.innerHTML = isVisible ? '&#43;' : '&#8722;';
+    }
+    return;
+  }
+
+  showLoading();
+
+  try {
+    const response = await fetch('/api/temmy/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ application_number: appNumber })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || result.error) {
+      throw new Error(result?.error || 'Temmy details failed');
+    }
+
+    const newDetails = {
+      ...(temmy.details || {}),
+      [appNumber]: result.data || {}
+    };
+
+    updateSection('temmy', {
+      ...temmy,
+      details: newDetails
+    });
+
+    renderTemmyResultsFromState();
+  } catch (err) {
+    console.error('Failed to load Temmy details', err);
+    alert('Unable to load trademark details. Please try again.');
+  } finally {
+    hideLoading();
   }
 }
