@@ -54,6 +54,11 @@ function goToStep(stepNumber) {
   // Update button states
   updateButtonStates(stepNumber);
 
+  // Step 3: Restore button text based on selection (after updateButtonStates)
+  if (stepNumber === 3) {
+    restoreStep3ButtonText();
+  }
+
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -324,6 +329,22 @@ function updateContinueButtonText(text) {
   if (continueBtn) {
     continueBtn.textContent = text;
   }
+}
+
+/**
+ * Restore Step 3 button text based on current selection
+ * Called after updateButtonStates() to override default "Continue" text
+ */
+function restoreStep3ButtonText() {
+  const existingRadio = document.getElementById('status-existing');
+  const newRadio = document.getElementById('status-new');
+
+  if (existingRadio?.checked) {
+    updateContinueButtonText('Search on TEMI');
+  } else if (newRadio?.checked) {
+    updateContinueButtonText('Continue');
+  }
+  // If neither is checked, keep default "Continue" from updateButtonStates()
 }
 
 /**
