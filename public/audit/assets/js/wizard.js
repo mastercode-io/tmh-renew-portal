@@ -340,7 +340,7 @@ function restoreStep3ButtonText() {
   const newRadio = document.getElementById('status-new');
 
   if (existingRadio?.checked) {
-    updateContinueButtonText('Search on TEMI');
+    updateContinueButtonText('Search on Temmy');
   } else if (newRadio?.checked) {
     updateContinueButtonText('Continue');
   }
@@ -597,7 +597,7 @@ function restoreFormValues(stepNumber) {
             // Show search fields section
             if (existingSection) existingSection.style.display = 'block';
             if (newSection) newSection.style.display = 'none';
-            updateContinueButtonText('Search on TEMI');
+            updateContinueButtonText('Search on Temmy');
 
             // Restore search field values
             if (sectionData.tmName) {
