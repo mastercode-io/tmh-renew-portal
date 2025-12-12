@@ -807,6 +807,8 @@ function updateButtonStates(stepNumber) {
 
   // Next button text and visibility
   if (nextBtn) {
+    // Reset disabled state by default; Step 3 may override.
+    nextBtn.disabled = false;
     if (stepNumber === 1) {
       nextBtn.textContent = 'Begin Audit';
       nextBtn.style.display = 'inline-flex';
@@ -955,7 +957,7 @@ async function handleNextClick() {
 /**
  * Collect and validate data from current step
  */
-function collectStepData(stepNumber) {
+function collectStepData(stepNumber, options = {}) {
   const sectionName = getSectionName(stepNumber);
   let data = {};
 
@@ -984,8 +986,12 @@ function collectStepData(stepNumber) {
 
       // If "existing" trademark selected, collect search fields
       if (status === 'existing') {
-        data.tmName = document.getElementById('tmName')?.value.trim() || '';
         data.tmAppNumber = document.getElementById('tmAppNumber')?.value.trim() || '';
+        data.tmName = document.getElementById('tmName')?.value.trim() || '';
+        // If application number is present, ignore trademark name input.
+        if (data.tmAppNumber) {
+          data.tmName = '';
+        }
       }
       // If "new" application selected, collect full form
       else if (status === 'new') {
@@ -1054,7 +1060,7 @@ function collectStepData(stepNumber) {
   const validation = validateSection(sectionName, data);
 
   // Additional validation: if existing trademark and multiple results, require selection
-  if (stepNumber === 3 && data.status === 'existing' && validation.valid) {
+  if (stepNumber === 3 && data.status === 'existing' && validation.valid && !options.skipTemmySelection) {
     const temmy = getSection('temmy') || {};
     const items = temmy.results?.items || [];
     if (Array.isArray(items) && items.length > 1 && !temmy.selected) {
@@ -1286,7 +1292,7 @@ function hideLoading() {
 document.addEventListener('click', (e) => {
   // Step 4 buttons
   if (e.target.id === 'search-temmy-btn') {
-    handleTemmySearch();
+    handleTemmySearch({ skipTemmySelection: true });
   } else if (e.target.id === 'skip-to-billing-btn') {
     handleSkipToBilling();
   }
@@ -1317,11 +1323,11 @@ let temmyDetailQueue = [];
 let temmyDetailProcessing = false;
 
 // Step 4: Temmy Search handler
-async function handleTemmySearch() {
+async function handleTemmySearch(options = {}) {
   const currentStep = getCurrentStep();
   if (currentStep !== 3) return;
 
-  const { valid, data, errors } = collectStepData(3);
+  const { valid, data, errors } = collectStepData(3, options);
 
   if (!valid) {
     displayErrors(errors);
@@ -1329,6 +1335,18 @@ async function handleTemmySearch() {
   }
 
   clearErrors();
+
+  // Clear current results before re-searching
+  const existingTemmy = getSection('temmy') || {};
+  updateSection('temmy', {
+    ...existingTemmy,
+    results: { items: [] },
+    details: {},
+    expanded: {},
+    selected: null
+  });
+  clearTemmyResultsUI();
+  updateButtonStates(3);
 
   const payload = {};
   if (data.tmAppNumber) {
