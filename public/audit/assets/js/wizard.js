@@ -806,6 +806,7 @@ function updateButtonStates(stepNumber) {
   const backBtn = document.getElementById('back-btn');
   const nextBtn = document.getElementById('next-btn');
   const searchBtn = document.getElementById('search-temmy-btn');
+  const buttonBar = document.getElementById('button-bar');
 
   // Back button visibility
   if (backBtn) {
@@ -835,6 +836,16 @@ function updateButtonStates(stepNumber) {
       // Default for all other steps (including Step 3 - will be updated by toggle if needed)
       nextBtn.textContent = 'Continue';
       nextBtn.style.display = 'inline-flex';
+    }
+  }
+
+  // Step-specific alignment for button bar:
+  // When only the forward button is visible (Step 1), keep it on the right.
+  if (buttonBar) {
+    if (stepNumber === 1) {
+      buttonBar.classList.add('align-right');
+    } else {
+      buttonBar.classList.remove('align-right');
     }
   }
 
