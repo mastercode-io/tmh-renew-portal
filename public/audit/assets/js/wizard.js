@@ -359,6 +359,16 @@ function restoreStep3ButtonText() {
 }
 
 /**
+ * Backwards-compatible helper (was referenced in older code).
+ * Controls Temmy search button visibility on Step 3.
+ */
+function setTemmySearchButtonVisibility(visible) {
+  const searchBtn = document.getElementById('search-temmy-btn');
+  if (!searchBtn) return;
+  searchBtn.style.display = visible ? 'inline-flex' : 'none';
+}
+
+/**
  * Setup image upload toggle (for new application)
  */
 function setupImageUploadToggle() {
@@ -621,6 +631,7 @@ function restoreFormValues(stepNumber) {
               if (tmAppNumberInput) tmAppNumberInput.value = sectionData.tmAppNumber;
             }
             renderTemmyResultsFromState();
+            updateButtonStates(3);
           } else if (sectionData.status === 'new') {
             // Show new application form section
             if (existingSection) existingSection.style.display = 'none';
@@ -676,6 +687,7 @@ function restoreFormValues(stepNumber) {
             // Setup handlers for new application form
             setupImageUploadToggle();
             setupJurisdictionToggle();
+            updateButtonStates(3);
           }
         }
       }
