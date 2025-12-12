@@ -525,6 +525,37 @@
   background: #fdf2f7;
 }
 
+.temmy-select-header,
+.temmy-select-cell {
+  text-align: center;
+  width: 70px;
+}
+
+.temmy-select-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand-pink);
+  cursor: pointer;
+}
+
+.temmy-single-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.temmy-single-header {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.temmy-empty-message {
+  margin: 0.75rem 0 0;
+}
+
 .temmy-expand-btn {
   background: none;
   border: none;

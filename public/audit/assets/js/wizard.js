@@ -201,11 +201,12 @@ function renderStep3() {
             </div>
           </div>
           <div class="field-error" id="tmSearch-error"></div>
-        </div>
-        <div id="temmy-results-container"></div>
+	        </div>
+	        <div id="temmy-results-container"></div>
+	        <div class="field-error" id="temmySelect-error"></div>
 
-        <!-- Application Form (shown when "new" selected) -->
-        <div id="new-trademark-section" class="conditional-section" style="display: none;">
+	        <!-- Application Form (shown when "new" selected) -->
+	        <div id="new-trademark-section" class="conditional-section" style="display: none;">
           <div class="form-group" style="margin-top: 2rem;">
             <label>What type of trademark application is it? <span class="required">*</span></label>
             <div class="radio-simple-list">
@@ -826,13 +827,13 @@ function updateButtonStates(stepNumber) {
   updateTemmyButtons(stepNumber, nextBtn, searchBtn);
 }
 
-function updateTemmyButtons(stepNumber, nextBtn, searchBtn) {
-  if (!searchBtn || !nextBtn) return;
+	function updateTemmyButtons(stepNumber, nextBtn, searchBtn) {
+	  if (!searchBtn || !nextBtn) return;
 
-  if (stepNumber !== 3) {
-    searchBtn.style.display = 'none';
-    return;
-  }
+	  if (stepNumber !== 3) {
+	    searchBtn.style.display = 'none';
+	    return;
+	  }
 
   const existingSelected = document.getElementById('status-existing')?.checked;
   const stateStatus = getSection('tmStatus')?.status;
@@ -844,19 +845,44 @@ function updateTemmyButtons(stepNumber, nextBtn, searchBtn) {
     return;
   }
 
-  const temmy = getSection('temmy') || {};
-  const hasResults = Array.isArray(temmy.results?.items) && temmy.results.items.length > 0;
+	  const temmy = getSection('temmy') || {};
+	  const hasResults = Array.isArray(temmy.results?.items) && temmy.results.items.length > 0;
+	  const resultCount = hasResults ? temmy.results.items.length : 0;
+	  const hasSelection = !!temmy.selected;
+	  const hasSearched = !!temmy.lastSearchedAt || !!temmy.query;
 
-  searchBtn.style.display = 'inline-flex';
-  searchBtn.textContent = hasResults ? 'Search Again' : 'Search on Temmy';
+	  searchBtn.style.display = 'inline-flex';
+	  searchBtn.textContent = hasResults || hasSearched ? 'Search Again' : 'Search on Temmy';
 
-  if (hasResults) {
-    nextBtn.style.display = 'inline-flex';
-    nextBtn.textContent = 'Continue';
-  } else {
-    nextBtn.style.display = 'none';
-  }
-}
+	  // Variant swap: if single result, Search Again becomes secondary
+	  if (resultCount === 1) {
+	    searchBtn.classList.remove('btn-primary', 'btn-lg');
+	    if (!searchBtn.classList.contains('btn-ghost')) {
+	      searchBtn.classList.add('btn-ghost');
+	    }
+	  } else {
+	    searchBtn.classList.remove('btn-ghost');
+	    if (!searchBtn.classList.contains('btn-primary')) {
+	      searchBtn.classList.add('btn-primary');
+	    }
+	    if (!searchBtn.classList.contains('btn-lg')) {
+	      searchBtn.classList.add('btn-lg');
+	    }
+	  }
+
+	  if (hasResults) {
+	    nextBtn.style.display = 'inline-flex';
+	    nextBtn.textContent = 'Continue';
+	    // Require selection only when multiple results
+	    if (resultCount > 1 && !hasSelection) {
+	      nextBtn.disabled = true;
+	    } else {
+	      nextBtn.disabled = false;
+	    }
+	  } else {
+	    nextBtn.style.display = 'none';
+	  }
+	}
 
 /**
  * Setup button event handlers
@@ -1026,6 +1052,16 @@ function collectStepData(stepNumber) {
 
   // Validate
   const validation = validateSection(sectionName, data);
+
+  // Additional validation: if existing trademark and multiple results, require selection
+  if (stepNumber === 3 && data.status === 'existing' && validation.valid) {
+    const temmy = getSection('temmy') || {};
+    const items = temmy.results?.items || [];
+    if (Array.isArray(items) && items.length > 1 && !temmy.selected) {
+      validation.valid = false;
+      validation.errors = { ...(validation.errors || {}), temmySelect: 'Please select a trademark from the results' };
+    }
+  }
 
   return {
     valid: validation.valid,
@@ -1324,15 +1360,20 @@ async function handleTemmySearch() {
       : resultsData
         ? [resultsData]
         : [];
-    const sortedItems = sortTemmyItems(items);
-    const detailSeed = payload.application_number && sortedItems.length === 1 ? { [payload.application_number]: sortedItems[0] } : {};
+	    const sortedItems = sortTemmyItems(items);
+	    const singleAppNumber = sortedItems.length === 1
+	      ? (sortedItems[0].application_number || payload.application_number || null)
+	      : null;
+	    const detailSeed = payload.application_number && sortedItems.length === 1
+	      ? { [payload.application_number]: sortedItems[0] }
+	      : {};
 
-    updateSection('temmy', {
-      skipped: false,
-      selected: null,
-      query: payload,
-      results: { items: sortedItems },
-      details: detailSeed,
+	    updateSection('temmy', {
+	      skipped: false,
+	      selected: singleAppNumber,
+	      query: payload,
+	      results: { items: sortedItems },
+	      details: detailSeed,
       source: result.source || 'live',
       lastSearchedAt: new Date().toISOString(),
       searchType: payload.application_number ? 'application_number' : 'text',
@@ -1398,79 +1439,116 @@ function sortTemmyItems(items) {
   });
 }
 
-function renderTemmyResultsTable(items, detailsMap) {
-  if (!items || items.length === 0) {
-    return `
-      <div class="temmy-results">
-        <div class="temmy-results-header">
-          <h4>Search Results</h4>
-        </div>
-        <p class="muted">No results found.</p>
-      </div>
-    `;
-  }
+	function renderTemmyResultsTable(items, detailsMap) {
+	  if (!items || items.length === 0) {
+	    return `
+	      <div class="temmy-results">
+	        <div class="temmy-results-header">
+	          <h4>Search Results</h4>
+	        </div>
+	        <p class="muted temmy-empty-message">
+	          Not found. If this is a new trademark application, please go back and select “New Application”.
+	        </p>
+	      </div>
+	    `;
+	  }
 
-  const temmy = getSection('temmy') || {};
-  const expandedState = temmy.expanded || {};
+	  const temmy = getSection('temmy') || {};
+	  const expandedState = temmy.expanded || {};
+	  const selectedAppNumber = temmy.selected || null;
 
-  const rows = items
-    .map(item => {
-      const appNumber = item.application_number || 'N/A';
-      const name = item.verbal_element_text || 'N/A';
-      const applicantName = getApplicantName(item) || 'N/A';
-      const status = item.status || 'N/A';
-      const detail = detailsMap[appNumber];
-      const isExpanded = expandedState[appNumber] || false;
-      const detailContent = detail
-        ? renderTemmyDetailCard(detail)
-        : '<div class="tm-detail-card"><div class="detail-label">Loading details...</div></div>';
+	  if (items.length === 1) {
+	    const item = items[0];
+	    const appNumber = item.application_number || 'N/A';
+	    const name = item.verbal_element_text || 'N/A';
+	    const applicantName = getApplicantName(item) || 'N/A';
+	    const status = item.status || 'N/A';
+	    const detail = detailsMap[appNumber] || item;
+	    const detailContent = detail
+	      ? renderTemmyDetailCard(detail)
+	      : '<div class="tm-detail-card"><div class="detail-label">Loading details...</div></div>';
 
-      return `
-        <tr data-app-number="${appNumber}">
-          <td>
-            <button type="button" class="temmy-expand-btn" data-app-number="${appNumber}">
-              <span class="expand-icon">${isExpanded ? '&#8722;' : '&#43;'}</span>
-              ${appNumber}
-            </button>
-          </td>
-          <td>${name}</td>
-          <td>${applicantName}</td>
-          <td>${status}</td>
-        </tr>
-        <tr class="temmy-detail-row" data-app-number="${appNumber}" style="${isExpanded ? '' : 'display: none;'}">
-          <td colspan="4">
-            ${detailContent}
-          </td>
-        </tr>
-      `;
-    })
-    .join('');
+	    return `
+	      <div class="temmy-results">
+	        <div class="temmy-results-header">
+	          <h4>Trademark Found</h4>
+	        </div>
+	        <div class="temmy-single-card">
+	          <div class="temmy-single-header">
+	            <div><span class="detail-label">Application Number</span><div class="detail-value">${appNumber}</div></div>
+	            <div><span class="detail-label">Trademark</span><div class="detail-value">${name}</div></div>
+	            <div><span class="detail-label">Applicant</span><div class="detail-value">${applicantName}</div></div>
+	            <div><span class="detail-label">Status</span><div class="detail-value">${status}</div></div>
+	          </div>
+	          ${detailContent}
+	        </div>
+	      </div>
+	    `;
+	  }
 
-  return `
-    <div class="temmy-results">
-      <div class="temmy-results-header">
-        <h4>Search Results</h4>
-        <div class="temmy-results-actions">
-          <button type="button" class="btn btn-ghost btn-sm" id="temmy-expand-all">Expand all</button>
-          <button type="button" class="btn btn-ghost btn-sm" id="temmy-collapse-all">Collapse all</button>
-        </div>
-      </div>
-      <table class="temmy-table">
-        <thead>
-          <tr>
-            <th>Application Number</th>
-            <th>Trademark</th>
-            <th>Applicant</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows}
-        </tbody>
-      </table>
-    </div>
-  `;
-}
+	  const rows = items
+	    .map(item => {
+	      const appNumber = item.application_number || 'N/A';
+	      const name = item.verbal_element_text || 'N/A';
+	      const applicantName = getApplicantName(item) || 'N/A';
+	      const status = item.status || 'N/A';
+	      const detail = detailsMap[appNumber];
+	      const isExpanded = expandedState[appNumber] || false;
+	      const isSelected = selectedAppNumber === appNumber;
+	      const detailContent = detail
+	        ? renderTemmyDetailCard(detail)
+	        : '<div class="tm-detail-card"><div class="detail-label">Loading details...</div></div>';
+
+	      return `
+	        <tr data-app-number="${appNumber}">
+	          <td>
+	            <button type="button" class="temmy-expand-btn" data-app-number="${appNumber}">
+	              <span class="expand-icon">${isExpanded ? '&#8722;' : '&#43;'}</span>
+	              ${appNumber}
+	            </button>
+	          </td>
+	          <td>${name}</td>
+	          <td>${applicantName}</td>
+	          <td>${status}</td>
+	          <td class="temmy-select-cell">
+	            <input type="checkbox" class="temmy-select-checkbox" data-app-number="${appNumber}" ${isSelected ? 'checked' : ''} aria-label="Select ${appNumber}">
+	          </td>
+	        </tr>
+	        <tr class="temmy-detail-row" data-app-number="${appNumber}" style="${isExpanded ? '' : 'display: none;'}">
+	          <td colspan="5">
+	            ${detailContent}
+	          </td>
+	        </tr>
+	      `;
+	    })
+	    .join('');
+
+	  return `
+	    <div class="temmy-results">
+	      <div class="temmy-results-header">
+	        <h4>Search Results</h4>
+	        <div class="temmy-results-actions">
+	          <button type="button" class="btn btn-ghost btn-sm" id="temmy-expand-all">Expand all</button>
+	          <button type="button" class="btn btn-ghost btn-sm" id="temmy-collapse-all">Collapse all</button>
+	        </div>
+	      </div>
+	      <table class="temmy-table">
+	        <thead>
+	          <tr>
+	            <th>Application Number</th>
+	            <th>Trademark</th>
+	            <th>Applicant</th>
+	            <th>Status</th>
+	            <th class="temmy-select-header">Select</th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          ${rows}
+	        </tbody>
+	      </table>
+	    </div>
+	  `;
+	}
 
 function renderTemmyDetailCard(detail) {
   if (detail && detail.error) {
@@ -1553,6 +1631,24 @@ async function handleSkipAppointment() {
 
 // Step 5: File upload handlers
 document.addEventListener('change', (e) => {
+  if (e.target.classList && e.target.classList.contains('temmy-select-checkbox')) {
+    const appNumber = e.target.dataset.appNumber;
+    const temmy = getSection('temmy') || {};
+    const checked = e.target.checked;
+
+    document.querySelectorAll('.temmy-select-checkbox').forEach(cb => {
+      if (cb !== e.target) cb.checked = false;
+    });
+
+    updateSection('temmy', {
+      ...temmy,
+      selected: checked ? appNumber : null
+    });
+
+    updateButtonStates(getCurrentStep());
+    return;
+  }
+
   // Toggle file upload visibility based on radio selection
   if (e.target.name === 'imageUpload') {
     const container = document.getElementById('image-upload-container');
