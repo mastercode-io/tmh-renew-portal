@@ -1488,7 +1488,7 @@ function sortTemmyItems(items) {
 	          <h4>Search Results</h4>
 	        </div>
 	        <p class="muted temmy-empty-message">
-	          Not found. If this is a new trademark application, please go back and select “New Application”.
+	          Not found. If this is a new trademark application, please select “New Application”.
 	        </p>
 	      </div>
 	    `;
