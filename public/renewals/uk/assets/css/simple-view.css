@@ -15,6 +15,11 @@ body.view-simple .header-nav-mobile {
   display: none !important;
 }
 
+/* Header Trustist widget */
+body.view-simple .header-trustist {
+  display: none !important;
+}
+
 /* Hero marketing content */
 body.view-simple .hero-media-stack {
   display: none !important;
