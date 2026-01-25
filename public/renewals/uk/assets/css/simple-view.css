@@ -32,6 +32,10 @@ body.view-simple .hero-copy .hero-subtitle {
   display: none !important;
 }
 
+body.view-simple .hero-copy .notice {
+  display: none !important;
+}
+
 /* Marketing sections */
 body.view-simple #why-renew {
   display: none !important;
@@ -84,10 +88,6 @@ body.view-simple .hero-grid {
 /* Hero copy adjustments for simple view */
 body.view-simple .hero-copy {
   text-align: left;
-}
-
-body.view-simple .hero-copy .notice {
-  margin-bottom: 1.5rem;
 }
 
 body.view-simple .hero-cta {
@@ -169,9 +169,5 @@ body.view-simple .foot-brand .logo {
 @media (max-width: 480px) {
   body.view-simple .hero-heading {
     text-align: left;
-  }
-
-  body.view-simple .hero-copy .notice {
-    font-size: 0.9rem;
   }
 }
