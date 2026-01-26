@@ -22,8 +22,8 @@
 
   const params = new URLSearchParams(window.location.search);
 
-  // Detect simplified view mode
-  if (params.get('view') === 'simple') {
+  // Default to simplified view, show marketing content only when landing=true
+  if (params.get('landing') !== 'true') {
     document.body.classList.add('view-simple');
   }
 
