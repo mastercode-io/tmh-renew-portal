@@ -1,5 +1,9 @@
 {
   "redirects": [
-    { "source": "/", "destination": "https://www.thetrademarkhelpline.com", "permanent": false }
-  ]
+    { "source": "/", "destination": "https://www.thetrademarkhelpline.com", "permanent": false },
+    { "source": "/audit", "destination": "/audit/", "permanent": false },
+    { "source": "/audit/summary", "destination": "/audit/summary/", "permanent": false },
+    { "source": "/audit/confirmation", "destination": "/audit/confirmation/", "permanent": false }
+  ],
+  "trailingSlash": true
 }

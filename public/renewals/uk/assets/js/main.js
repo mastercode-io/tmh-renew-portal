@@ -22,6 +22,11 @@
 
   const params = new URLSearchParams(window.location.search);
 
+  // Detect simplified view mode
+  if (params.get('view') === 'simple') {
+    document.body.classList.add('view-simple');
+  }
+
   // Allow CRM to inject a global object window.prefill = { fieldName: value }
   const injected = (window.prefill && typeof window.prefill === 'object') ? window.prefill : {};
 

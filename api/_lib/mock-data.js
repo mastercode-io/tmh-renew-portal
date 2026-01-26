@@ -268,6 +268,191 @@ export function getMockPaymentStatus(token) {
   return payload;
 }
 
+// Audit mock data functions
+
+export function getMockAuditUpdate(section, data) {
+  const orderId = 'AUD-' + Date.now();
+
+  const response = {
+    orderId: orderId,
+    success: true,
+    message: `Section ${section} saved successfully`
+  };
+
+  // For paymentOptions section, include checkoutUrl
+  if (section === 'paymentOptions') {
+    response.checkoutUrl = `/audit/confirmation/?orderId=${orderId}`;
+  }
+
+  return response;
+}
+
+export function getMockAuditOrder(orderId) {
+  return {
+    orderId: orderId || 'AUD-' + Date.now(),
+    dealId: 'D-AUD-001',
+    sections: {
+      contact: {
+        firstName: 'Sarah',
+        lastName: 'Johnson',
+        email: 'sarah@example.com',
+        phone: '+44 7700 900123'
+      },
+      preferences: {
+        methods: ['Email', 'Phone']
+      },
+      tmStatus: {
+        status: 'new'
+      },
+      temmy: {
+        skipped: true,
+        selected: null
+      },
+      tmInfo: {
+        types: ['Word'],
+        name: 'TECHIFY',
+        image: null,
+        jurisdictions: ['United Kingdom', 'Europe']
+      },
+      goods: {
+        description: 'Software development and IT consulting services',
+        website: 'https://example.com'
+      },
+      billing: {
+        type: 'Individual',
+        name: 'Sarah Johnson',
+        address: {
+          line1: '123 High Street',
+          line2: '',
+          city: 'Manchester',
+          county: 'Greater Manchester',
+          postcode: 'M1 1AA',
+          country: 'United Kingdom'
+        },
+        invoiceEmail: 'sarah@example.com',
+        invoicePhone: '+44 7700 900123'
+      },
+      appointment: {
+        scheduled: false,
+        skipped: true
+      },
+      paymentOptions: {
+        socialMediaAddon: true,
+        termsAccepted: true
+      }
+    },
+    subtotal: 69.00,
+    vat: 13.80,
+    total: 82.80,
+    currency: 'GBP',
+    created: new Date().toISOString(),
+    updated: new Date().toISOString(),
+    status: 'pending'
+  };
+}
+
+export function getMockAuditPaymentLink(orderId) {
+  return {
+    payment_url: 'https://invoices.xero.com/link/audit-' + orderId,
+    order_id: orderId || 'AUD-' + Date.now()
+  };
+}
+
+// Temmy mock data
+export function getMockTemmySearch(queryText = '') {
+  return {
+    items: [
+      {
+        applicants: [{ ipo_identifier: 1243261, name: 'LION SPECIALTY CHEMICALS CO., LTD.' }],
+        application_number: 'UK00800896991',
+        expiry_date: 'Sun, 31 May 2026 00:00:00 GMT',
+        id: 24779,
+        last_updated_on: 'Mon, 01 Dec 2025 00:00:00 GMT',
+        mark_type: 'Figurative',
+        status: 'Registered',
+        verbal_element_text: 'LEOGARD'
+      },
+      {
+        applicants: [{ ipo_identifier: 674320, name: 'Leogriff AS' }],
+        application_number: 'UK00903027463',
+        expiry_date: 'Mon, 06 Feb 2023 00:00:00 GMT',
+        id: 423097,
+        last_updated_on: 'Thu, 15 Feb 2024 00:00:00 GMT',
+        mark_type: 'Word',
+        status: 'Dead',
+        verbal_element_text: 'LEOGRIFF'
+      },
+      {
+        applicants: [{ ipo_identifier: 1769929, name: 'Shenzhen Changmaitong Technology Co., Ltd.' }],
+        application_number: 'UK00003851411',
+        expiry_date: 'Sun, 21 Nov 2032 00:00:00 GMT',
+        id: 746869,
+        last_updated_on: 'Tue, 29 Jul 2025 00:00:00 GMT',
+        mark_type: 'Word',
+        status: 'Registered',
+        verbal_element_text: 'Leogowr'
+      }
+    ],
+    pagination: {
+      count: 3,
+      limit: 1000,
+      page: 1,
+      total: 3,
+      total_pages: 1
+    },
+    query: {
+      limit: 1000,
+      page: 1,
+      text: queryText || 'mock'
+    }
+  };
+}
+
+export function getMockTemmyDetails(applicationNumber = 'UK00000000000') {
+  const search = getMockTemmySearch();
+  const match = search.items.find(item => item.application_number === applicationNumber);
+
+  if (match) {
+    return match;
+  }
+
+  return {
+    applicants: [{ ipo_identifier: 0, name: 'Mock Applicant Ltd' }],
+    application_number: applicationNumber,
+    expiry_date: 'Mon, 01 Jan 2035 00:00:00 GMT',
+    id: 0,
+    last_updated_on: new Date().toUTCString(),
+    mark_type: 'Word',
+    status: 'Registered',
+    verbal_element_text: 'MockMark'
+  };
+}
+
+const MOCK_AUDIT_LEAD = {
+  token: 'mock_lead_token_' + Date.now(),
+  lead: {
+    first_name: 'Sarah',
+    last_name: 'Johnson',
+    email: 'sarah@example.com',
+    phone: '+44 7700 900123'
+  }
+};
+
+export function getMockAuditLead(token, leadData) {
+  const mockToken = token || 'mock_lead_token_' + Date.now();
+
+  // Merge new data with base mock lead
+  const mergedLead = {
+    ...MOCK_AUDIT_LEAD.lead,
+    ...leadData
+  };
+
+  return {
+    token: mockToken,
+    lead: mergedLead
+  };
+}
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }

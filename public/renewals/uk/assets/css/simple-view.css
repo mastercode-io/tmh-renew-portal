@@ -1,0 +1,178 @@
+/**
+ * Simplified View for Renewal Landing Page
+ * Applied when body has .view-simple class (via ?view=simple URL param)
+ *
+ * Removes marketing content while keeping essential trademark info and renewal form.
+ */
+
+/* ==========================================================================
+   HIDE MARKETING SECTIONS
+   ========================================================================== */
+
+/* Header navigation links (both desktop and mobile) */
+body.view-simple .header-nav-row,
+body.view-simple .header-nav-mobile {
+  display: none !important;
+}
+
+/* Header Trustist widget */
+body.view-simple .header-trustist {
+  display: none !important;
+}
+
+/* Hero marketing content */
+body.view-simple .hero-media-stack {
+  display: none !important;
+}
+
+body.view-simple .hero-copy .ticks {
+  display: none !important;
+}
+
+body.view-simple .hero-cta .btn-ghost {
+  display: none !important;
+}
+
+body.view-simple .hero-copy .hero-subtitle {
+  display: none !important;
+}
+
+body.view-simple .hero-copy .notice {
+  display: none !important;
+}
+
+/* Marketing sections */
+body.view-simple #why-renew {
+  display: none !important;
+}
+
+body.view-simple #trusted {
+  display: none !important;
+}
+
+body.view-simple .metric-strip {
+  display: none !important;
+}
+
+body.view-simple #how-it-works {
+  display: none !important;
+}
+
+body.view-simple #audit {
+  display: none !important;
+}
+
+body.view-simple #combine {
+  display: none !important;
+}
+
+/* Footer marketing elements */
+body.view-simple .site-footer .social-links {
+  display: none !important;
+}
+
+body.view-simple .footer-trustpilot {
+  display: none !important;
+}
+
+body.view-simple .foot-contact {
+  display: none !important;
+}
+
+/* ==========================================================================
+   SIMPLIFIED LAYOUT - Centered 800px content
+   ========================================================================== */
+
+/* Hero grid - single column centered */
+body.view-simple .hero-grid {
+  display: block;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Hero copy adjustments for simple view */
+body.view-simple .hero-copy {
+  text-align: left;
+}
+
+body.view-simple .hero-cta {
+  margin-top: 1.5rem;
+}
+
+body.view-simple .hero-cta .cta-row {
+  justify-content: flex-start;
+}
+
+/* Trademark info card - centered */
+body.view-simple .trademark-info-card {
+  max-width: 800px;
+  margin: 1.5rem auto;
+}
+
+/* Next renewals table - centered */
+body.view-simple .next-renewals {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+body.view-simple .hero-renewals {
+  justify-content: center;
+}
+
+body.view-simple .hero-renewals .next-renewals {
+  max-width: 800px;
+  width: 100%;
+}
+
+/* Renewal form section - centered */
+body.view-simple .renewal-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Hero heading - centered max-width */
+body.view-simple .hero-heading {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Footer simplified layout - single column centered */
+body.view-simple .footer-inner {
+  grid-template-columns: 1fr;
+  text-align: center;
+  gap: 1rem;
+}
+
+body.view-simple .foot-brand {
+  align-items: center;
+}
+
+body.view-simple .foot-brand .logo {
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS FOR SIMPLE VIEW
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  body.view-simple .hero-grid {
+    padding: 0;
+  }
+
+  body.view-simple .hero-cta .cta-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  body.view-simple .hero-cta .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body.view-simple .hero-heading {
+    text-align: left;
+  }
+}

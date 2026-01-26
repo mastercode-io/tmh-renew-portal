@@ -1,0 +1,1089 @@
+/**
+ * Audit Wizard Styles
+ * Additional styles for the multi-step wizard
+ * Extends base styles from renewal portal
+ */
+
+:root {
+  --current-step: 1;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.hidden {
+  display: none !important;
+}
+
+/* ============================================
+   PAGE TITLE (visible on all steps)
+   ============================================ */
+
+.page-title-section {
+  background: #fff;
+  padding: 2rem 0 1rem;
+}
+
+.page-title-section .container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0;
+  text-align: left;
+}
+
+/* ============================================
+   PAGE NUMBER INDICATORS
+   ============================================ */
+
+.wizard-progress-section {
+  background: transparent;
+  padding: 1.5rem 0;
+}
+
+.wizard-progress-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-indicators {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c7d8c;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.page-number.active {
+  background: var(--brand-pink);
+  color: #fff;
+  border-color: var(--brand-pink);
+  box-shadow: 0 2px 8px rgba(229, 22, 82, 0.2);
+}
+
+.page-number.completed {
+  background: #f0f9ff;
+  border-color: var(--brand-pink);
+  color: var(--brand-pink);
+}
+
+/* ============================================
+   WIZARD SECTION
+   ============================================ */
+
+.wizard-section {
+  padding: 2rem 0 4rem;
+  min-height: calc(100vh - 400px);
+}
+
+.wizard-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   WIZARD STEPS
+   ============================================ */
+
+.wizard-step {
+  display: none;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.wizard-step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wizard-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25, 35, 45, 0.08);
+  padding: 2rem;
+  border-left: 4px solid var(--brand-pink);
+  margin-bottom: 1.5rem;
+}
+
+.wizard-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0 0 0.75rem 0;
+}
+
+.wizard-subtitle {
+  font-size: 0.95rem;
+  color: #000000;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+
+.wizard-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .wizard-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+.tm-search-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .tm-search-row {
+    grid-template-columns: 1fr;
+    row-gap: 0.75rem;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--brand-navy);
+  margin-bottom: 0.4rem;
+  font-size: 0.875rem;
+}
+
+.form-group label .required {
+  color: var(--brand-pink);
+  margin-left: 2px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-family: 'Nunito Sans', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--brand-pink);
+  box-shadow: 0 0 0 3px rgba(229, 22, 82, 0.1);
+}
+
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.375rem;
+  display: none;
+  font-weight: 500;
+}
+
+.field-error.visible {
+  display: block;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+/* ============================================
+   CHECKBOX GROUPS
+   ============================================ */
+
+.checkbox-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  border: none !important;
+  cursor: pointer;
+  background: transparent;
+  outline: none !important;
+}
+
+.checkbox-card:hover .checkbox-label {
+  color: #000000 !important;
+}
+
+.checkbox-card:focus,
+.checkbox-card:focus-visible,
+.checkbox-card:focus-within {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.checkbox-card input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--brand-pink);
+  flex-shrink: 0;
+  outline: none !important;
+  border: none !important;
+}
+
+.checkbox-card input[type="checkbox"]:focus,
+.checkbox-card input[type="checkbox"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.checkbox-card input[type="checkbox"]:checked + .checkbox-label {
+  color: #000000 !important;
+  font-weight: 400 !important;
+}
+
+.checkbox-label {
+  flex: 1;
+  font-size: 0.9375rem;
+  color: #000000 !important;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ============================================
+   RADIO GROUPS (Simple flat style for billing type)
+   ============================================ */
+
+.radio-simple-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.radio-simple {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.radio-simple input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--brand-pink);
+  flex-shrink: 0;
+}
+
+.radio-simple-label {
+  font-size: 0.9375rem;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-simple input[type="radio"]:checked + .radio-simple-label {
+  font-weight: 600;
+  color: var(--brand-pink);
+}
+
+/* ============================================
+   RADIO GROUPS (Card style for other steps)
+   ============================================ */
+
+.radio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius-sm, 10px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.radio-card:hover {
+  border-color: var(--brand-pink);
+  background: var(--soft, #FCE7ED);
+}
+
+.radio-card input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--brand-pink);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.radio-content {
+  flex: 1;
+}
+
+.radio-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.radio-description {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.radio-card input[type="radio"]:checked ~ .radio-content .radio-label {
+  color: var(--brand-pink);
+}
+
+/* ============================================
+   BUTTON BAR
+   ============================================ */
+
+.wizard-button-bar {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+}
+
+.wizard-button-bar.align-right {
+  justify-content: flex-end;
+}
+
+.wizard-button-bar #back-btn {
+  margin-right: auto;
+}
+
+.wizard-button-bar #next-btn {
+  margin-left: 0;
+}
+
+@media (max-width: 480px) {
+  .wizard-button-bar {
+    flex-direction: column-reverse;
+  }
+
+  .wizard-button-bar .btn,
+  .form-card .btn {
+    width: 100%;
+  }
+
+  /* Maintain consistent button sizing on mobile */
+  .wizard-section .btn,
+  .wizard-button-bar .btn,
+  .form-card .btn {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.9375rem !important;
+  }
+}
+
+/* ============================================
+   BUTTON CONSISTENCY (All wizard buttons)
+   ============================================ */
+
+/* Override all button styles to ensure consistency across all pages */
+.wizard-section .btn,
+.wizard-button-bar .btn,
+.form-card .btn {
+  /* Fixed height through consistent padding */
+  padding: 0.75rem 1.5rem !important;
+  /* Fixed font size */
+  font-size: 0.9375rem !important;
+  /* Ensure consistent line height */
+  line-height: 1.2 !important;
+  /* Consistent font weight */
+  font-weight: 600 !important;
+  /* Prevent text wrapping */
+  white-space: nowrap;
+}
+
+/* Specific width constraints for common buttons */
+.wizard-button-bar #back-btn {
+  min-width: 120px;
+}
+
+.wizard-button-bar #next-btn {
+  min-width: 160px;
+}
+
+#search-temmy-btn {
+  min-width: 160px;
+}
+
+.temmy-results {
+  margin-top: 1.5rem;
+}
+
+.temmy-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.temmy-results h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--brand-navy);
+}
+
+.temmy-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.temmy-table th,
+.temmy-table td {
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f2f4;
+  font-size: 0.9rem;
+}
+
+.temmy-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--brand-navy);
+}
+
+.temmy-table tbody tr:hover {
+  background: #fdf2f7;
+}
+
+.temmy-select-header,
+.temmy-select-cell {
+  text-align: center;
+  width: 70px;
+}
+
+.temmy-select-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand-pink);
+  cursor: pointer;
+}
+
+.temmy-single-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.temmy-single-header {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.temmy-empty-message {
+  margin: 0.75rem 0 0;
+}
+
+.temmy-expand-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--brand-navy);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.temmy-detail-row td {
+  background: #f9fafb;
+}
+
+.tm-detail-card {
+  border-left: 3px solid var(--brand-pink);
+  padding: 0.5rem 0.75rem;
+}
+
+.temmy-results-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn.btn-sm {
+  padding: 0.35rem 0.6rem !important;
+  font-size: 0.85rem !important;
+}
+
+.tm-detail-card .detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.35rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.tm-detail-card .detail-label {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.tm-detail-card .detail-value {
+  color: var(--brand-navy);
+  font-weight: 700;
+}
+
+/* Step 4 custom buttons */
+#step-4-custom-buttons .btn {
+  min-width: 160px;
+}
+
+/* Step 8 appointment buttons */
+#schedule-appointment-btn {
+  min-width: 180px;
+}
+
+#skip-appointment-btn {
+  min-width: 180px;
+}
+
+/* ============================================
+   BUTTON STATES
+   ============================================ */
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn.loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   INFO BOXES
+   ============================================ */
+
+.info-box {
+  background: linear-gradient(135deg, rgba(229, 22, 82, 0.05) 0%, rgba(229, 22, 82, 0.08) 100%);
+  border-left: 4px solid var(--brand-pink);
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+}
+
+.info-box p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.info-box strong {
+  color: var(--brand-navy);
+}
+
+.warning-box {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%);
+  border-left: 4px solid #f59e0b;
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+}
+
+.warning-box p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* ============================================
+   LOADING OVERLAY
+   ============================================ */
+
+.page-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.page-loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-loading-card {
+  background: #ffffff;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(34, 52, 71, 0.15);
+  border: 1px solid #e5e7eb;
+  min-width: 220px;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.page-loading-text {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  text-align: center;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .wizard-card {
+    padding: 1.5rem;
+  }
+
+  .wizard-title {
+    font-size: 1.5rem;
+  }
+
+  .wizard-subtitle {
+    font-size: 1rem;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .radio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .wizard-section {
+    padding: 2rem 0 3rem;
+  }
+
+  .wizard-card {
+    padding: 1.25rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--brand-navy);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus states for keyboard navigation - DISABLED */
+.checkbox-card:focus-within,
+.radio-card:focus-within {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--brand-pink);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   INTRO CARD (Step 1 only)
+   ============================================ */
+
+.intro-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25, 35, 45, 0.08);
+  padding: 2rem;
+  border-left: 4px solid var(--brand-pink);
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   FORM CARD (Flat design for Step 1 form)
+   ============================================ */
+
+.form-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   FULL INTRO BLOCK (Step 1 only)
+   ============================================ */
+
+.full-intro-block {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0;
+}
+
+.full-intro-block h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0 0 1rem 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.full-intro-block h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  margin: 1rem 0 0.4rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.full-intro-block p {
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0 0 0.75rem 0;
+  font-size: 0.875rem;
+}
+
+/* ============================================
+   FILE UPLOAD FIELD (Step 5)
+   ============================================ */
+
+.file-upload-field {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border: 2px dashed var(--border, #e5e7eb);
+  border-radius: var(--radius-sm, 10px);
+  text-align: center;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.file-upload-field:hover {
+  border-color: var(--brand-pink);
+  background: rgba(229, 22, 82, 0.02);
+}
+
+.file-upload-field.has-file {
+  border-color: var(--brand-pink);
+  background: rgba(229, 22, 82, 0.05);
+  border-style: solid;
+}
+
+.file-upload-field.hidden {
+  display: none;
+}
+
+.file-upload-field input[type="file"] {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .full-intro-block {
+    padding-bottom: 1.5rem;
+  }
+
+  .full-intro-block h2 {
+    font-size: 1.25rem;
+  }
+
+  .full-intro-block h3 {
+    font-size: 1rem;
+  }
+}
+
+/* OVERRIDE ALL CHECKBOX LABEL STYLES - ALWAYS BLACK */
+label.checkbox-card span.checkbox-label,
+.checkbox-card .checkbox-label,
+input[type="checkbox"] + .checkbox-label,
+input[type="checkbox"]:checked + .checkbox-label,
+.checkbox-card:hover .checkbox-label,
+.checkbox-card:focus .checkbox-label,
+.checkbox-card:focus-within .checkbox-label {
+  color: #000000 !important;
+  font-weight: 400 !important;
+}
+
+/* REMOVE ALL FOCUS BORDERS FROM CHECKBOXES */
+label.checkbox-card,
+label.checkbox-card:focus,
+label.checkbox-card:focus-within,
+label.checkbox-card:focus-visible,
+.checkbox-card input[type="checkbox"],
+.checkbox-card input[type="checkbox"]:focus,
+.checkbox-card input[type="checkbox"]:focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ============================================
+   AUDIT CONTACT OPTIONS - REBUILT FROM SCRATCH
+   ============================================ */
+
+.audit-contact-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.audit-contact-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.audit-contact-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: #E51652;
+  flex-shrink: 0;
+  outline: none;
+  border: none;
+}
+
+.audit-option-text {
+  font-size: 0.9375rem;
+  color: #000000;
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Compact Trademark Type Selector (Step 3) */
+.tm-type-selector {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Stack vertically on mobile */
+@media (max-width: 768px) {
+  .tm-type-selector {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+.tm-type-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0;
+  cursor: pointer;
+  flex: 1;
+}
+
+.tm-type-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #E51652;
+  flex-shrink: 0;
+}
+
+.tm-type-option input[type="radio"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.tm-type-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tm-type-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  display: block;
+}
+
+.tm-type-desc {
+  font-size: 0.875rem;
+  color: var(--muted, #6c7d8c);
+  display: block;
+  line-height: 1.4;
+}
+
+.tm-type-option:hover .tm-type-label {
+  color: #E51652;
+}
+
+/* Conditional sections */
+.conditional-section {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Remove all focus effects */
+.audit-contact-option:focus,
+.audit-contact-option:focus-visible,
+.audit-contact-option:focus-within,
+.audit-contact-option input[type="checkbox"]:focus,
+.audit-contact-option input[type="checkbox"]:focus-visible {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* Keep text black always - no hover, no checked states */
+.audit-contact-option:hover .audit-option-text,
+.audit-contact-option input[type="checkbox"]:checked ~ .audit-option-text,
+.audit-contact-option input[type="checkbox"]:checked + .audit-option-text {
+  color: #000000;
+  font-weight: 400;
+}

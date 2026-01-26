@@ -4,7 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a trademark renewal portal for The Trademark Helpline. It's a multi-page flow system hosted on Vercel that allows clients to review trademark details, submit renewal orders, and complete payment via Xero invoicing integration.
+This is a client portal for The Trademark Helpline with two main flows:
+
+1. **Trademark Renewals** (`/renewals/uk/`) - Token-based flow for existing clients to renew trademarks
+2. **Trademark Audits** (`/audit/`) - Public multi-step wizard for new audit requests
+
+Both flows are hosted on Vercel, use vanilla JavaScript (no build system), and integrate with Zoho CRM and Xero for payment processing.
 
 ## Architecture
 
@@ -253,6 +258,440 @@ The backend expects these Zoho CRM custom functions to exist (defined in `api/_l
 5. **renewalgetpaymentstatus** - Checks Xero payment status via CRM
 
 These functions must be deployed in Zoho CRM and accessible via the API key configured in environment variables.
+
+---
+
+# Trademark Audit Flow
+
+## Overview
+
+The Audit flow (`/audit/`) is a public-facing 6-step wizard that collects trademark audit requests from potential clients. Unlike renewals which are token-gated, audits start with a contact form and build up a Lead record incrementally through the wizard steps.
+
+## Pages
+
+- **`/audit/`** - Multi-step wizard (Steps 1-6)
+- **`/audit/summary/`** - Order review and payment initiation
+- **`/audit/confirmation/`** - Post-payment confirmation
+
+## Audit Data Flow
+
+```
+User visits /audit/
+    ↓
+Step 1: Contact Info → POST /api/audit/lead (no token)
+    ↓ CRM: Creates Lead, returns token
+    ↓
+Step 2: Preferences → POST /api/audit/lead (with token)
+    ↓ CRM: Updates Lead
+    ↓
+Step 3: Trademark Status
+    ├─ If Existing:
+    │     ↓ POST /api/temmy/search (Temmy API)
+    │     ↓ User selects trademark from results
+    └─ If New:
+          ↓ Collects application details (type, name, jurisdictions)
+    ↓ POST /api/audit/lead (with token)
+    ↓
+Step 4: Goods/Services → POST /api/audit/lead (with token)
+    ↓
+Step 5: Billing → POST /api/audit/lead (with token)
+    ↓ Redirect to /audit/summary/?orderId=xxx
+    ↓
+GET /api/audit/order/:orderId (load order summary)
+    ↓
+User reviews order, selects social addon, accepts terms
+    ↓
+POST /api/audit/update (section: paymentOptions)
+    ↓ CRM: Creates Xero invoice, returns checkoutUrl
+    ↓
+Redirect to Xero payment page
+    ↓
+**[NOT IMPLEMENTED]** Poll payment status
+    ↓
+**[NOT IMPLEMENTED]** Redirect to /audit/confirmation/
+```
+
+## Wizard Steps (Detail)
+
+### Step 1: Contact Information
+- **Fields**: First Name, Last Name, Email, Phone (all required)
+- **API**: `POST /api/audit/lead` (no token)
+- **Response**: `{ token, lead }` - token used for Steps 2-5
+- **State**: Stored in localStorage `sections.contact`
+- **SalesIQ**: Visitor initialized with contact details after submission
+
+### Step 2: Contact Preferences
+- **Fields**: Preferred contact methods (checkboxes)
+  - Phone, SMS, WhatsApp, Email, Video Call (Teams)
+  - At least one required
+- **API**: `POST /api/audit/lead` (with token from Step 1)
+- **State**: `sections.preferences.methods[]`
+- **UI**: Progress indicators (1-6) appear starting from Step 2
+
+### Step 3: Trademark Status & Details (Combined)
+This is the most complex step with two different flows:
+
+#### **Option A: Existing Trademark**
+- **Search Fields**:
+  - Trademark Name (text) OR
+  - Application Number (text)
+  - If both provided, application number takes precedence
+
+- **Search Button**: "Search on Temmy"
+  - Calls `POST /api/temmy/search` with `{ text }` or `{ application_number }`
+  - Live API: `https://temmy-api-zfxujusd3q-nw.a.run.app/api/v1/trademarks/`
+
+- **Results Display**:
+  - **Single Result**: Auto-selected, shows detail card immediately
+  - **Multiple Results**: Table with:
+    - Application Number (clickable to expand/collapse)
+    - Trademark Name
+    - Applicant Name
+    - Status
+    - Select (checkbox - required)
+  - **Expand/Collapse**:
+    - Click app number or ➕/➖ to toggle details
+    - "Expand all" / "Collapse all" buttons
+    - Details fetched on first expand via `POST /api/temmy/search { application_number }`
+    - Shows: Application Date, Expiry Date, Classes, Mark Type
+
+- **State**: `sections.temmy`
+  - `results.items[]` - Search results
+  - `details[appNumber]` - Cached detail data
+  - `expanded[appNumber]` - Expanded state
+  - `selected` - Selected application number (required if multiple results)
+
+#### **Option B: New Trademark Application**
+- **Fields**:
+  - **Type** (radio, required): Word, Image, Both
+  - **Name** (text, required)
+  - **Image Upload** (radio):
+    - "Yes – Upload" → shows file upload field
+    - "I will do this later or share via email"
+  - **Jurisdictions** (checkboxes, at least one required):
+    - Europe, Rest of Countries, United Kingdom, United States of America
+    - If "Rest of Countries" selected → text field for custom jurisdiction
+
+- **State**: `sections.tmInfo`
+
+**Note**: Both flows update the same Lead via `POST /api/audit/lead`
+
+### Step 4: Goods & Services
+- **Fields** (both optional):
+  - Business description (textarea)
+  - Website URL
+- **API**: `POST /api/audit/lead` (with token)
+- **State**: `sections.goods`
+
+### Step 5: Billing Information
+- **Fields**:
+  - Billing Type (radio): Individual / Organisation
+    - If Individual: First Name, Last Name
+    - If Organisation: Company Name
+  - Address: Line 1, Line 2*, City, County*, Postcode, Country
+  - Invoice Email (required)
+  - Invoice Phone (required)
+  - *Optional fields
+
+- **Pre-fill**: Name and contact fields auto-filled from Step 1
+- **API**: `POST /api/audit/lead` (with token)
+- **State**: `sections.billing`
+- **Button**: "Review My Order" → redirects to `/audit/summary/?orderId=xxx`
+
+### Summary Page
+- **Load**: `GET /api/audit/order/:orderId`
+- **Displays**:
+  - Contact Information (name, email, phone, preferred methods)
+  - Trademark Information (status, name, type, jurisdictions, description, website)
+  - Billing Information (type, name, address, invoice email/phone)
+
+- **Social Media Addon** (checkbox):
+  - "Add Social Media Searches for only £10"
+  - Searches: Facebook, Instagram, YouTube, TikTok, LinkedIn
+
+- **Pricing**:
+  ```
+  Base Trademark Audit:     £99.00
+  Social Media Audit:       £10.00 (if selected)
+  Online Audit Discount:   -£40.00
+  ─────────────────────────────────
+  Net Fees:                 £69.00 (or £59.00)
+  VAT (20%):                £13.80 (or £11.80)
+  ─────────────────────────────────
+  Total:                    £82.80 (or £70.80)
+  ```
+
+- **Terms & Conditions** (checkbox, required)
+
+- **Payment**:
+  - "Pay Now" button
+  - Validates terms acceptance
+  - `POST /api/audit/update` with `{ orderId, section: "paymentOptions", data: { socialMediaAddon, termsAccepted } }`
+  - **Expected**: Returns `{ checkoutUrl }` → redirect to Xero
+  - **Current**: Returns mock data, payment flow incomplete
+
+### Confirmation Page
+- Displays success message
+- Shows order reference and date
+- Clears localStorage state (`audit_order_state`)
+- "Return to Homepage" button
+
+## Audit API Endpoints
+
+### 1. `POST /api/audit/lead`
+**Purpose**: Create or update Lead incrementally (Steps 1-5)
+
+**Request** (Step 1 - no token):
+```json
+{
+  "lead": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john@example.com",
+    "phone": "+44123456789"
+  }
+}
+```
+
+**Request** (Steps 2-5 - with token):
+```json
+{
+  "token": "abc123...",
+  "lead": {
+    "preferred_methods_of_contact": ["Phone", "Email"]
+  }
+}
+```
+
+**Response**:
+```json
+{
+  "token": "abc123...",
+  "lead": { /* full lead object */ }
+}
+```
+
+**Field Mappings** (per step):
+- **Step 1 (contact)**: `first_name`, `last_name`, `email`, `phone`
+- **Step 2 (preferences)**: `preferred_methods_of_contact[]`
+- **Step 3 (tmStatus)**:
+  - `trademark_status` ("existing" | "new")
+  - If existing: `trademark_name`, `trademark_application_number`
+  - If new: `trademark_types`, `trademark_name`, `trademark_jurisdictions[]`, `trademark_other_jurisdiction`, `trademark_image_choice`, `trademark_image_file`
+- **Step 4 (goods)**: `goods_description`, `website`
+- **Step 5 (billing)**: `billing_type`, `billing_first_name`/`billing_last_name` OR `billing_company_name`, `billing_address{}`, `billing_invoice_email`, `billing_invoice_phone`
+
+**CRM Function**: `auditCreateLead` (defined in `CRM_ENDPOINTS`)
+
+### 2. `POST /api/temmy/search`
+**Purpose**: Search Temmy trademark database
+
+**Request** (text search):
+```json
+{
+  "text": "TECHIFY"
+}
+```
+
+**Request** (direct lookup):
+```json
+{
+  "application_number": "UK00003456789"
+}
+```
+
+**Response**:
+```json
+{
+  "source": "live" | "mock",
+  "data": {
+    "items": [
+      {
+        "application_number": "UK00003456789",
+        "verbal_element_text": "TECHIFY",
+        "status": "Registered",
+        "applicants": [{ "name": "Tech Company Ltd" }],
+        "mark": { "feature": "Word" },
+        "classes": [9, 42],
+        "application_date_time": "2020-01-15T00:00:00Z",
+        "expiry_date": "2030-01-15"
+      }
+    ]
+  }
+}
+```
+
+**Live API**: `https://temmy-api-zfxujusd3q-nw.a.run.app/api/v1/trademarks/`
+- `/search?text=xxx` for text search
+- `/:application_number` for direct lookup
+
+**Environment Variables**:
+- `TEMMY_API_KEY` - API key for Temmy
+- `TEMMY_API_KEY_HEADER` - Header name for API key
+- `USE_MOCK_DATA` - Fallback to mock data
+
+### 3. `POST /api/audit/update`
+**Purpose**: Update order sections (currently only paymentOptions)
+
+**Request**:
+```json
+{
+  "orderId": "xxx",
+  "section": "paymentOptions",
+  "data": {
+    "socialMediaAddon": true,
+    "termsAccepted": true
+  }
+}
+```
+
+**Response**:
+```json
+{
+  "orderId": "xxx",
+  "success": true,
+  "checkoutUrl": "https://xero-payment-link"
+}
+```
+
+**CRM Function**: `auditUpdate` (defined in `CRM_ENDPOINTS`)
+**Status**: ❌ Returns mock data, Xero integration not implemented
+
+### 4. `GET /api/audit/order/:orderId`
+**Purpose**: Fetch complete order summary
+
+**Response**:
+```json
+{
+  "orderId": "xxx",
+  "dealId": "12345",
+  "sections": {
+    "contact": { "firstName": "John", "lastName": "Doe", ... },
+    "preferences": { "methods": ["Phone", "Email"] },
+    "tmStatus": { "status": "existing" },
+    "tmInfo": { "types": "Word", "name": "TECHIFY", ... },
+    "goods": { "description": "...", "website": "..." },
+    "billing": { "type": "Individual", ... }
+  },
+  "subtotal": 69.00,
+  "vat": 13.80,
+  "total": 82.80,
+  "currency": "GBP",
+  "created": "2025-01-15T10:30:00Z",
+  "updated": "2025-01-15T10:35:00Z",
+  "status": "pending"
+}
+```
+
+**CRM Function**: `auditGetOrder` (defined in `CRM_ENDPOINTS`)
+**Status**: ❌ Returns mock data
+
+## Audit State Management
+
+**Storage**: `localStorage` with key `"audit_order_state"`
+
+**Key Fields**:
+- `token` - Lead token from `/api/audit/lead`
+- `orderId` - Order/Deal ID (not currently set)
+- `currentStep` - Current wizard step (1-6)
+- `sections{}` - All collected data by section
+- `metadata` - Created/updated timestamps
+
+**Persistence**:
+- Updated after each step submission
+- Restored on page refresh (allows resume)
+- Cleared on confirmation page load
+
+**See**: `public/audit/assets/js/state-manager.js` for full structure
+
+## Audit Implementation Status
+
+### ✅ Implemented
+- Multi-step wizard UI with progress indicators
+- Contact and preference collection (Steps 1-2)
+- Trademark status selection (Step 3)
+- Temmy search integration with live API
+- Temmy results table with expand/collapse
+- Single result auto-selection
+- Multiple results selection with validation
+- New trademark application form
+- Goods/services and billing collection (Steps 4-5)
+- Summary page with order review
+- Social media addon with pricing calculation
+- Terms & Conditions validation
+- Lead creation API with incremental updates
+- State persistence in localStorage
+- SalesIQ visitor tracking
+- Confirmation page
+- Form validation with error messages
+- Responsive design
+
+### ❌ Not Implemented
+**Critical Payment Flow Gap:**
+1. Payment processing - `checkoutUrl` generation
+2. Xero invoice creation
+3. Payment status polling (no `/api/audit/payment-status` endpoint)
+4. Order creation - Lead not converted to Deal/Order
+5. `orderId` generation unclear
+
+**Other Missing:**
+6. Email notifications
+7. CRM integration (using mock data)
+8. Payment error handling and retry
+9. Image upload backend processing
+10. Redirect handling after Xero payment
+
+## Required CRM Functions (Audit)
+
+The backend expects these Zoho CRM custom functions:
+
+1. **auditCreateLead** - Create/update Lead incrementally
+   - Accepts `{ token?, lead }`
+   - Returns `{ token, lead }`
+   - **Status**: ❌ Not implemented (using mock)
+
+2. **auditUpdate** - Update order sections
+   - Accepts `{ orderId, section, data }`
+   - For `section: "paymentOptions"`: Creates Xero invoice
+   - Returns `{ orderId, success, checkoutUrl }`
+   - **Status**: ❌ Not implemented (using mock)
+
+3. **auditGetOrder** - Fetch order summary
+   - Accepts `{ orderId }`
+   - Returns complete order with sections, pricing
+   - **Status**: ❌ Not implemented (using mock)
+
+4. **auditCreatePayment** - Generate Xero payment link *(needed)*
+   - Should create invoice with line items (base, addon, discount, VAT)
+   - Returns `{ checkout_url, payment_id }`
+   - **Status**: ❌ Not implemented
+
+5. **auditGetPaymentStatus** - Poll payment status *(needed)*
+   - Queries Xero payment status
+   - Returns `{ status: "pending"|"paid"|"failed", updated_at }`
+   - **Status**: ❌ Not implemented
+
+## Audit Files Reference
+
+### Frontend
+- `public/audit/index.html` - Wizard page
+- `public/audit/summary.html` - Order summary page
+- `public/audit/confirmation.html` - Confirmation page
+- `public/audit/assets/js/wizard.js` - Wizard controller (1918 lines)
+- `public/audit/assets/js/summary.js` - Summary page logic
+- `public/audit/assets/js/confirmation.js` - Confirmation page logic
+- `public/audit/assets/js/state-manager.js` - localStorage state management
+- `public/audit/assets/js/validation.js` - Form validation helpers
+- `public/audit/assets/css/wizard.css` - Wizard-specific styles
+
+### Backend
+- `api/audit/lead.js` - Lead creation/update endpoint
+- `api/audit/update.js` - Order update endpoint (payment options)
+- `api/audit/order/[orderId].js` - Get order summary
+- `api/temmy/search.js` - Temmy search proxy
+- `api/_services/audit.js` - Audit service layer (304 lines)
+
+---
 
 ## Important Files
 
