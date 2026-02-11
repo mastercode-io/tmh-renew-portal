@@ -1,9 +1,9 @@
-Renewal Edge API
-----------------
+Renewal and Order Edge API
+--------------------------
 
-The `/api/renewals/*` endpoints are implemented as Vercel Edge Functions that proxy
-the Renewal Portal to Zoho CRM custom APIs and Xero. They return the payload
-shapes defined in `docs/RENEWAL-PAYLOAD-SPEC.md`.
+The `/api/renewals/*` and `/api/orders/*` endpoints are implemented as Vercel Edge
+Functions that proxy portal traffic to Zoho CRM custom APIs and Xero. They return
+the payload shapes defined in `docs/RENEWAL-PAYLOAD-SPEC.md`.
 
 ### Runtime
 
@@ -20,6 +20,9 @@ shapes defined in `docs/RENEWAL-PAYLOAD-SPEC.md`.
 | `GET` | `/api/renewals/order/:dealId` | Fetches latest order summary (line items, VAT, totals) for the Deal. | `CRM_REQUIRED_APIS.RenewalOrderSummary` |
 | `GET` | `/api/renewals/payment-link?token=deal_tok_123` | Requests a hosted payment URL using the encrypted deal token from order response; returns `payment_url` and `deal_token`. | `CRM_REQUIRED_APIS.XeroPaymentLink` |
 | `GET` | `/api/renewals/payment-status?token=deal_tok_123` | Polls for payment status via the CRM custom API (which checks Xero) using the same token as the payment link. | `CRM_REQUIRED_APIS.XeroPaymentStatus` |
+| `GET` | `/api/orders/details?token=deal_tok_123` | Fetches order details for `/order.html?token=...` (deal metadata, totals, line items, optional trademark object). | `CRM_REQUIRED_APIS.OrderDetails` |
+| `GET` | `/api/orders/payment-link?token=deal_tok_123` | Requests a hosted payment URL using the encrypted deal token from order response; returns `payment_url` and `deal_token`. | `CRM_REQUIRED_APIS.XeroPaymentLink` |
+| `GET` | `/api/orders/payment-status?token=deal_tok_123` | Polls for payment status via the CRM custom API (which checks Xero) using the same token as the payment link. | `CRM_REQUIRED_APIS.XeroPaymentStatus` |
 
 See `api/_lib/crm.js` for the list placeholders that must be wired to the actual
 custom API endpoints.
@@ -58,6 +61,6 @@ node --input-type=module -e "import('./api/_services/renewal.js').then(async m =
 1. Configure the environment variables above in the Vercel project.
 2. Ensure the CRM custom APIs (see `CRM_REQUIRED_APIS`) are deployed and whitelisted for the API key.
 3. Update `CRM_ENDPOINTS` if your custom Zoho function names differ.
-4. Push the repository (Edge handlers live under `api/renewals`).
+4. Push the repository (Edge handlers live under `api/renewals` and `api/orders`).
 5. Deploy via `vercel --prod` or Git integration.
-6. Test the endpoints (e.g. `GET https://<domain>/api/renewals/details?token=...`).
+6. Test the endpoints (e.g. `GET https://<domain>/api/orders/details?token=...`).

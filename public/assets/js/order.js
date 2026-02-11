@@ -29,6 +29,7 @@ const OFFER_FALLBACK_URL = '/';
 const CONTACT_SUPPORT_EMAIL = 'support@thetrademarkhelpline.com';
 const OFFER_URL_STORAGE_KEY = 'order_offer_url';
 const ORDER_DATA_STORAGE_KEY = 'order_data';
+const ORDER_DETAILS_ENDPOINT = '/api/orders/details';
 const PAYMENT_LINK_ENDPOINT = '/api/orders/payment-link';
 const PAYMENT_STATUS_ENDPOINT = '/api/orders/payment-status';
 
@@ -123,6 +124,37 @@ function populateTrademarkInfo(trademark) {
   document.getElementById('class-count').textContent = classes != null ? classes : '—';
 }
 
+function hasTrademarkInfo(trademark) {
+  if (!trademark || typeof trademark !== 'object') {
+    return false;
+  }
+
+  const classes = trademark.class_count ?? trademark.classes_count;
+  return Boolean(
+    trademark.word_mark ||
+      trademark.name ||
+      trademark.application_number ||
+      trademark.registration_number ||
+      trademark.id ||
+      trademark.mark_type ||
+      trademark.type ||
+      classes != null
+  );
+}
+
+function toggleTrademarkSection(trademark) {
+  const section = document.querySelector('.trademark-info-card');
+  if (!section) return;
+
+  const shouldRender = hasTrademarkInfo(trademark);
+  section.hidden = !shouldRender;
+  section.style.display = shouldRender ? '' : 'none';
+
+  if (shouldRender) {
+    populateTrademarkInfo(trademark);
+  }
+}
+
 /**
  * Populate order line items
  */
@@ -130,7 +162,8 @@ function populateOrderItems(lineItems) {
   const tbody = document.getElementById('invoice-items');
   tbody.innerHTML = '';
 
-  lineItems.forEach(item => {
+  const items = Array.isArray(lineItems) ? lineItems : [];
+  items.forEach(item => {
     const row = document.createElement('tr');
     if (item.is_discount) {
       row.classList.add('discount-row');
@@ -721,33 +754,35 @@ async function handleManualRecheck() {
  */
 function saveOrderData(data) {
   try {
-    const encoded = base64EncodeJson(data);
-    sessionStorage.setItem(ORDER_DATA_STORAGE_KEY, encoded);
+    sessionStorage.setItem(ORDER_DATA_STORAGE_KEY, JSON.stringify(data));
   } catch (error) {
     console.warn('Unable to save order data', error);
   }
 }
 
 /**
- * Load order data from the URL or injected payload
+ * Resolve token from URL
  */
-function base64EncodeJson(value) {
-  const json = JSON.stringify(value);
-  return btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16))));
+function getOrderTokenFromUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('token');
 }
 
-function base64DecodeJson(value) {
-  try {
-    const binary = atob(value);
-    const percentEncoded = Array.from(binary)
-      .map((char) => `%${`00${char.charCodeAt(0).toString(16)}`.slice(-2)}`)
-      .join('');
-    const json = decodeURIComponent(percentEncoded);
-    return JSON.parse(json);
-  } catch (error) {
-    console.error('Failed to decode order data', error);
-    throw error;
+async function fetchOrderDetails(token) {
+  const response = await fetch(`${ORDER_DETAILS_ENDPOINT}?token=${encodeURIComponent(token)}`, {
+    method: 'GET',
+    credentials: 'include',
+    cache: 'no-store'
+  });
+
+  if (!response.ok) {
+    const payload = await response.json().catch(() => ({}));
+    const errorMessage =
+      payload?.message || payload?.error || 'Failed to load order details. Please try again.';
+    throw new Error(errorMessage);
   }
+
+  return response.json();
 }
 
 function showErrorBanner(message) {
@@ -772,40 +807,57 @@ function loadOrderData() {
   // Try to get order data from window.__orderPayload (set by mock-data.js)
   if (window.__orderPayload) {
     console.log('Using window.__orderPayload');
-    return window.__orderPayload;
+    return Promise.resolve(window.__orderPayload);
   }
 
-  // Try to get order data from URL parameter (base64 encoded JSON)
-  const urlParams = new URLSearchParams(window.location.search);
-  const orderParam = urlParams.get('order');
-
-  if (orderParam) {
-    try {
-      const orderData = base64DecodeJson(orderParam);
-      console.log('Using order data from URL parameter');
-      return orderData;
-    } catch (e) {
-      console.error('Failed to parse order data from URL:', e);
-    }
+  const token = getOrderTokenFromUrl();
+  if (!token) {
+    console.log('No order token found in URL');
+    return Promise.resolve(null);
   }
 
-  console.log('No valid order data found');
-  return null;
+  console.log('Loading order data from API using token');
+  return fetchOrderDetails(token);
 }
 
 /**
  * Initialize order page
  */
-function initOrderPage() {
-  const orderData = loadOrderData();
+async function initOrderPage() {
+  const urlToken = getOrderTokenFromUrl();
 
-  if (!orderData) {
-    console.log('No order data found, showing error banner');
-    showErrorBanner();
-    return;
+  if (!window.__orderPayload && !urlToken) {
+    console.log('No order token found, showing error banner');
+    showErrorBanner(
+      'Order details could not be loaded because the order token is missing.<br>Please return to the previous step and open the order link again.'
+    );
+    return false;
   }
 
-  currentOrderData = orderData;
+  let orderData;
+  try {
+    orderData = await loadOrderData();
+  } catch (error) {
+    console.error('Failed to load order data:', error);
+    showErrorBanner(
+      `${error.message || 'Failed to load order details.'}<br>Please return to the previous step and try again.`
+    );
+    return false;
+  }
+
+  if (!orderData || typeof orderData !== 'object') {
+    console.log('No order payload returned, showing error banner');
+    showErrorBanner(
+      'Order details were not available for this link.<br>Please return to the previous step and request a new order link.'
+    );
+    return false;
+  }
+
+  const resolvedToken = orderData.deal_token || orderData.dealToken || urlToken;
+  currentOrderData = {
+    ...orderData,
+    deal_token: resolvedToken || orderData.deal_token || orderData.dealToken || null
+  };
   rememberOfferUrl();
 
   // Reset payment state and hide any stale panels on page load
@@ -814,18 +866,19 @@ function initOrderPage() {
   paymentState.lastStatus = null;
 
   // Populate all sections
-  populateTrademarkInfo(orderData.trademark);
-  populateOrderItems(orderData.line_items);
-  populateOrderTotals(orderData);
-  updatePaymentLink(orderData.payment_url);
-  if (orderData.payment_url) {
-    paymentState.paymentUrl = orderData.payment_url;
+  toggleTrademarkSection(currentOrderData.trademark);
+  populateOrderItems(currentOrderData.line_items);
+  populateOrderTotals(currentOrderData);
+  updatePaymentLink(currentOrderData.payment_url);
+  if (currentOrderData.payment_url) {
+    paymentState.paymentUrl = currentOrderData.payment_url;
   }
-  if (orderData.deal_token || orderData.dealToken) {
-    paymentState.token = orderData.deal_token || orderData.dealToken;
+  if (resolvedToken) {
+    paymentState.token = resolvedToken;
   }
 
-  console.log('Order loaded:', orderData);
+  console.log('Order loaded:', currentOrderData);
+  return true;
 }
 
 /**
@@ -958,20 +1011,33 @@ document.addEventListener('visibilitychange', () => {
 
 // Initialize on page load
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() {
-    initOrderPage();
-    initTermsValidation();
+  document.addEventListener('DOMContentLoaded', async function() {
+    const initialized = await initOrderPage();
+    if (initialized) {
+      initTermsValidation();
+    }
   });
 } else {
-  initOrderPage();
-  initTermsValidation();
+  initOrderPage().then(initialized => {
+    if (initialized) {
+      initTermsValidation();
+    }
+  });
 }
 
 /**
- * Helper function to create order URL with embedded data
- * Call this from the main form page when redirecting to order
+ * Helper function to create order URL
+ * Accepts either a token string or an object that contains deal_token/dealToken/token.
  */
-window.createOrderUrl = function(orderData) {
-  const encodedData = base64EncodeJson(orderData);
-  return `/order.html?order=${encodeURIComponent(encodedData)}`;
+window.createOrderUrl = function(tokenOrPayload) {
+  if (typeof tokenOrPayload === 'string' && tokenOrPayload) {
+    return `/order.html?token=${encodeURIComponent(tokenOrPayload)}`;
+  }
+
+  const token =
+    tokenOrPayload?.deal_token || tokenOrPayload?.dealToken || tokenOrPayload?.token || null;
+  if (!token) {
+    return '/order.html';
+  }
+  return `/order.html?token=${encodeURIComponent(token)}`;
 };

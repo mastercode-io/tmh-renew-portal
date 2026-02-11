@@ -71,6 +71,30 @@ export async function fetchRenewalOrderSummary(dealToken) {
   };
 }
 
+export async function fetchOrderDetails(token) {
+  if (!token) {
+    throw new Error('TOKEN_REQUIRED');
+  }
+
+  if (isCrmConfigured()) {
+    const response = await callCrm(CRM_ENDPOINTS.orderDetails, {
+      query: { token }
+    });
+    return normalizeOrderSummary(response);
+  }
+
+  if (!ENV.useMockData) {
+    throw new Error('CRM_NOT_CONFIGURED');
+  }
+
+  const mock = getMockOrderSummary();
+  return {
+    ...mock,
+    deal_id: mock.deal_id || null,
+    deal_token: token || mock.deal_token
+  };
+}
+
 export async function createOrRetrievePaymentLink(token) {
   if (!token) {
     throw new Error('TOKEN_REQUIRED');
