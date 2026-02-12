@@ -9,8 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/order-styles.css">
 </head>
-<body>
+<body class="order-page-loading" aria-busy="true">
   <a href="#main" class="skip-link">Skip to content</a>
+  <div class="page-loading-overlay" id="page-loading-overlay" role="status" aria-live="polite">
+    <div class="page-loader-card">
+      <div class="page-loader-spinner" aria-hidden="true"></div>
+      <p class="page-loader-title" id="page-loader-title">Loading your order data...</p>
+      <p class="page-loader-message">Please wait while we prepare your order details.</p>
+    </div>
+  </div>
 
   <header class="site-header">
     <div class="container header-inner">
