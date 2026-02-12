@@ -155,6 +155,34 @@ function toggleTrademarkSection(trademark) {
   }
 }
 
+function normalizePipelineLabel(pipeline) {
+  if (pipeline === undefined || pipeline === null) {
+    return '';
+  }
+
+  const value = String(pipeline).trim();
+  if (!value || value.toLowerCase() === 'new') {
+    return '';
+  }
+
+  return value;
+}
+
+function renderPipelineSubtitle(pipeline) {
+  const subtitle = document.getElementById('order-pipeline-subtitle');
+  if (!subtitle) return;
+
+  const label = normalizePipelineLabel(pipeline);
+  if (!label) {
+    subtitle.hidden = true;
+    subtitle.textContent = '';
+    return;
+  }
+
+  subtitle.textContent = label;
+  subtitle.hidden = false;
+}
+
 /**
  * Populate order line items
  */
@@ -171,12 +199,14 @@ function populateOrderItems(lineItems) {
 
     const itemName = item.description || item.name || item.sku || '—';
     const quantity = item.quantity != null ? item.quantity : 1;
-    const amount = item.total != null ? item.total : item.unit_price;
+    const unitPrice = item.unit_price != null ? item.unit_price : item.total;
+    const total = item.total != null ? item.total : Number(quantity) * Number(item.unit_price || 0);
 
     row.innerHTML = `
       <td class="item-col">${itemName}</td>
+      <td class="price-col">${formatCurrency(unitPrice)}</td>
       <td class="qty-col">${quantity}</td>
-      <td class="cost-col">${formatCurrency(amount)}</td>
+      <td class="total-col">${formatCurrency(total)}</td>
     `;
 
     tbody.appendChild(row);
@@ -866,6 +896,7 @@ async function initOrderPage() {
   paymentState.lastStatus = null;
 
   // Populate all sections
+  renderPipelineSubtitle(currentOrderData.pipeline);
   toggleTrademarkSection(currentOrderData.trademark);
   populateOrderItems(currentOrderData.line_items);
   populateOrderTotals(currentOrderData);

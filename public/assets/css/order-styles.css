@@ -230,6 +230,12 @@ main {
   border-bottom: 2px solid var(--card);
 }
 
+.order-pipeline-subtitle {
+  font-size: 0.78rem;
+  margin: 0.2rem 0;
+  letter-spacing: 0.01em;
+}
+
 /* Trademark Info Card */
 .trademark-info-card {
   background: var(--soft-2);
@@ -298,8 +304,9 @@ main {
   letter-spacing: 0.03em;
 }
 
+.invoice-table th.price-col,
 .invoice-table th.qty-col,
-.invoice-table th.cost-col {
+.invoice-table th.total-col {
   text-align: right;
 }
 
@@ -321,8 +328,9 @@ main {
   font-weight: 600;
 }
 
+.invoice-table .price-col,
 .invoice-table .qty-col,
-.invoice-table .cost-col {
+.invoice-table .total-col {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -331,7 +339,7 @@ main {
   color: var(--brand-pink);
 }
 
-.invoice-table .discount-row .cost-col {
+.invoice-table .discount-row .total-col {
   color: var(--brand-pink);
 }
 
@@ -735,15 +743,19 @@ main {
 
 @media (max-width: 480px) {
   .invoice-table th.item-col {
-    width: 50%;
+    width: 45%;
   }
 
-  .invoice-table th.qty-col {
+  .invoice-table th.price-col {
     width: 20%;
   }
 
-  .invoice-table th.cost-col {
-    width: 30%;
+  .invoice-table th.qty-col {
+    width: 15%;
+  }
+
+  .invoice-table th.total-col {
+    width: 20%;
   }
 
   .header-inner {

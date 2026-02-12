@@ -66,6 +66,7 @@
           <!-- Invoice Header -->
           <div class="invoice-header">
             <h1>Order Details</h1>
+            <p class="muted order-pipeline-subtitle" id="order-pipeline-subtitle" hidden></p>
             <p class="muted">Please review your order costs below</p>
           </div>
 
@@ -98,8 +99,9 @@
               <thead>
                 <tr>
                   <th class="item-col">Item</th>
+                  <th class="price-col">Price</th>
                   <th class="qty-col">Quantity</th>
-                  <th class="cost-col">Cost</th>
+                  <th class="total-col">Total</th>
                 </tr>
               </thead>
               <tbody id="invoice-items">
@@ -107,15 +109,15 @@
               </tbody>
               <tfoot>
                 <tr class="subtotal-row">
-                  <td colspan="2">Subtotal</td>
+                  <td colspan="3">Subtotal</td>
                   <td id="subtotal">£0.00</td>
                 </tr>
                 <tr class="vat-row">
-                  <td colspan="2">VAT (20%)</td>
+                  <td colspan="3">VAT (20%)</td>
                   <td id="vat">£0.00</td>
                 </tr>
                 <tr class="total-row">
-                  <td colspan="2">Total Payable</td>
+                  <td colspan="3">Total Payable</td>
                   <td id="total">£0.00</td>
                 </tr>
               </tfoot>
