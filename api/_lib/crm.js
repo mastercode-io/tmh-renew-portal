@@ -4,6 +4,7 @@ export const CRM_ENDPOINTS = {
   renewalDetails: '/crm/v7/functions/renewalgetleadinfo/actions/execute',
   renewalOrder: '/crm/v7/functions/renewalcreateorder/actions/execute',
   renewalOrderSummary: '/crm/v7/functions/renewalgetordersummary/actions/execute',
+  orderDetails: '/crm/v7/functions/dealgetorderdetails/actions/execute',
   xeroInvoiceLink: '/crm/v7/functions/dealcreatepayment/actions/execute',
   xeroInvoiceStatus: '/crm/v7/functions/renewalgetpaymentstatus/actions/execute',
   // Audit endpoints
@@ -31,6 +32,12 @@ export const CRM_REQUIRED_APIS = [
     method: 'GET',
     endpoint: CRM_ENDPOINTS.renewalOrderSummary,
     description: 'Fetches Deal line items, totals, and metadata for order review.'
+  },
+  {
+    name: 'OrderDetails',
+    method: 'GET',
+    endpoint: CRM_ENDPOINTS.orderDetails,
+    description: 'Fetches order details payload (deal, totals, line items, and optional trademark) by token.'
   },
   {
     name: 'XeroPaymentLink',
