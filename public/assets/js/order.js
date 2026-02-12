@@ -57,6 +57,11 @@ const paymentStatusElements = {
   upsell: document.querySelector('.monitoring-upsell')
 };
 
+const initialLoaderElements = {
+  overlay: document.getElementById('page-loading-overlay'),
+  title: document.getElementById('page-loader-title')
+};
+
 let recheckButtonRef = null;
 const auxiliaryState = {
   bookCallBtn: document.getElementById('book-call-btn'),
@@ -68,6 +73,29 @@ const payNowButtonState = {
   defaultHtml: '',
   mode: 'default'
 };
+
+function showInitialLoader(titleText = 'Loading your order data...') {
+  if (initialLoaderElements.title) {
+    initialLoaderElements.title.textContent = titleText;
+  }
+  if (initialLoaderElements.overlay) {
+    initialLoaderElements.overlay.hidden = false;
+  }
+  document.body.classList.add('order-page-loading');
+  document.body.setAttribute('aria-busy', 'true');
+}
+
+function hideInitialLoader() {
+  const complete = () => {
+    if (initialLoaderElements.overlay) {
+      initialLoaderElements.overlay.hidden = true;
+    }
+    document.body.classList.remove('order-page-loading');
+    document.body.setAttribute('aria-busy', 'false');
+  };
+
+  window.requestAnimationFrame(() => window.requestAnimationFrame(complete));
+}
 
 const TERMINAL_STATUS_CONTENT = {
   [PAYMENT_STATUS.VOIDED]: {
@@ -1043,17 +1071,28 @@ document.addEventListener('visibilitychange', () => {
 // Initialize on page load
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', async function() {
-    const initialized = await initOrderPage();
-    if (initialized) {
-      initTermsValidation();
+    showInitialLoader();
+    try {
+      const initialized = await initOrderPage();
+      if (initialized) {
+        initTermsValidation();
+      }
+    } finally {
+      hideInitialLoader();
     }
   });
 } else {
-  initOrderPage().then(initialized => {
-    if (initialized) {
-      initTermsValidation();
+  showInitialLoader();
+  initOrderPage()
+    .then(initialized => {
+      if (initialized) {
+        initTermsValidation();
+      }
+    })
+    .finally(() => {
+      hideInitialLoader();
     }
-  });
+  );
 }
 
 /**

@@ -34,6 +34,10 @@ body {
   font-size: 0.9rem;
 }
 
+body.order-page-loading {
+  overflow: hidden;
+}
+
 h1, h2, h3 {
   font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--brand-navy);
@@ -62,6 +66,58 @@ p { margin: 0.3rem 0; }
 .skip-link:focus {
   left: 1rem;
   top: calc(var(--header-offset) + 1rem);
+}
+
+/* Initial Page Loading Overlay */
+.page-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(239, 246, 252, 0.88);
+  backdrop-filter: blur(2px);
+}
+
+.page-loading-overlay[hidden] {
+  display: none;
+}
+
+.page-loader-card {
+  width: min(92vw, 360px);
+  background: #fff;
+  border: 1px solid #d7e6f5;
+  border-radius: var(--radius);
+  box-shadow: 0 12px 24px rgba(34, 52, 71, 0.14);
+  padding: 1rem 1.2rem;
+  text-align: center;
+}
+
+.page-loader-spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #cde1f3;
+  border-top-color: #2d7db7;
+  border-right-color: #2d7db7;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto 0.8rem;
+}
+
+.page-loader-title {
+  margin: 0;
+  color: var(--brand-navy);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.page-loader-message {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 /* Token Error Banner */
